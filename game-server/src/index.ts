@@ -1,5 +1,6 @@
 import express from "express";
 import qs from "qs";
+import cors from "cors";
 import checkIn from "./http-handlers/check-in";
 
 const app = express();
@@ -9,11 +10,11 @@ app.set("query parameter", (str: string) => {
   qs.parse(str);
 })
 
-app.get('/', (req, res) => {
+app.get('/', cors(), (req, res) => {
   res.send('Hello World!');
 })
 
-app.get('/check-in', (req, res) => {
+app.get('/check-in', cors(), (req, res) => {
   let direction = checkIn(req.query);
   res.json({ direction });
 })
