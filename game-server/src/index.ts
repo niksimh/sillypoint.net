@@ -18,7 +18,7 @@ app.get('/', cors(), (req, res) => {
 
 app.get('/check-in', cors(), (req, res) => {
   let direction = checkIn(req.query);
-  res.json({ direction });
+  res.json(direction);
 })
 
 app.get('/register', cors(), (req, res) => {

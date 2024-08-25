@@ -1,3 +1,3 @@
 export default function checkIn(queryParam: any) {
-  return "register";
+  return { direction: "register" };
 }
