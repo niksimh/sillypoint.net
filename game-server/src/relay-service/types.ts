@@ -8,8 +8,18 @@ export interface connectionAddResult {
 
 export interface connectionTerminateResult {
   decision: "terminate" 
-  playerId: string
-  player: Player
 }
 
 export type connectionResult = connectionAddResult | connectionTerminateResult;
+
+export interface messageHandleResult {
+  decision: "handle"
+  state: string
+  message: string
+}
+
+export interface messageIgnoreResult {
+  decision: "ignore"
+}
+
+export type messageResult = messageHandleResult | messageIgnoreResult;

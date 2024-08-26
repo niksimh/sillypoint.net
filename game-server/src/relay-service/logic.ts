@@ -1,7 +1,7 @@
-import type { connectionResult } from "./types"
+import type { connectionResult, messageResult } from "./types"
 import jwt from "jsonwebtoken"
 import "dotenv/config"
-import type { WebSocket } from "ws";
+import { Player } from "../player-db/player-db";
 
 export function connectionLogic(requestURL: string | undefined, socketId: string, secret: string): connectionResult {
   if (requestURL === undefined) {
@@ -36,5 +36,19 @@ export function connectionLogic(requestURL: string | undefined, socketId: string
       socketId: socketId,
       status: "connecting"
     }
+  }
+}
+
+export function messageLogic(currPlayer: Player | undefined, message: string): messageResult {
+  if (currPlayer === undefined) {
+    return { decision: "ignore" };
+  }
+  if (currPlayer.status === "connecting" || currPlayer.status === "gameOver") {
+    return { decision: "ignore" };
+  }
+  return {
+    decision: "handle",
+    state: currPlayer.status,
+    message: message
   }
 }

@@ -2,8 +2,8 @@ import { WebSocketServer, WebSocket } from "ws"
 import { State } from "../states/types"
 import type PlayerDB from "../player-db/player-db";
 import type { IncomingMessage } from "http"
-import { connectionLogic } from "./logic";
-import type { connectionResult } from "./types";
+import { connectionLogic, messageLogic } from "./logic";
+import type { connectionResult, messageResult } from "./types";
 import type GameSelection from "../states/game-selection";
 
 export default class RelayService {
@@ -45,5 +45,20 @@ export default class RelayService {
     let currPlayer = this.playerDB.getPlayer(playerId);
     let currSocket = this.socketMap.get(currPlayer?.socketId || "");
     currSocket?.send(message);
+  }
+
+  messageHandler(socket: WebSocket, message: string) {
+    let playerId = (socket as any).playerId;
+    let currPlayer = this.playerDB.getPlayer(playerId || "");
+    
+    let result: messageResult = messageLogic(currPlayer, message);
+
+    switch(result.decision) {
+      case "ignore":
+        break;
+      case "handle":
+        let currState = this.stateMap.get(result.state)!;
+        (currState as any).inputHandler(playerId, message);
+    }
   }
 }
