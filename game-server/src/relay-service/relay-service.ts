@@ -10,11 +10,13 @@ export default class RelayService {
   wss: WebSocketServer
   stateMap: Map<string, State>
   playerDB: PlayerDB
+  socketMap: Map<string, WebSocket>
 
   constructor(wss: WebSocketServer, stateMap: Map<string, State>, playerDB: PlayerDB) {
     this.wss = wss;
     this.stateMap = stateMap;
     this.playerDB = playerDB;
+    this.socketMap = new Map();
   }
 
   connectionHandler(socket: WebSocket, request: IncomingMessage) {
@@ -25,6 +27,8 @@ export default class RelayService {
     switch(result.decision) {
       case "add":
         this.playerDB.addPlayer(result.playerId!, result.player!);
+        this.socketMap.set(newSocketId, socket);
+
         (socket as any).socketId = newSocketId;
         (socket as any).playerId = result.playerId!
         
@@ -36,4 +40,5 @@ export default class RelayService {
         socket.terminate();
     }
   }
+
 }
