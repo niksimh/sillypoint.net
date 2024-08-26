@@ -4,6 +4,7 @@ import cors from "cors";
 import checkIn from "./http-handlers/check-in";
 import crypto from "crypto";
 import register from "./http-handlers/register";
+import { WebSocketServer } from 'ws';
 
 const app = express();
 const port = 4000;
@@ -30,6 +31,19 @@ app.get('/register', cors(), (req, res) => {
   res.json(registrationResult);
 })
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
+});
+
+const wss = new WebSocketServer({ noServer: true });
+
+wss.on('connection', function connection(ws, request) {  
+  ws.send('something');
+});
+
+server.on('upgrade', function upgrade(request, socket, head) {
+  wss.handleUpgrade(request, socket, head, function done(ws) {
+      wss.emit('connection', ws, request);
+    }
+  )
 });
