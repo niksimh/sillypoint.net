@@ -9,5 +9,8 @@ export default class GameSelection {
     this.stateMap = stateMap;
     this.playerDB = playerDB;
   }
-  
+ 
+  transitionInto(playerId: string) {
+    
+  }
 }

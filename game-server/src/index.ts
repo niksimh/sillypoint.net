@@ -92,6 +92,8 @@ const wss = new WebSocketServer({ noServer: true });
 let relayService = new RelayService(wss, stateMap, playerDB);
 
 wss.on('connection', function connection(ws, request) {  
+  relayService.connectionHandler(ws, request);
+
   ws.send('something');
 });
 
