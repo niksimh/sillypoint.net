@@ -1,4 +1,4 @@
-import register, { isAlphaNumeric, hasBadWord, badWordList } from "../../http-handlers/register"
+import register, { isAlphaNumeric, hasBadWord, badWordList } from "../../index-handlers/register"
 import jwt from "jsonwebtoken"
 
 const ID = "abc";
