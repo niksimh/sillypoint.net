@@ -26,15 +26,15 @@ export default class RelayService {
     
     switch(result.decision) {
       case "add":
-        this.playerDB.addPlayer(result.playerId!, result.player!);
+        this.playerDB.addPlayer(result.playerId, result.player);
         this.socketMap.set(newSocketId, socket);
 
         (socket as any).socketId = newSocketId;
-        (socket as any).playerId = result.playerId!
+        (socket as any).playerId = result.playerId;
         
-        let gameSelectionState = this.stateMap.get("gameSelection") as GameSelection
-        gameSelectionState.transitionInto(result.playerId!)
-        
+        let gameSelectionState = this.stateMap.get("gameSelection") as GameSelection;
+        gameSelectionState.transitionInto(result.playerId);
+      
         break;
       case "terminate":
         socket.terminate();
