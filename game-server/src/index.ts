@@ -54,7 +54,7 @@ let innings2State = new Innings2(stateMap, playerDB);
 stateMap.set("innings2", innings2State);
 
 let gameOverState = new GameOver(stateMap, playerDB);
-stateMap.set("gameOver", innings2State);
+stateMap.set("gameOver", gameOverState);
 
 
 
