@@ -18,6 +18,7 @@ import Innings1 from "./states/innings-1";
 import InningsBreak from "./states/innings-break";
 import Innings2 from "./states/innings-2";
 import GameOver from "./states/game-over";
+import RelayService from "./relay-service/relay-service";
 
 let playerDB = new PlayerDB();
 let stateMap = new Map<string, State>();
@@ -55,6 +56,8 @@ stateMap.set("innings2", innings2State);
 let gameOverState = new GameOver(stateMap, playerDB);
 stateMap.set("gameOver", innings2State);
 
+
+
 const app = express();
 const port = 4000;
 
@@ -85,6 +88,8 @@ let server = app.listen(port, () => {
 });
 
 const wss = new WebSocketServer({ noServer: true });
+
+let relayService = new RelayService(wss, stateMap, playerDB);
 
 wss.on('connection', function connection(ws, request) {  
   ws.send('something');
