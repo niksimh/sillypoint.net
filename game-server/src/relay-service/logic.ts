@@ -1,6 +1,7 @@
 import type { connectionResult } from "./types"
 import jwt from "jsonwebtoken"
 import "dotenv/config"
+import type { WebSocket } from "ws";
 
 export function connectionLogic(requestURL: string | undefined, socketId: string, secret: string): connectionResult {
   if (requestURL === undefined) {

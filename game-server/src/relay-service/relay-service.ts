@@ -41,4 +41,9 @@ export default class RelayService {
     }
   }
 
+  sendHandler(playerId: string, message: string) {
+    let currPlayer = this.playerDB.getPlayer(playerId);
+    let currSocket = this.socketMap.get(currPlayer?.socketId || "");
+    currSocket?.send(message);
+  }
 }
