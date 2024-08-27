@@ -1,7 +1,7 @@
 import type { connectionResult, messageResult } from "./types"
 import jwt from "jsonwebtoken"
 import "dotenv/config"
-import { Player } from "../player-db/player-db";
+import { Player } from "../player-db/types";
 
 export function connectionLogic(requestURL: string | undefined, socketId: string, secret: string): connectionResult {
   if (requestURL === undefined) {

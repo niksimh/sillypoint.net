@@ -1,4 +1,4 @@
-import type { Player } from "../player-db/player-db"
+import type { Player } from "../player-db/types"
 
 export interface connectionAddResult {
   decision: "add" 

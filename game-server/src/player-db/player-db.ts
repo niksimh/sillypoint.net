@@ -1,9 +1,4 @@
-
-export interface Player{
-  username: string,
-  socketId: string | null,
-  status: string
-}
+import { Player } from "./types";
 
 export default class PlayerDB {
   playerMap: Map<string, Player>
