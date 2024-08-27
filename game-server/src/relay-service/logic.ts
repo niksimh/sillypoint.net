@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import "dotenv/config"
 import { Player } from "../player-db/types";
 
-export function connectionLogic(requestURL: string | undefined, socketId: string, secret: string): connectionResult {
+export function connectionLogic(requestURL: string | undefined, secret: string): connectionResult {
   if (requestURL === undefined) {
     return { decision: "terminate" };
   }
@@ -31,11 +31,7 @@ export function connectionLogic(requestURL: string | undefined, socketId: string
   return {
     decision: "add",
     playerId: playerIdTokenPayload.id,
-    player: {
-      username: playerIdTokenPayload.username,
-      socketId: socketId,
-      status: "connecting"
-    }
+    username: playerIdTokenPayload.username
   }
 }
 

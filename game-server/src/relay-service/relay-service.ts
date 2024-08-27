@@ -1,5 +1,6 @@
-import { WebSocketServer, WebSocket } from "ws"
-import type { IncomingMessage } from "http"
+import { WebSocketServer, WebSocket } from "ws";
+import type { IncomingMessage } from "http";
+import crypto from "crypto";
 
 import { connectionLogic, messageLogic } from "./logic";
 import type { connectionResult, messageResult } from "./types";
@@ -22,16 +23,28 @@ export default class RelayService {
 
   connectionHandler(socket: WebSocket, request: IncomingMessage) {
     let newSocketId = crypto.randomUUID();
+    let startingSeqNumber = crypto.randomInt(1000);
 
-    let result: connectionResult = connectionLogic(request.url, newSocketId, process.env.playerIdTokenSecret!);
+    let result: connectionResult = connectionLogic(request.url, process.env.playerIdTokenSecret!);
     
     switch(result.decision) {
       case "add":
-        this.playerDB.addPlayer(result.playerId, result.player);
-        this.socketMap.set(newSocketId, socket);
-
-        (socket as any).playerId = result.playerId;
+        let newPlayer = {
+          username: result.username,
+          socketId: newSocketId,
+          status: "connecting"
+        }
+        this.playerDB.addPlayer(result.playerId, newPlayer);
         
+        this.socketMap.set(newSocketId, socket);
+        (socket as any).playerId = result.playerId;
+        (socket as any).seqNumber = startingSeqNumber;
+        
+        socket.send(JSON.stringify({
+          type: "seqNumber",
+          seqNumber: startingSeqNumber
+        }));
+
         let gameSelectionState = this.stateMap.get("gameSelection");
         (gameSelectionState as any).transitionInto(result.playerId);
 

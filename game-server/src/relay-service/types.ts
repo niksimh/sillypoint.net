@@ -3,7 +3,7 @@ import type { Player } from "../player-db/types"
 export interface connectionAddResult {
   decision: "add" 
   playerId: string
-  player: Player
+  username: string
 }
 
 export interface connectionTerminateResult {

@@ -11,36 +11,32 @@ const PLAYER_ID_TOKEN_PAYLOAD = {
 }
 
 test("Connecting with an undefined url", () => {
-  let connectionLogicResult = connectionLogic(undefined, SOCKET_ID, SECRET);
+  let connectionLogicResult = connectionLogic(undefined, SECRET);
   expect(connectionLogicResult).toEqual({ decision: "terminate" });
 })
 
 test("Connecting with a bad url", () => {
-  let connectionLogicResult = connectionLogic("/badURL", SOCKET_ID, SECRET);
+  let connectionLogicResult = connectionLogic("/badURL", SECRET);
   expect(connectionLogicResult).toEqual({ decision: "terminate" });
 })
 
 test("Connecting with an absent playerIdToken query parameter", () => {
-  let connectionLogicResult = connectionLogic(CORRECT_URL, SOCKET_ID, SECRET);
+  let connectionLogicResult = connectionLogic(CORRECT_URL, SECRET);
   expect(connectionLogicResult).toEqual({ decision: "terminate" });
 })
 
 test("Connecting with a bad playerIdToken query parameter", () => {
   let newPlayerIdToken = jwt.sign(PLAYER_ID_TOKEN_PAYLOAD, 'badSecret');
-  let connectionLogicResult = connectionLogic(CORRECT_URL+'?playerIdToken='+newPlayerIdToken, SOCKET_ID, SECRET);
+  let connectionLogicResult = connectionLogic(CORRECT_URL+'?playerIdToken='+newPlayerIdToken, SECRET);
   expect(connectionLogicResult).toEqual({ decision: "terminate" });
 })
 
 test("Connecting with a good playerIdToken query parameter", () => {
   let newPlayerIdToken = jwt.sign(PLAYER_ID_TOKEN_PAYLOAD, SECRET);
-  let connectionLogicResult = connectionLogic(CORRECT_URL+'?playerIdToken='+newPlayerIdToken, SOCKET_ID, SECRET);
+  let connectionLogicResult = connectionLogic(CORRECT_URL+'?playerIdToken='+newPlayerIdToken, SECRET);
   expect(connectionLogicResult).toEqual({ 
     decision: "add",
     playerId: PLAYER_ID_TOKEN_PAYLOAD.id,
-    player: {
-      username: PLAYER_ID_TOKEN_PAYLOAD.username,
-      socketId: SOCKET_ID,
-      status: "connecting"
-    }
+    username: PLAYER_ID_TOKEN_PAYLOAD.username
   });
 })
