@@ -1,10 +1,11 @@
 import { WebSocketServer, WebSocket } from "ws"
-import { State } from "../states/types"
-import type PlayerDB from "../player-db/player-db";
 import type { IncomingMessage } from "http"
+
 import { connectionLogic, messageLogic } from "./logic";
 import type { connectionResult, messageResult } from "./types";
-import type GameSelection from "../states/game-selection/game-selection";
+
+import type { State } from "../states/types"
+import type PlayerDB from "../player-db/player-db";
 
 export default class RelayService {
   wss: WebSocketServer
@@ -29,12 +30,11 @@ export default class RelayService {
         this.playerDB.addPlayer(result.playerId, result.player);
         this.socketMap.set(newSocketId, socket);
 
-        (socket as any).socketId = newSocketId;
         (socket as any).playerId = result.playerId;
         
-        let gameSelectionState = this.stateMap.get("gameSelection") as GameSelection;
-        gameSelectionState.transitionInto(result.playerId);
-      
+        let gameSelectionState = this.stateMap.get("gameSelection");
+        (gameSelectionState as any).transitionInto(result.playerId);
+
         break;
       case "terminate":
         socket.terminate();
