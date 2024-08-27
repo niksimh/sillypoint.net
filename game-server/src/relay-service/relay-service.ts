@@ -41,8 +41,8 @@ export default class RelayService {
           seqNumber: startingSeqNumber
         }));
 
-        let gameSelectionState = this.stateMap.get("gameSelection");
-        (gameSelectionState as any).transitionInto(result.playerId);
+        let gameSelectionState = this.stateMap.get("gameSelection") as any;
+        gameSelectionState.transitionInto(result.playerId);
 
         break;
       case "terminate":

@@ -3,7 +3,6 @@ import type { connectionResult } from "../../relay-service/types";
 import jwt from "jsonwebtoken";
 
 const CORRECT_URL = "/wsConnection";
-const SOCKET_ID = "sId";
 const SECRET = "$ecret"
 const PLAYER_ID_TOKEN_PAYLOAD = {
   id: "pId",
