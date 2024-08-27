@@ -12,17 +12,14 @@ export default class RelayService {
   wss: WebSocketServer
   stateMap: Map<string, State>
   playerDB: PlayerDB
-  socketMap: Map<string, WebSocket>
 
   constructor(wss: WebSocketServer, stateMap: Map<string, State>, playerDB: PlayerDB) {
     this.wss = wss;
     this.stateMap = stateMap;
     this.playerDB = playerDB;
-    this.socketMap = new Map();
   }
 
   connectionHandler(socket: WebSocket, request: IncomingMessage) {
-    let newSocketId = crypto.randomUUID();
     let startingSeqNumber = crypto.randomInt(1000);
 
     let result: connectionResult = connectionLogic(request.url, process.env.playerIdTokenSecret!);
@@ -31,12 +28,11 @@ export default class RelayService {
       case "add":
         let newPlayer = {
           username: result.username,
-          socketId: newSocketId,
+          socket: socket,
           status: "connecting"
         }
         this.playerDB.addPlayer(result.playerId, newPlayer);
         
-        this.socketMap.set(newSocketId, socket);
         (socket as any).playerId = result.playerId;
         (socket as any).seqNumber = startingSeqNumber;
         
@@ -56,8 +52,7 @@ export default class RelayService {
 
   sendHandler(playerId: string, message: string) {
     let currPlayer = this.playerDB.getPlayer(playerId);
-    let currSocket = this.socketMap.get(currPlayer?.socketId || "");
-    currSocket?.send(message);
+    currPlayer?.socket?.send(message);
   }
 
   messageHandler(socket: WebSocket, message: string) {

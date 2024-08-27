@@ -19,10 +19,6 @@ export default class PlayerDB {
     return this.playerMap.get(playerId);
   }
 
-  updatePlayer(playerId: string, newPlayer: Player) {
-    this.playerMap.set(playerId, newPlayer);
-  }
-
   hasPlayer(playerId: string) {
     return this.playerMap.has(playerId);
   }

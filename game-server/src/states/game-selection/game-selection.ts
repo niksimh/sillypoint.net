@@ -17,18 +17,18 @@ export default class GameSelection {
  
   transitionInto(playerId: string) {
     let currPlayer = this.playerDB.getPlayer(playerId)
+    
     if(currPlayer === undefined) {
       return;
     }
 
-    let updatePlayer = structuredClone(currPlayer);
-    updatePlayer.status = "gameSelection"
+    currPlayer.status = "gameSelection";
+
     this.relayService.sendHandler(playerId, JSON.stringify({
       gameState: "gameSelection",
       data: {}
     }))
   }
-
 
   gameSelectionHandler(playerId: string, input: number) {
 

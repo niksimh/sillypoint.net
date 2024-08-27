@@ -1,5 +1,7 @@
+import type { WebSocket } from "ws";
+
 export interface Player{
   username: string,
-  socketId: string | null,
+  socket: WebSocket | null,
   status: string
 }
