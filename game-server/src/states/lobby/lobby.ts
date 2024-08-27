@@ -1,5 +1,5 @@
-import type PlayerDB from "../player-db/player-db"
-import { State } from "./types"
+import type PlayerDB from "../../player-db/player-db"
+import { State } from "../types"
 
 export default class Lobby {
   stateMap: Map<string, State>
