@@ -1,7 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { State } from "../types"
-import { z } from "zod";
+import { inputHandlerLogic } from "./logic";
+import type { inputHandlerResult } from "./types";
 
 export default class GameSelection {
   stateMap: Map<string, State>
@@ -26,5 +27,21 @@ export default class GameSelection {
       gameState: "gameSelection",
       data: {}
     }))
+  }
+
+
+  gameSelectionHandler(playerId: string, input: number) {
+
+  }
+
+  inputHandler(playerId: string, message: string) {
+    let result: inputHandlerResult = inputHandlerLogic(message);
+
+    switch(result.decision) {
+      case "ignore":
+        break;
+      case "gameSelection":
+        this.gameSelectionHandler(playerId, result.input);
+    }
   }
 }
