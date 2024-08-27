@@ -2,7 +2,7 @@ import express from "express";
 import qs from "qs";
 import cors from "cors";
 import crypto from "crypto";
-import { WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 
 import checkIn from "./index-handlers/check-in";
 import register from "./index-handlers/register";
@@ -52,8 +52,6 @@ let server = app.listen(port, () => {
 //WebSocket Server
 wss.on('connection', function connection(ws, request) {  
   relayService.connectionHandler(ws, request);
-
-  ws.send('something');
 });
 
 server.on('upgrade', function upgrade(request, socket, head) {
