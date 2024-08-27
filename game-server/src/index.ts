@@ -6,7 +6,7 @@ import { WebSocketServer } from 'ws';
 
 import checkIn from "./index-handlers/check-in";
 import register from "./index-handlers/register";
-import setupStates from "./index-handlers/setup-states";
+import setupStates from "./states/setup-states";
 import PlayerDB from "./player-db/player-db";
 import type { State } from "./states/types";
 import RelayService from "./relay-service/relay-service";

@@ -1,16 +1,16 @@
-import Connecting from "../states/connecting";
-import GameSelection from "../states/game-selection";
-import PublicWaitingRoom from "../states/public-waiting-room";
-import PrivateWaitingRoom from "../states/private-waiting-room";
-import Lobby from "../states/lobby";
-import Toss from "../states/toss";
-import TossWinnerSelection from "../states/toss-winner-selection";
-import Innings1 from "../states/innings-1";
-import InningsBreak from "../states/innings-break";
-import Innings2 from "../states/innings-2";
-import GameOver from "../states/game-over";
+import Connecting from "./connecting/connecting";
+import GameSelection from "./game-selection/game-selection";
+import PublicWaitingRoom from "./public-waiting-room/public-waiting-room"
+import PrivateWaitingRoom from "./private-waiting-room/private-waiting-room";
+import Lobby from "./lobby/lobby";
+import Toss from "./toss/toss";
+import TossWinnerSelection from "./toss-winner-selection/toss-winner-selection";
+import Innings1 from "./innings-1/innings-1";
+import InningsBreak from "./innings-break/innings-break";
+import Innings2 from "./innings-2/innings-2";
+import GameOver from "./game-over/game-over";
 
-import type { State } from "../states/types";
+import type { State } from "./types";
 import type PlayerDB from "../player-db/player-db";
 import type RelayService from "../relay-service/relay-service";
 

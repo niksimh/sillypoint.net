@@ -4,7 +4,7 @@ import type PlayerDB from "../player-db/player-db";
 import type { IncomingMessage } from "http"
 import { connectionLogic, messageLogic } from "./logic";
 import type { connectionResult, messageResult } from "./types";
-import type GameSelection from "../states/game-selection";
+import type GameSelection from "../states/game-selection/game-selection";
 
 export default class RelayService {
   wss: WebSocketServer
