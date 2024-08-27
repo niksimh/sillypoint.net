@@ -6,37 +6,36 @@ const RANDOM_NUMBER = 100;
 const BAD_WORD_LIST = badWordList;
 const SECRET = "$ECRET";
 
-test("Check valid alphanumberic string", () => {
+test("Check that valid alphanumberic string is alphanumeric", () => {
   let str = "abcABC123";
   expect(isAlphaNumeric(str)).toEqual(true);
 })
 
-test("Check invalid alphanumberic string", () => {
+test("Check that invalid alphanumberic string is not alphanumeric", () => {
   let str = "abcABC123!";
   expect(isAlphaNumeric(str)).toEqual(false);
 })
 
-test("Check bad word at start of username", () => {
+test("Catch bad word at the start of username", () => {
   let badUsername = "fuckend";
   expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
 })
 
-test("Check bad word in the middle of username", () => {
+test("Catch bad word in the middle of username", () => {
   let badUsername = "startfuckend";
   expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
 })
 
-test("Check bad word in capital letters", () => {
+test("Catch bad word in capital letters", () => {
   let badUsername = "startFUCKend";
   expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
 })
 
-test("Check multiple bad words", () => {
-  let badUsername = "startfuckend";
-  expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
-
-  badUsername = "startassend";
-  expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
+test("Catch multiple bad words", () => {
+  BAD_WORD_LIST.forEach(badWord => {
+    let badUsername = `start${badWord}end`;  
+    expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
+  });
 })
 
 test("Check username without bad words", () => {
@@ -87,7 +86,7 @@ test("Register with username that is more than 15 characters", () => {
   expect(registrationResult.reason).toEqual("tooLong");
 })
 
-test("Username that is valid", () => {
+test("Register with valid username", () => {
   let username = "myUsername";
   let registrationResult = register(username, ID, RANDOM_NUMBER, SECRET);
   

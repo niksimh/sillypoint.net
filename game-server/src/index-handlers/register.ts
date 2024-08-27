@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken"
-import "dotenv/config"
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 export let badWordList = [
   "fuck",
@@ -28,8 +28,7 @@ export default function register(username: string | undefined, id: string, rando
     return { error: true, reason: "undefinedUsername"}
   }
 
-
-  if (username === undefined || username === "") {
+  if (username === "") {
     let playerIdPayload = {
       id: id,
       username: `Guest_${randomNumber}`
