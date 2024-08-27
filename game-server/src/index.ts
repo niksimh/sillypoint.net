@@ -2,14 +2,14 @@ import express from "express";
 import qs from "qs";
 import cors from "cors";
 import crypto from "crypto";
-import WebSocket, { WebSocketServer } from 'ws';
+import { WebSocketServer } from 'ws';
 
 import checkIn from "./index-handlers/check-in";
 import register from "./index-handlers/register";
 import setupStates from "./states/setup-states";
 import PlayerDB from "./player-db/player-db";
-import type { State } from "./states/types";
 import RelayService from "./relay-service/relay-service";
+import { State } from "./states/types";
 
 //Setup
 const app = express();
@@ -22,11 +22,11 @@ let relayService = new RelayService(wss, stateMap, playerDB);
 
 setupStates(stateMap, playerDB, relayService);
 
+//Express
 app.set("query parameter", (str: string) => {
   qs.parse(str);
 })
 
-//Express
 app.get('/', cors(), (req, res) => {
   res.send('Hello World!');
 })
@@ -46,7 +46,7 @@ app.get('/register', cors(), (req, res) => {
 })
 
 let server = app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 });
 
 //WebSocket Server

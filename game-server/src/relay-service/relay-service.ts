@@ -1,10 +1,11 @@
 import { WebSocketServer, WebSocket } from "ws";
+import crypto from "crypto";
 import type { IncomingMessage } from "http";
-import { messageLogic } from "./logic";
-import type { messageResult } from "./types";
 
-import type { State } from "../states/types"
-import type PlayerDB from "../player-db/player-db";
+import { connectionLogic, messageLogic } from "./logic";
+import type { ConnectionResult, messageResult } from "./types";
+import { State } from "../states/types";
+import PlayerDB from "../player-db/player-db";
 
 export default class RelayService {
   wss: WebSocketServer
@@ -18,12 +19,26 @@ export default class RelayService {
   }
 
   connectionHandler(socket: WebSocket, request: IncomingMessage) {
-    let connectionState = this.stateMap.get("connecting") as any;
-    connectionState.transitionInto(socket, request.url);
-  }
+    let startingSeqNumber = crypto.randomInt(1000);
 
-  closeFromSocket(socket: WebSocket) {
-    socket.close();
+    let result: ConnectionResult = connectionLogic(request.url, process.env.playerIdTokenSecret!);
+
+    switch(result.decision) {
+      case "terminate":
+        socket.terminate();
+        break;
+      case "add":
+        (socket as any).playerId = result.playerId;
+        (socket as any).seqNumber = startingSeqNumber;
+        
+        socket.send(JSON.stringify({
+          type: "seqNumber",
+          seqNumber: startingSeqNumber
+        }));
+
+        let connectingState = this.stateMap.get("connecting") as any;
+        connectingState.transitionInto(result.playerId, result.username, socket);
+    }
   }
 
   sendHandler(playerId: string, message: string) {
