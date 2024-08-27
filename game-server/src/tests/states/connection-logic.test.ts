@@ -1,5 +1,4 @@
-import { connectionLogic } from "../../relay-service/logic";
-import type { connectionResult } from "../../relay-service/types";
+import { connectionLogic } from "../../states/connecting/logic";
 import jwt from "jsonwebtoken";
 
 const CORRECT_URL = "/wsConnection";

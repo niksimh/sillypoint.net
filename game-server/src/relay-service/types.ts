@@ -1,17 +1,5 @@
 import type { Player } from "../player-db/types"
 
-export interface connectionAddResult {
-  decision: "add" 
-  playerId: string
-  username: string
-}
-
-export interface connectionTerminateResult {
-  decision: "terminate" 
-}
-
-export type connectionResult = connectionAddResult | connectionTerminateResult;
-
 export interface messageHandleResult {
   decision: "handle"
   state: string

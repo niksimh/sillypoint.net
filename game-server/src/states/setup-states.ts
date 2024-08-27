@@ -15,7 +15,7 @@ import type PlayerDB from "../player-db/player-db";
 import type RelayService from "../relay-service/relay-service";
 
 export default function setupStates(stateMap: Map<string, State>, playerDB: PlayerDB, relayService: RelayService) {
-  let connectingState = new Connecting(stateMap, playerDB);
+  let connectingState = new Connecting(stateMap, playerDB, relayService);
   stateMap.set("connecting", connectingState); 
 
   let gameSelectionState = new GameSelection(stateMap, playerDB, relayService);
