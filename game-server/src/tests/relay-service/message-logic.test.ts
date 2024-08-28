@@ -16,7 +16,7 @@ test("Handle message with bad seqNumber", () => {
   let message = {
     seqNum: 123, 
     type: "someInput",
-    input: 5
+    input: "5"
   };
   expect(messageLogic(0, JSON.stringify(message))).toEqual({ decision: "leave" });
 })
@@ -25,7 +25,7 @@ test("Handle good message", () => {
   let message = {
     seqNum: 123, 
     type: "someInput",
-    input: 5
+    input: "5"
   };
   expect(messageLogic(123, JSON.stringify(message))).toEqual({ decision: "handle" });
 })

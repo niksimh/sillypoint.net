@@ -41,7 +41,7 @@ export function messageLogic(currSeqNum: number, message: string): MessageResult
   let inputSchema = z.object({
     seqNum: z.number(),
     type: z.string(),
-    input: z.union([z.string(), z.number()])
+    input: z.string()
   });
   
   let parsedMessage;
