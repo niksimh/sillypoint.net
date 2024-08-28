@@ -1,4 +1,4 @@
-import { WebSocketServer, WebSocket } from "ws";
+import { WebSocketServer, WebSocket, MessageEvent } from "ws";
 import crypto from "crypto";
 import type { IncomingMessage } from "http";
 
@@ -19,7 +19,7 @@ export default class RelayService {
   }
 
   connectionHandler(socket: WebSocket, request: IncomingMessage) {
-    let startingSeqNumber = crypto.randomInt(1000);
+    let startingSeqNum = crypto.randomInt(1000);
 
     let result: ConnectionResult = connectionLogic(request.url, process.env.playerIdTokenSecret!);
 
@@ -29,12 +29,16 @@ export default class RelayService {
         break;
       case "add":
         (socket as any).playerId = result.playerId;
-        (socket as any).seqNumber = startingSeqNumber;
-        
+        (socket as any).seqNum = startingSeqNum;
+                
         socket.send(JSON.stringify({
-          type: "seqNumber",
-          seqNumber: startingSeqNumber
+          type: "seqNum",
+          seqNum: startingSeqNum
         }));
+
+        socket.addEventListener("message", (event: MessageEvent) => {
+          this.messageHandler(event.target, event.data as string);
+        })
 
         let connectingState = this.stateMap.get("connecting") as any;
         connectingState.transitionInto(result.playerId, result.username, socket);
@@ -51,12 +55,15 @@ export default class RelayService {
     let currSeqNum = ((socket as any).seqNum) as number; //will be present
     let currPlayer = this.playerDB.getPlayer(playerId)!; //will be present
     
+    console.log(playerId, currSeqNum, currPlayer);
+    console.log(message);
+
     let result: MessageResult = messageLogic(currSeqNum, message);
 
     (socket as any).seqNum = crypto.randomInt(1000);
     socket.send(JSON.stringify({
-      type: "seqNumber",
-      seqNumber: (socket as any).seqNum
+      type: "seqNum",
+      seqNum: (socket as any).seqNum
     }));
 
     let currState = this.stateMap.get(currPlayer.status)! as any;
