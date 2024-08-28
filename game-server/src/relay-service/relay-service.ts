@@ -77,4 +77,8 @@ export default class RelayService {
         currState.inputHandler(playerId, input);
     }
   }
+
+  serverCloseHandler(socket: WebSocket | null) {
+    socket?.close();
+  }
 }
