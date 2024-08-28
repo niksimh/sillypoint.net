@@ -16,7 +16,7 @@ export default class PublicWaitingRoom {
     this.waitingQueue = [];
     this.relayService = relayService;
 
-    setInterval(this.process, 100);
+    setInterval(() => { this.process() }, 100);
   }
 
   transitionInto(playerId: string) {
