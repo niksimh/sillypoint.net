@@ -55,9 +55,6 @@ export default class RelayService {
     let currSeqNum = ((socket as any).seqNum) as number; //will be present
     let currPlayer = this.playerDB.getPlayer(playerId)!; //will be present
     
-    console.log(playerId, currSeqNum, currPlayer);
-    console.log(message);
-
     let result: MessageResult = messageLogic(currSeqNum, message);
 
     (socket as any).seqNum = crypto.randomInt(1000);
@@ -70,7 +67,7 @@ export default class RelayService {
     switch(result.decision) {
       case "leave":
         let overridenInput = {
-          type: "leave"+currPlayer.status,
+          type: currPlayer.status+"Leave",
           input: ""
         }
         currState.inputHandler(playerId, overridenInput);

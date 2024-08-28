@@ -58,7 +58,7 @@ export default class GameSelection {
 
   inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
     switch(inputContainer.type) {
-      case "leaveGameSelection":
+      case "gameSelectionLeave":
         this.leaveGameSelection(playerId, inputContainer.input);
         break;
       case "selectGame":
