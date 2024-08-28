@@ -1,8 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { LeaveResult, WaitingNode } from "./types"
-import { leaveLogic } from "./logic"
+import { LeaveResult, ProcessResult, WaitingNode } from "./types"
+import { leaveLogic, processLogic } from "./logic"
 
 export default class PublicWaitingRoom {
   stateMap: Map<string, State>
@@ -15,6 +15,8 @@ export default class PublicWaitingRoom {
     this.playerDB = playerDB;
     this.waitingQueue = [];
     this.relayService = relayService;
+
+    setInterval(this.process, 100);
   }
 
   transitionInto(playerId: string) {
@@ -33,6 +35,25 @@ export default class PublicWaitingRoom {
     }));
   }
   
+  process() {
+    let result: ProcessResult = processLogic(this.waitingQueue, Date.now());
+    
+    let lobbyState = this.stateMap.get("lobby")! as any;
+    switch(result.decision) {
+      case 0:
+        break;
+      case 1:
+        let p = this.waitingQueue.shift()!;
+        lobbyState.transitionInto(p.playerId);
+        break;
+      case 2:
+        let p1 = this.waitingQueue.shift()!;
+        let p2 = this.waitingQueue.shift()!;
+        lobbyState.transitionInto(p1.playerId, p2.playerId);
+        break;
+    }
+  }
+
   leavePublicWaitingRoom(playerId: string) {
     let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
 

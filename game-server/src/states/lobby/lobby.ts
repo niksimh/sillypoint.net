@@ -10,4 +10,7 @@ export default class Lobby {
     this.playerDB = playerDB;
   }
   
+  transitionInto(player1Id: string, player2Id: string) {
+    
+  }
 }

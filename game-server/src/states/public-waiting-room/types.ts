@@ -13,3 +13,7 @@ decision: "ignore"
 }
 
 export type LeaveResult = LeaveProcessLeaveResult | LeaveIgnoreResult;
+
+export interface ProcessResult {
+  decision: 0 | 1 | 2 
+}
