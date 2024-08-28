@@ -29,7 +29,12 @@ export default class GameSelection {
   }
 
   leaveGameSelection(playerId: string, input: string) {
+    let currPlayer = this.playerDB.getPlayer(playerId)!;
     
+    this.playerDB.removePlayer(playerId);
+    
+    let playerSocket = currPlayer.socket;
+    this.relayService.serverCloseHandler(playerSocket);
   }
 
   selectGame(playerId: string, input: string) {
