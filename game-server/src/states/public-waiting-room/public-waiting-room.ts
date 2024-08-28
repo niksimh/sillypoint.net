@@ -20,6 +20,7 @@ export default class PublicWaitingRoom {
     let currPlayer = this.playerDB.getPlayer(playerId)!;
     
     currPlayer.status = "publicWaitingRoom";
+    
     this.waitingQueue.push({
       playerId: playerId,
       timeJoined: Date.now()
@@ -31,4 +32,12 @@ export default class PublicWaitingRoom {
     }));
   }
   
+  leavePublicWaitingRoom(playerId: string) {
+  
+  }
+
+  inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
+    //Only input is to leave
+    this.leavePublicWaitingRoom(playerId);
+  }
 }
