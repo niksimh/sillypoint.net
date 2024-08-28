@@ -38,7 +38,22 @@ export default class GameSelection {
   }
 
   selectGame(playerId: string, input: string) {
-
+    switch(input) {
+      case "publicWaitingRoom":
+        console.log("pubWR");
+        let publicWaitingRoom = this.stateMap.get("publicWaitingRoom") as any;
+        publicWaitingRoom.transitionInto(playerId);
+      case "privateWaitingRoomCreator":
+        console.log("priWRC");
+        let privateWaitingRoomC = this.stateMap.get("publicWaitingRoom") as any;
+        privateWaitingRoomC.transitionInto(playerId, "creator");
+      case "privateWaitingRoomJoiner": 
+        console.log("priWRJ");
+        let privateWaitingRoomJ = this.stateMap.get("publicWaitingRoom") as any;
+        privateWaitingRoomJ.transitionInto(playerId, "joiner");
+      default:
+        this.leaveGameSelection(playerId, "");
+    }
   }
 
   inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
