@@ -3,7 +3,7 @@ import crypto from "crypto";
 import type { IncomingMessage } from "http";
 
 import { connectionLogic, messageLogic } from "./logic";
-import type { ConnectionResult, messageResult } from "./types";
+import type { ConnectionResult, MessageResult } from "./types";
 import { State } from "../states/types";
 import PlayerDB from "../player-db/player-db";
 
@@ -47,17 +47,34 @@ export default class RelayService {
   }
 
   messageHandler(socket: WebSocket, message: string) {
-    let playerId = (socket as any).playerId;
-    let currPlayer = this.playerDB.getPlayer(playerId || "");
+    let playerId = ((socket as any).playerId) as string; //will be present
+    let currSeqNum = ((socket as any).seqNum) as number; //will be present
+    let currPlayer = this.playerDB.getPlayer(playerId)!; //will be present
     
-    let result: messageResult = messageLogic(currPlayer, message);
+    let result: MessageResult = messageLogic(currSeqNum, message);
 
+    (socket as any).seqNum = crypto.randomInt(1000);
+    socket.send(JSON.stringify({
+      type: "seqNumber",
+      seqNumber: (socket as any).seqNum
+    }));
+
+    let currState = this.stateMap.get(currPlayer.status)! as any;
     switch(result.decision) {
-      case "ignore":
+      case "leave":
+        let overridenInput = {
+          type: "leave"+currPlayer.status,
+          input: ""
+        }
+        currState.inputHandler(playerId, overridenInput);
         break;
       case "handle":
-        let currState = this.stateMap.get(result.state)!;
-        (currState as any).inputHandler(playerId, message);
+        let parsedMessage = JSON.parse(message);
+        let input = { 
+          type: parsedMessage.type,
+          input: parsedMessage.input
+        }      
+        currState.inputHandler(playerId, input);
     }
   }
 }

@@ -12,14 +12,12 @@ export interface ConnectionTerminateResult {
 
 export type ConnectionResult = ConnectionAddResult | ConnectionTerminateResult;
 
-export interface messageHandleResult {
+export interface MessageHandleResult {
   decision: "handle"
-  state: string
-  message: string
 }
 
-export interface messageIgnoreResult {
-  decision: "ignore"
+export interface MessageLeaveResult {
+  decision: "leave"
 }
 
-export type messageResult = messageHandleResult | messageIgnoreResult;
+export type MessageResult = MessageHandleResult | MessageLeaveResult;

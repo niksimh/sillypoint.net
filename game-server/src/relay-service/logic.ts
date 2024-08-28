@@ -1,8 +1,9 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
+import { z } from "zod";
 
-import { ConnectionResult, messageResult } from "./types";
-import { Player } from "../player-db/types";
+import { ConnectionResult, MessageResult } from "./types";
+
 
 export function connectionLogic(requestURL: string | undefined, secret: string): ConnectionResult {
   if (requestURL === undefined) {
@@ -36,16 +37,23 @@ export function connectionLogic(requestURL: string | undefined, secret: string):
   }
 }
 
-export function messageLogic(currPlayer: Player | undefined, message: string): messageResult {
-  if (currPlayer === undefined) {
-    return { decision: "ignore" };
+export function messageLogic(currSeqNum: number, message: string): MessageResult {
+  let inputSchema = z.object({
+    seqNum: z.number(),
+    type: z.string(),
+    input: z.union([z.string(), z.number()])
+  });
+  
+  let parsedMessage;
+  try {
+    parsedMessage = inputSchema.parse(JSON.parse(message));
+  } catch {
+    return { decision: "leave" };
   }
-  if (currPlayer.status === "connecting" || currPlayer.status === "gameOver") {
-    return { decision: "ignore" };
+
+  if(parsedMessage.seqNum !== currSeqNum) {
+    return { decision: "leave" };
   }
-  return {
-    decision: "handle",
-    state: currPlayer.status,
-    message: message
-  }
+
+  return { decision: "handle" };
 }
