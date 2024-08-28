@@ -1,7 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { WaitingNode } from "./types"
+import { LeaveResult, WaitingNode } from "./types"
+import { leaveLogic } from "./logic"
 
 export default class PublicWaitingRoom {
   stateMap: Map<string, State>
@@ -33,7 +34,14 @@ export default class PublicWaitingRoom {
   }
   
   leavePublicWaitingRoom(playerId: string) {
-  
+    let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
+
+    switch(result.decision) {
+      case "ignore":
+        break;
+      case "processLeave":
+        this.waitingQueue.splice(result.index, 1);
+    }
   }
 
   inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
