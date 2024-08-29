@@ -47,4 +47,32 @@ export default class PrivateWaitingRoom {
         break;
     }
   }
+
+  leavePrivateWaitingRoom(playerId: string, input: string) {
+
+  }
+
+  joinPrivateWaitingRoom(playerId: string, input: string) {
+
+  }
+
+  kickJoiner(playerId: string, input: string) {
+
+  }
+
+  inputHandler(playerId: string, inputContainer: { type: string, input: string }) {
+    switch(inputContainer.type) {
+      case "privateWaitingRoomLeave":
+        this.leavePrivateWaitingRoom(playerId, inputContainer.input);
+        break;
+      case "joinPrivateWaitingRoom":
+        this.joinPrivateWaitingRoom(playerId, inputContainer.input);
+        break;
+      case "kick":
+        this.kickJoiner(playerId, inputContainer.input);
+        break;
+      default:
+        //ignore
+    }
+  }
 }
