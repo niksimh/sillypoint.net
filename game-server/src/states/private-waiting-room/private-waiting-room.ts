@@ -9,12 +9,14 @@ export default class PrivateWaitingRoom {
   playerDB: PlayerDB
   relayService: RelayService
   waitingRooms: Map<number, WaitingNode>
+  playerToWaitingRoom: Map<string, number>
 
   constructor(stateMap: Map<string, State>, playerDB: PlayerDB, relayService: RelayService) {
     this.stateMap = stateMap;
     this.playerDB = playerDB;
     this.relayService = relayService;
     this.waitingRooms = new Map();
+    this.playerToWaitingRoom = new Map;
   }
 
   transitionInto(playerId: string, position: "creator" | "joiner") {
@@ -31,6 +33,7 @@ export default class PrivateWaitingRoom {
         }
 
         this.waitingRooms.set(roomId, newWaitingNode);
+        this.playerToWaitingRoom.set(playerId, roomId);
 
         this.relayService.sendHandler(playerId, JSON.stringify({
             gameState: "privateWaitingRoomCreator",
@@ -49,7 +52,7 @@ export default class PrivateWaitingRoom {
   }
 
   leavePrivateWaitingRoom(playerId: string, input: string) {
-
+    
   }
 
   joinPrivateWaitingRoom(playerId: string, input: string) {
