@@ -33,7 +33,7 @@ export default class PrivateWaitingRoom {
         this.waitingRooms.set(roomId, newWaitingNode);
 
         this.relayService.sendHandler(playerId, JSON.stringify({
-            gameState: "privateWaitingRoomC",
+            gameState: "privateWaitingRoomCreator",
             data: {
               roomId
             }
@@ -41,7 +41,7 @@ export default class PrivateWaitingRoom {
         break;
       case "joiner":
         this.relayService.sendHandler(playerId, JSON.stringify({
-          gameState: "privateWaitingRoomJ",
+          gameState: "privateWaitingRoomJoiner",
           data: {}
         }));
         break;
