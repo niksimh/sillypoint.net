@@ -1,7 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import type RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { WaitingNode } from "./types"
+import { leaveLogic } from "./logic";
+import { LeaveResult, WaitingNode } from "./types"
 import crypto from "crypto";
 
 export default class PrivateWaitingRoom {
@@ -51,8 +52,41 @@ export default class PrivateWaitingRoom {
     }
   }
 
-  leavePrivateWaitingRoom(playerId: string, input: string) {
-    
+  privateWaitingRoomLeave(playerId: string, input: string) {
+    let result: LeaveResult = leaveLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+
+    let currPlayer = this.playerDB.getPlayer(playerId)!;
+    let roomId = this.playerToWaitingRoom.get(playerId)!
+    let room = this.waitingRooms.get(roomId)!;
+    switch(result.decision) {
+      case "leaveNotPresent":
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
+      case "leaveCreatorNoJoiner":
+        this.waitingRooms.delete(this.playerToWaitingRoom.get(playerId)!);
+        this.playerToWaitingRoom.delete(playerId);
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
+      case "leaveCreatorJoiner":
+        //handle creator
+        this.waitingRooms.delete(this.playerToWaitingRoom.get(playerId)!);
+        this.playerToWaitingRoom.delete(playerId);
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+
+        //handle joiner
+        let gameSelectionState = this.stateMap.get("gameSelection")! as any;
+        gameSelectionState.transitionInto(room.joinerId);
+        break;
+      case "leaveJoiner":
+        this.playerToWaitingRoom.delete(playerId);
+        room.joinerId = undefined;
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
+    }
   }
 
   joinPrivateWaitingRoom(playerId: string, input: string) {
@@ -66,7 +100,7 @@ export default class PrivateWaitingRoom {
   inputHandler(playerId: string, inputContainer: { type: string, input: string }) {
     switch(inputContainer.type) {
       case "privateWaitingRoomLeave":
-        this.leavePrivateWaitingRoom(playerId, inputContainer.input);
+        this.privateWaitingRoomLeave(playerId, inputContainer.input);
         break;
       case "joinPrivateWaitingRoom":
         this.joinPrivateWaitingRoom(playerId, inputContainer.input);
