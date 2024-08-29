@@ -54,7 +54,7 @@ export default class PublicWaitingRoom {
     }
   }
 
-  leavePublicWaitingRoom(playerId: string) {
+  publicWaitingRoomLeave(playerId: string) {
     let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
 
     switch(result.decision) {
@@ -62,11 +62,18 @@ export default class PublicWaitingRoom {
         break;
       case "processLeave":
         this.waitingQueue.splice(result.index, 1);
+        this.playerDB.removePlayer(playerId);
     }
   }
 
   inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
-    //Only input is to leave
-    this.leavePublicWaitingRoom(playerId);
+    switch(inputContainer.type) {
+      case "publicWaitingRoomLeave":
+        this.publicWaitingRoomLeave(playerId);
+        break;
+      default:
+        break;
+    }
+    
   }
 }
