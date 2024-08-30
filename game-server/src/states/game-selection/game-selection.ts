@@ -1,6 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
+import { InputContainer } from "../../types";
 import { State } from "../types"
+import { GameSelectionOutput } from "./types";
 
 export default class GameSelection {
   stateMap: Map<string, State>
@@ -18,10 +20,11 @@ export default class GameSelection {
     
     currPlayer.status = "gameSelection";
 
-    this.relayService.sendHandler(playerId, JSON.stringify({
-      gameState: "gameSelection",
-      data: {}
-    }))
+    let gameSelectionOutput: GameSelectionOutput = {
+      type: "gameState",
+      state: "gameSelection"
+    }
+    this.relayService.sendHandler(playerId, JSON.stringify(gameSelectionOutput));
   }
 
   gameSelectionLeave(playerId: string) {
@@ -53,7 +56,7 @@ export default class GameSelection {
     }
   }
 
-  inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
+  inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "gameSelectionLeave":
         this.gameSelectionLeave(playerId);

@@ -9,6 +9,7 @@ import type Innings1 from "./innings-1/innings-1";
 import type InningsBreak from "./innings-break/innings-break";
 import type Innings2 from "./innings-2/innings-2";
 import type GameOver from "./game-over/game-over";
+import type { GameOutput } from "../types";
 
 export type State = 
   Connecting |
@@ -22,3 +23,10 @@ export type State =
   InningsBreak | 
   Innings2 | 
   GameOver
+
+export interface GameStateOutput extends GameOutput {
+  type: "gameState"
+  state: string
+  data?: any
+}
+  
