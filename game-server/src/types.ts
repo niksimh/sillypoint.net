@@ -3,7 +3,7 @@ export interface PlayerIdTokenPayload {
   username: string
 }
 
-export interface Output {
+export interface GameOutput {
   type: string
 }
 
