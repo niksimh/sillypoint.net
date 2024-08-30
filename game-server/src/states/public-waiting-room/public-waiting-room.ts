@@ -1,7 +1,7 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { LeaveResult, ProcessResult, WaitingNode } from "./types"
+import { LeaveResult, ProcessResult, PublicWaitingRoomOutput, WaitingNode } from "./types"
 import { leaveLogic, processLogic } from "./logic"
 
 export default class PublicWaitingRoom {
@@ -29,10 +29,11 @@ export default class PublicWaitingRoom {
       timeJoined: Date.now()
     });
 
-    this.relayService.sendHandler(playerId, JSON.stringify({
-      gameState: "publicWaitingRoom",
-      data: {}
-    }));
+    let publicWaitingRoomOutput: PublicWaitingRoomOutput = {
+      type: "gameState",
+      state: "publicWaitingRoom"
+    }
+    this.relayService.sendHandler(playerId, JSON.stringify(publicWaitingRoomOutput));
   }
   
   process() {
