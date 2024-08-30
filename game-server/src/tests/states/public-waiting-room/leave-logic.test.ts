@@ -1,8 +1,8 @@
 import { leaveLogic } from "../../../states/public-waiting-room/logic";
 import type {
   WaitingNode,
-  LeaveProcessLeaveResult,
-  LeaveIgnoreResult
+  LeaveProcessedLeaveResult,
+  LeaveUnprocessedLeaveResult
 } from "../../../states/public-waiting-room/types"
 
 test("Try leaving public waiting room when not present", () => {
@@ -10,8 +10,8 @@ test("Try leaving public waiting room when not present", () => {
     { playerId: "pId1", timeJoined: 0 }
   ];
 
-  let rightResult: LeaveIgnoreResult = {
-    decision: "ignore"
+  let rightResult: LeaveUnprocessedLeaveResult = {
+    decision: "unprocessedLeave"
   }
 
   expect(leaveLogic("pId2", waitingQueue)).toEqual(rightResult);
@@ -24,8 +24,8 @@ test("Leave public waiting room when present", ( ) => {
     { playerId: "pId3", timeJoined: 2 },
   ];
 
-  let rightResult: LeaveProcessLeaveResult = {
-    decision: "processLeave",
+  let rightResult: LeaveProcessedLeaveResult = {
+    decision: "processedLeave",
     index: 1
   }
 

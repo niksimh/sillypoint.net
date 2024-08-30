@@ -58,12 +58,17 @@ export default class PublicWaitingRoom {
   publicWaitingRoomLeave(playerId: string) {
     let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
 
+    let currPlayer = this.playerDB.getPlayer(playerId)!;
     switch(result.decision) {
-      case "ignore":
-        break;
-      case "processLeave":
+      case "processedLeave":
         this.waitingQueue.splice(result.index, 1);
         this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
+      case "unprocessedLeave":
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
     }
   }
 
