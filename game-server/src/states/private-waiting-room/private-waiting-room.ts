@@ -1,8 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import type RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { joinLogic, kickLogic, leaveLogic } from "./logic";
-import { JoinResult, KickResult, LeaveResult, WaitingNode } from "./types"
+import { joinLogic, kickLogic, leaveLogic, startGameLogic } from "./logic";
+import { JoinResult, KickResult, LeaveResult, StartGameResult, WaitingNode } from "./types"
 import crypto from "crypto";
 
 export default class PrivateWaitingRoom {
@@ -174,6 +174,27 @@ export default class PrivateWaitingRoom {
 
         let gameSelectionState = this.stateMap.get("gameSelectionState")! as any;
         gameSelectionState.transitionInto(playerId);
+    }
+  }
+
+  startGame(playerId: string, input: string) {
+    let result: StartGameResult = startGameLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+
+    switch(result.decision) {
+      case "notPresent":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "notCreator":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "noJoiner":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "successful":
+        let roomId = this.playerToWaitingRoom.get(playerId)!;
+        let waitingNode = this.waitingRooms.get(roomId)!;
+        let lobbyState = this.stateMap.get("lobby")! as any;
+        lobbyState.transitionInto(waitingNode.creatorId, waitingNode.joinerId);
     }
   }
 

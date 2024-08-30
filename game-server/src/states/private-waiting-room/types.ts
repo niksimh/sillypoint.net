@@ -74,3 +74,26 @@ export type KickResult =
   KickNotCreatorResult |
   KickEmptyResult |
   KickSuccesfulResult;
+
+export interface StartGameNotPresentResult {
+  decision: "notPresent"
+}
+
+export interface StartGameNotCreatorResult {
+  decision: "notCreator"
+}
+
+export interface StartGameNoJoinerResult {
+  decision: "noJoiner"
+}
+
+export interface StartGameSuccessfulResult {
+  decision: "successful"
+}
+
+export type StartGameResult = 
+  StartGameNotPresentResult |
+  StartGameNotCreatorResult |
+  StartGameNoJoinerResult |
+  StartGameSuccessfulResult;
+  

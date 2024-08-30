@@ -1,4 +1,4 @@
-import { JoinResult, KickResult, LeaveResult, WaitingNode } from "./types";
+import { JoinResult, KickResult, LeaveResult, StartGameResult, WaitingNode } from "./types";
 
 export function leaveLogic(
   waitingRooms: Map<number, WaitingNode>, 
@@ -65,6 +65,29 @@ export function kickLogic(
 
     if (waitingNode.joinerId === undefined) {
       return { decision: "empty" };
+    }
+
+    return { decision: "successful" };
+  }
+
+export function startGameLogic(
+  waitingRooms: Map<number, WaitingNode>,
+  playerToWaitingRoom: Map<string, number>,
+  playerId: string,
+  ): StartGameResult {
+  
+    if (!playerToWaitingRoom.has(playerId)) {
+      return { decision: "notPresent" };
+    }
+
+    let waitingNode = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
+
+    if (waitingNode.joinerId === playerId) {
+      return { decision: "notCreator" };
+    }
+
+    if (waitingNode.joinerId === undefined) {
+      return { decision: "noJoiner" };
     }
 
     return { decision: "successful" };
