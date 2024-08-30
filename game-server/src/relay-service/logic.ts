@@ -39,7 +39,7 @@ export function connectionLogic(requestURL: string | undefined, secret: string):
 }
 
 export function messageLogic(currSeqNum: number, message: string): MessageResult {
-  let inputSchema = z.object({
+  let gameInputSchema = z.object({
     seqNum: z.number(),
     type: z.string(),
     input: z.string()
@@ -47,7 +47,7 @@ export function messageLogic(currSeqNum: number, message: string): MessageResult
   
   let parsedMessage;
   try {
-    parsedMessage = inputSchema.parse(JSON.parse(message));
+    parsedMessage = gameInputSchema.parse(JSON.parse(message));
   } catch {
     return { decision: "leave" };
   }

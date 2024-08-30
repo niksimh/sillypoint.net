@@ -6,6 +6,7 @@ import { connectionLogic, messageLogic } from "./logic";
 import type { ConnectionResult, MessageResult, SeqNumOutput } from "./types";
 import { State } from "../states/types";
 import PlayerDB from "../player-db/player-db";
+import { InputContainer } from "../types";
 
 export default class RelayService {
   wss: WebSocketServer
@@ -58,7 +59,8 @@ export default class RelayService {
     let playerId = (socket as any).playerId as string; //will be present
     let currSeqNum = (socket as any).seqNum as number; //will be present
     let currPlayer = this.playerDB.getPlayer(playerId)!; //will be present
-    
+    let currState = this.stateMap.get(currPlayer.status)! as any;
+
     let result: MessageResult = messageLogic(currSeqNum, message);
 
     let newSeqNum = crypto.randomInt(1000);
@@ -69,22 +71,21 @@ export default class RelayService {
     };
     socket.send(JSON.stringify(seqNumOutput));
 
-    let currState = this.stateMap.get(currPlayer.status)! as any;
     switch(result.decision) {
       case "leave":
-        let overridenInput = {
+        let overridenInputContainer: InputContainer = {
           type: currPlayer.status+"Leave",
           input: ""
         }
-        currState.inputHandler(playerId, overridenInput);
+        currState.inputHandler(playerId, overridenInputContainer);
         break;
       case "handle":
         let parsedMessage = JSON.parse(message);
-        let input = { 
+        let inputContainer = { 
           type: parsedMessage.type,
           input: parsedMessage.input
         }      
-        currState.inputHandler(playerId, input);
+        currState.inputHandler(playerId, inputContainer);
     }
   }
 
