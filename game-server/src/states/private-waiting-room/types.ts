@@ -24,3 +24,30 @@ export type LeaveResult =
   LeaveCreatorNoJoinerResult | 
   LeaveCreatorJoinerResult | 
   LeaveJoinerResult;
+
+export interface JoinPresentResult {
+  decision: "present"
+}
+
+export interface JoinBadInputResult {
+  decision: "badInput"
+}
+
+export interface JoinBadRoomResult {
+  decision: "badRoom"
+} 
+
+export interface JoinFullResult {
+  decision: "fullRoom"
+} 
+
+export interface JoinSuccessfulResult {
+  decision: "succesful"
+}
+
+export type JoinResult = 
+  JoinPresentResult |
+  JoinBadInputResult |
+  JoinBadRoomResult |
+  JoinFullResult |
+  JoinSuccessfulResult;

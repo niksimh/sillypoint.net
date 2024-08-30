@@ -1,4 +1,4 @@
-import { LeaveResult, WaitingNode } from "./types";
+import { JoinResult, LeaveResult, WaitingNode } from "./types";
 
 export function leaveLogic(
   waitingRooms: Map<number, WaitingNode>, 
@@ -20,3 +20,29 @@ export function leaveLogic(
 
   return { decision: "leaveJoiner" }; 
 }
+
+export function joinLogic(
+  waitingRooms: Map<number, WaitingNode>,
+  playerToWaitingRoom: Map<string, number>,
+  playerId: string, 
+  input: string):  JoinResult {
+    
+    if (playerToWaitingRoom.has(playerId)) {
+      return { decision: "present" };
+    }
+
+    let roomId = Number(input);
+    if (Number.isNaN(roomId)) {
+      return { decision: "badInput" };
+    }
+
+    let currWaitingNode = waitingRooms.get(roomId);
+    if (currWaitingNode === undefined) {
+      return { decision: "badRoom" };
+    }
+    if(currWaitingNode.joinerId !== undefined) {
+      return { decision: "fullRoom" };
+    }
+    
+    return { decision: "succesful" };
+  }

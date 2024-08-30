@@ -1,8 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import type RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { leaveLogic } from "./logic";
-import { LeaveResult, WaitingNode } from "./types"
+import { joinLogic, leaveLogic } from "./logic";
+import { JoinResult, LeaveResult, WaitingNode } from "./types"
 import crypto from "crypto";
 
 export default class PrivateWaitingRoom {
@@ -90,7 +90,56 @@ export default class PrivateWaitingRoom {
   }
 
   joinPrivateWaitingRoom(playerId: string, input: string) {
+    let result: JoinResult = joinLogic(this.waitingRooms, this.playerToWaitingRoom, playerId, input);
 
+    switch(result.decision) {
+      case "present":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "badInput":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case 'badRoom':
+        this.relayService.sendHandler(playerId, JSON.stringify({
+          gameState: "privateWaitingRoomJoiner",
+          data: {
+            status: "badRoom"
+          }
+        }));
+        break;
+      case "fullRoom":
+        this.relayService.sendHandler(playerId, JSON.stringify({
+          gameState: "privateWaitingRoomJoiner",
+          data: {
+            status: "fullRoom"
+          }
+        }));
+        break;
+      case "succesful":
+        this.playerToWaitingRoom.set(playerId, Number(input));
+        
+        let currWaitingNode = this.waitingRooms.get(Number(input))!
+        currWaitingNode.joinerId = playerId;
+
+        this.relayService.sendHandler(playerId, JSON.stringify({
+          gameState: "privateWaitingRoomJoiner",
+          data: {
+            status: "joined",
+            otherPlayerId: currWaitingNode.creatorId,
+            otherPlayerUsername: this.playerDB.getPlayer(currWaitingNode.creatorId)!.username
+          }
+        }));
+
+        this.relayService.sendHandler(currWaitingNode.creatorId, JSON.stringify({
+          gameState: "privateWaitingRoomCreator",
+          data: {
+            status: "joined",
+            otherPlayerId: currWaitingNode.joinerId,
+            otherPlayerUsername: this.playerDB.getPlayer(currWaitingNode.joinerId)!.username
+          }
+        }));
+        break;
+    }
   }
 
   kickJoiner(playerId: string, input: string) {
