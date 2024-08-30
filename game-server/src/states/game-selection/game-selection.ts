@@ -14,12 +14,8 @@ export default class GameSelection {
   }
  
   transitionInto(playerId: string) {
-    let currPlayer = this.playerDB.getPlayer(playerId)
+    let currPlayer = this.playerDB.getPlayer(playerId)!;
     
-    if(currPlayer === undefined) {
-      return;
-    }
-
     currPlayer.status = "gameSelection";
 
     this.relayService.sendHandler(playerId, JSON.stringify({
