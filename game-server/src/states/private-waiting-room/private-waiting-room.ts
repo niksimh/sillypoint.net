@@ -1,8 +1,8 @@
 import type PlayerDB from "../../player-db/player-db"
 import type RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { joinLogic, leaveLogic } from "./logic";
-import { JoinResult, LeaveResult, WaitingNode } from "./types"
+import { joinLogic, kickLogic, leaveLogic } from "./logic";
+import { JoinResult, KickResult, LeaveResult, WaitingNode } from "./types"
 import crypto from "crypto";
 
 export default class PrivateWaitingRoom {
@@ -142,8 +142,39 @@ export default class PrivateWaitingRoom {
     }
   }
 
-  kickJoiner(playerId: string, input: string) {
+  kick(playerId: string, input: string) {
+    let result: KickResult = kickLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
 
+    let newRoomId = crypto.randomInt(1000, 10000);
+    switch(result.decision) {
+      case "notPresent":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "notCreator":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "empty":
+        this.privateWaitingRoomLeave(playerId, "");
+        break;
+      case "successful":
+        let currRoomId = this.playerToWaitingRoom.get(playerId)!
+        let waitingNode = this.waitingRooms.get(currRoomId)!;
+        let joinerId = waitingNode.joinerId!;
+
+        this.playerToWaitingRoom.set(playerId, newRoomId);
+        this.waitingRooms.delete(currRoomId);
+        this.waitingRooms.set(newRoomId, { creatorId: playerId });
+
+        this.relayService.sendHandler(playerId, JSON.stringify({
+          gameState: "privateWaitingRoomCreator",
+          data: {
+            roomId: newRoomId
+          }
+        }));
+
+        let gameSelectionState = this.stateMap.get("gameSelectionState")! as any;
+        gameSelectionState.transitionInto(playerId);
+    }
   }
 
   inputHandler(playerId: string, inputContainer: { type: string, input: string }) {
@@ -155,7 +186,7 @@ export default class PrivateWaitingRoom {
         this.joinPrivateWaitingRoom(playerId, inputContainer.input);
         break;
       case "kick":
-        this.kickJoiner(playerId, inputContainer.input);
+        this.kick(playerId, inputContainer.input);
         break;
       default:
         //ignore

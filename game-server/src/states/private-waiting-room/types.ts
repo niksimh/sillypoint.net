@@ -51,3 +51,26 @@ export type JoinResult =
   JoinBadRoomResult |
   JoinFullResult |
   JoinSuccessfulResult;
+
+
+export interface KickNotPresentResult {
+  decision: "notPresent"
+}
+
+export interface KickNotCreatorResult {
+  decision: "notCreator"
+}
+
+export interface KickEmptyResult {
+  decision: "empty"
+}
+
+export interface KickSuccesfulResult {
+  decision: "successful"
+}
+
+export type KickResult = 
+  KickNotPresentResult |
+  KickNotCreatorResult |
+  KickEmptyResult |
+  KickSuccesfulResult;
