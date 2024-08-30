@@ -1,4 +1,5 @@
 import type { Player } from "../player-db/types"
+import { Output } from "../types"
 
 export interface ConnectionAddResult {
   decision: "add"
@@ -21,3 +22,8 @@ export interface MessageLeaveResult {
 }
 
 export type MessageResult = MessageHandleResult | MessageLeaveResult;
+
+export interface SeqNumOutput extends Output{
+  type: "seqNum"
+  seqNum: number
+}
