@@ -9,8 +9,7 @@ export interface GameOutput {
 
 export interface GameInput {
   seqNum: number
-  type: string
-  input: string
+  inputContainer: InputContainer
 }
 
 export interface InputContainer {

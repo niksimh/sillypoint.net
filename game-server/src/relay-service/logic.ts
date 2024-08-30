@@ -41,8 +41,10 @@ export function connectionLogic(requestURL: string | undefined, secret: string):
 export function messageLogic(currSeqNum: number, message: string): MessageResult {
   let gameInputSchema = z.object({
     seqNum: z.number(),
-    type: z.string(),
-    input: z.string()
+    inputContainer: z.object({
+      type: z.string(),
+      input: z.string()
+    })
   });
   
   let parsedMessage;

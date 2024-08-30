@@ -6,7 +6,7 @@ import { connectionLogic, messageLogic } from "./logic";
 import type { ConnectionResult, MessageResult, SeqNumOutput } from "./types";
 import { State } from "../states/types";
 import PlayerDB from "../player-db/player-db";
-import { InputContainer } from "../types";
+import { GameInput, InputContainer } from "../types";
 
 export default class RelayService {
   wss: WebSocketServer
@@ -80,11 +80,8 @@ export default class RelayService {
         currState.inputHandler(playerId, overridenInputContainer);
         break;
       case "handle":
-        let parsedMessage = JSON.parse(message);
-        let inputContainer = { 
-          type: parsedMessage.type,
-          input: parsedMessage.input
-        }      
+        let parsedMessage: GameInput = JSON.parse(message);
+        let inputContainer = parsedMessage.inputContainer;
         currState.inputHandler(playerId, inputContainer);
     }
   }

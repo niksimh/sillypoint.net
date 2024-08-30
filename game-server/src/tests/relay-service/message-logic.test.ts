@@ -15,8 +15,10 @@ test("Handle message that is JSON-formatted but not following the defined shape"
 test("Handle message with bad seqNumber", () => {
   let message = {
     seqNum: 123, 
-    type: "someInput",
-    input: "5"
+    inputContainer: {
+      type: "someInput",
+      input: "5"
+    }
   };
   expect(messageLogic(0, JSON.stringify(message))).toEqual({ decision: "leave" });
 })
@@ -24,8 +26,10 @@ test("Handle message with bad seqNumber", () => {
 test("Handle good message", () => {
   let message = {
     seqNum: 123, 
-    type: "someInput",
-    input: "5"
+    inputContainer: {
+      type: "someInput",
+      input: "5"
+    }
   };
   expect(messageLogic(123, JSON.stringify(message))).toEqual({ decision: "handle" });
 })
