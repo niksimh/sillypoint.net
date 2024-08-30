@@ -24,7 +24,7 @@ export default class GameSelection {
     }))
   }
 
-  leaveGameSelection(playerId: string, input: string) {
+  gameSelectionLeave(playerId: string) {
     let currPlayer = this.playerDB.getPlayer(playerId)!;
     
     this.playerDB.removePlayer(playerId);
@@ -48,7 +48,7 @@ export default class GameSelection {
         privateWaitingRoomJ.transitionInto(playerId, "joiner");
         break;
       default:
-        this.leaveGameSelection(playerId, "");
+        this.gameSelectionLeave(playerId);
         break;
     }
   }
@@ -56,13 +56,13 @@ export default class GameSelection {
   inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
     switch(inputContainer.type) {
       case "gameSelectionLeave":
-        this.leaveGameSelection(playerId, inputContainer.input);
+        this.gameSelectionLeave(playerId);
         break;
       case "selectGame":
         this.selectGame(playerId, inputContainer.input);
         break;
       default:
-        //ignore input
+        //ignore input as it is out of sync with server
     }
   }
 }
