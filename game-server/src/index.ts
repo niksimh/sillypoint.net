@@ -27,10 +27,6 @@ app.set("query parameter", (str: string) => {
   qs.parse(str);
 })
 
-app.get('/', cors(), (req, res) => {
-  res.send('Hello World!');
-})
-
 app.get('/check-in', cors(), (req, res) => {
   let direction = checkIn(req.query);
   res.json(direction);
