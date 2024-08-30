@@ -36,9 +36,11 @@ export default class RelayService {
           seqNum: startingSeqNum
         }));
 
-        socket.addEventListener("message", (event: MessageEvent) => {
-          this.messageHandler(event.target, event.data as string);
-        })
+        process.nextTick(() => {
+          socket.addEventListener("message", (event: MessageEvent) => {
+            this.messageHandler(event.target, event.data as string);
+          });
+        });
 
         let connectingState = this.stateMap.get("connecting") as any;
         connectingState.transitionInto(result.playerId, result.username, socket);
