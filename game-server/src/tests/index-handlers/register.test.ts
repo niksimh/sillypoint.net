@@ -1,5 +1,6 @@
 import register, { isAlphaNumeric, hasBadWord, badWordList } from "../../index-handlers/register"
 import jwt from "jsonwebtoken"
+import { PlayerIdTokenPayload } from "../../types";
 
 const ID = "abc";
 const RANDOM_NUMBER = 100;
@@ -57,8 +58,8 @@ test("Register with blank username", () => {
   
   expect(registrationResult.error).toEqual(false);
 
-  let payload = jwt.verify(registrationResult.playerIdToken!, SECRET) as jwt.JwtPayload;
-  expect(payload.id).toEqual(ID);
+  let payload = jwt.verify(registrationResult.playerIdToken!, SECRET) as jwt.JwtPayload as PlayerIdTokenPayload;
+  expect(payload.playerId).toEqual(ID);
   expect(payload.username).toEqual(`Guest_${RANDOM_NUMBER}`);
 })
 
@@ -92,7 +93,7 @@ test("Register with valid username", () => {
   
   expect(registrationResult.error).toEqual(false);
 
-  let payload = jwt.verify(registrationResult.playerIdToken!, SECRET) as jwt.JwtPayload;
-  expect(payload.id).toEqual(ID);
+  let payload = jwt.verify(registrationResult.playerIdToken!, SECRET) as jwt.JwtPayload as PlayerIdTokenPayload;
+  expect(payload.playerId).toEqual(ID);
   expect(payload.username).toEqual(username);
 })

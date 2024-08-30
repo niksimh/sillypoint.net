@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 
 import { ConnectionResult, MessageResult } from "./types";
+import { PlayerIdTokenPayload } from "../types";
 
 
 export function connectionLogic(requestURL: string | undefined, secret: string): ConnectionResult {
@@ -25,14 +26,14 @@ export function connectionLogic(requestURL: string | undefined, secret: string):
 
   let playerIdTokenPayload;
   try {
-    playerIdTokenPayload = jwt.verify(playerIdToken, secret) as jwt.JwtPayload;
+    playerIdTokenPayload = (jwt.verify(playerIdToken, secret) as jwt.JwtPayload) as PlayerIdTokenPayload;
   } catch {
     return { decision: "terminate" };
   }
   
   return {
     decision: "add",
-    playerId: playerIdTokenPayload.id,
+    playerId: playerIdTokenPayload.playerId,
     username: playerIdTokenPayload.username
   }
 }

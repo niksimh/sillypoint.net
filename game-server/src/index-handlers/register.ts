@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { PlayerIdTokenPayload } from "../types";
 
 export let badWordList = [
   "fuck",
@@ -22,7 +23,7 @@ export function hasBadWord(str: string, badWordList: string[]) {
   return false;
 }
 
-export default function register(username: string | undefined, id: string, randomNumber: number, secret: string) {
+export default function register(username: string | undefined, playerId: string, randomNumber: number, secret: string) {
   
   if (username === undefined) {
     return { error: true, reason: "undefinedUsername"}
@@ -30,7 +31,7 @@ export default function register(username: string | undefined, id: string, rando
 
   if (username === "") {
     let playerIdPayload = {
-      id: id,
+      playerId,
       username: `Guest_${randomNumber}`
     }
     let playerIdToken = jwt.sign(playerIdPayload, secret);
@@ -49,8 +50,8 @@ export default function register(username: string | undefined, id: string, rando
     return { error: true, reason: "tooLong"}
   }
 
-  let playerIdPayload = {
-    id,
+  let playerIdPayload: PlayerIdTokenPayload = {
+    playerId,
     username
   }
   let playerIdToken = jwt.sign(playerIdPayload, secret);

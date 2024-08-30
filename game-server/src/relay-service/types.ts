@@ -2,8 +2,8 @@ import type { Player } from "../player-db/types"
 
 export interface ConnectionAddResult {
   decision: "add"
-  playerId: "string"
-  username: "username"
+  playerId: string
+  username: string
 }
 
 export interface ConnectionTerminateResult {
