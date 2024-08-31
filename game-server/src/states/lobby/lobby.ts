@@ -20,6 +20,7 @@ export default class Lobby {
   
   transitionInto(player1Id: string, player2Id?: string) {
     let newGameId = crypto.randomUUID();
+
     let newGame: Game = {
       players: [
         { playerId: player1Id, username: this.playerDB.getPlayer(player1Id)!.username }
@@ -27,6 +28,8 @@ export default class Lobby {
       toss: undefined,
       scoreboard: undefined
     }
+    let p1Player = this.playerDB.getPlayer(player1Id)!;
+    p1Player.status = "lobby";
 
     switch(player2Id) {
       case undefined:
@@ -34,6 +37,9 @@ export default class Lobby {
         newGame.players.push({playerId: "#", username: dummyUsername}) //dummy player
         break;
       default:
+        let p2Player = this.playerDB.getPlayer(player2Id)!;
+        p2Player.status = "lobby";
+    
         let p2 =  { playerId: player2Id, username: this.playerDB.getPlayer(player2Id)!.username }
         newGame.players.push(p2);
         break;
