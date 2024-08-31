@@ -1,3 +1,5 @@
+import { GameStateOutput } from "../types"
+
 export interface WaitingNode {
   creatorId: string
   joinerId?: string
@@ -97,3 +99,38 @@ export type StartGameResult =
   StartGameNoJoinerResult |
   StartGameSuccessfulResult;
   
+export interface PrivateWaitingRoomCreatorNoJoinerOutput extends GameStateOutput{
+  type: "gameState"
+  state: "privateWaitingRoomCreator"
+  data: {
+    roomId: number
+  }
+}
+
+export interface PrivateWaitingRoomCreatorJoinerOutput extends GameStateOutput {
+  type: "gameState"
+  state: "privateWaitingRoomCreator"
+  data: {
+    roomId: number
+    otherPlayerId: string
+    otherPlayerUsername: string
+  }
+}
+
+export interface PrivateWaitingRoomJoinerPreJoinOutput extends GameStateOutput {
+  type: "gameState"
+  state: "privateWaitingRoomJoiner"
+  data: {
+    status: string
+  }
+}
+
+export interface PrivateWaitingRoomJoinerJoinedOutput extends GameStateOutput{
+  type: "gameState"
+  state: "privateWaitingRoomJoiner"
+  data: {
+    roomId: number
+    otherPlayerId: string
+    otherPlayerUsername: string
+  }
+}
