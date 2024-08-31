@@ -1,6 +1,7 @@
 export interface PlayerContainer {
   playerId: string
-  move: string
+  username: string
+  move?: string
 }
 
 export interface Toss {
@@ -19,7 +20,7 @@ export interface Scoreboard {
 export interface Game {
   players: PlayerContainer[]
   toss: Toss | undefined
-  Scoreboard: Scoreboard | undefined 
+  scoreboard: Scoreboard | undefined 
 }
 
 export type MAX_BALLS = 30;
