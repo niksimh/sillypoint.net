@@ -9,5 +9,8 @@ export default class Toss {
     this.stateMap = stateMap;
     this.playerDB = playerDB;
   }
-  
+ 
+  transitionInto(gameId: string) {
+    
+  }
 }

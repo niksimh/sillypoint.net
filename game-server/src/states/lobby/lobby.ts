@@ -53,5 +53,12 @@ export default class Lobby {
     this.relayService.sendHandler(newGame.players[0].playerId, JSON.stringify(output));
     this.relayService.sendHandler(newGame.players[1].playerId, JSON.stringify(output));
 
+    setTimeout(() => this.process(newGameId));
+  }
+
+  process(gameId: string) {
+    this.currentGames.delete(gameId);
+    let tossState = this.stateMap.get("toss")! as any;
+    tossState.transitionInto(gameId);
   }
 }
