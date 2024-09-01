@@ -82,7 +82,7 @@ export default class Lobby {
 
     switch(result.decision) {
       case "oneLeft":
-        currGame.players.splice(result.index, 1);
+        currGame.players[result.index].goneOrTemporaryDisconnect = "gone";
         this.playerDB.removePlayer(playerId);
         this.relayService.serverCloseHandler(currPlayer.socket);
         break;
