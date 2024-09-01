@@ -22,6 +22,7 @@ export interface Game {
   players: PlayerContainer[]
   toss: Toss | null
   scoreboard: Scoreboard | null
+  timeout?: NodeJS.Timeout
 }
 
 export type MAX_BALLS = 30;

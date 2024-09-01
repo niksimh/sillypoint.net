@@ -64,7 +64,7 @@ export default class Lobby {
     this.relayService.sendHandler(newGame.players[0].playerId, JSON.stringify(output));
     this.relayService.sendHandler(newGame.players[1].playerId, JSON.stringify(output));
 
-    setTimeout(() => this.process(newGameId));
+    newGame.timeout = setTimeout(() => this.process(newGameId), 6000);
   }
 
   process(gameId: string) {
@@ -87,6 +87,7 @@ export default class Lobby {
         this.relayService.serverCloseHandler(currPlayer.socket);
         break;
       case "noOneLeft":
+        clearTimeout(currGame.timeout);
         this.currentGames.delete(gameId);
         this.playerDB.removePlayer(playerId);
         this.relayService.serverCloseHandler(currPlayer.socket);
