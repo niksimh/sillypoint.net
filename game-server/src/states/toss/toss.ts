@@ -3,8 +3,8 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { InputContainer } from "../../types";
 import { State } from "../types"
-import { PlayerMoveResult, TossOutput } from "./types";
-import { leaveLogic, playerMoveLogic } from "./logic";
+import { ComputerMoveResult, PlayerMoveResult, TossOutput } from "./types";
+import { computerMoveLogic, leaveLogic, playerMoveLogic } from "./logic";
 import { LeaveResult } from "./types";
 import crypto from "crypto";
 
@@ -90,7 +90,25 @@ export default class Toss {
   }
   
   computerMove(gameId: string) {
+    let currGame = this.currentGames.get(gameId)!;
+
+    let result: ComputerMoveResult = computerMoveLogic(currGame);
+
+    let generateMove1 = crypto.randomInt(0, 7).toString();
+    let generateMove2 = crypto.randomInt(0, 7).toString();
     
+    switch(result.decision) {
+      case "0":
+        currGame.players[0].move = generateMove1;
+        break;
+      case "1":
+        currGame.players[1].move = generateMove2;
+        break
+      case "01":
+        currGame.players[0].move = generateMove1;
+        currGame.players[1].move = generateMove2;
+    }
+    this.completeState(gameId);
   }
 
   completeState(gameId: string) {
