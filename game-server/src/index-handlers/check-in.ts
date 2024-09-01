@@ -1,3 +1,5 @@
-export default function checkIn(queryParam: any) {
-  return { direction: "register" };
+import { ParsedQs } from "qs";
+
+export default function checkIn(queryParam: ParsedQs) {
+  return { direction: "/register" };
 }

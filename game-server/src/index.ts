@@ -28,9 +28,9 @@ app.set("query parameter", (str: string) => {
 })
 
 app.get('/check-in', cors(), (req, res) => {
-  let direction = checkIn(req.query);
-  res.json(direction);
-})
+  let result = checkIn(req.query);
+  res.json(result);
+});
 
 app.get('/register', cors(), (req, res) => {
   let id = crypto.randomUUID();

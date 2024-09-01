@@ -2,28 +2,35 @@
 
 import Link from "next/link";
 import Footer from "../shared/Footer";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function Home() {
 
   let [getStartedHref, setGetStartedHref] = useState("/");
 
-  let playerIdJWT = "";
-  if (typeof window !== "undefined") {
-    playerIdJWT = localStorage.getItem("playerIdJWT") || "";
-  }
-
-  let fetchUrl = `http://localhost:4000/check-in?playerIdToken=${playerIdJWT}`
-
-  fetch(fetchUrl)
-    .then((response) => {
-      if(response.ok) {
-        response.json().then((directionJson) =>{
-          setGetStartedHref(directionJson.direction);
-        })
+  useEffect(() => {
+    async function fetchData() {
+      let playerIdJWT = "";
+      
+      if (typeof window !== "undefined") {
+        playerIdJWT = localStorage.getItem("playerIdJWT") || "";
       }
-    })
-    .catch((response) => {}) //do nothing. href=/
+
+      let fetchUrl = `http://localhost:4000/check-in?playerIdToken=${playerIdJWT}`
+
+      try {
+        let response = await fetch(fetchUrl);
+        if(response.ok) {
+          let responseJSON = await response.json();
+          console.log(responseJSON);
+          setGetStartedHref(responseJSON.direction);
+        }
+      } catch {
+        // do nothing. client will be bricked to only direct home
+      }
+    }  
+    fetchData();  
+  }, []);
 
   return (
     <>
