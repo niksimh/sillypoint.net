@@ -1,8 +1,8 @@
 export interface PlayerContainer {
   playerId: string
   username: string
-  goneOrTemporaryDisconnect?: "gone" | "temporaryDisconnect"
-  move?: string
+  move: string | null
+  goneOrTemporaryDisconnect: "gone" | "temporaryDisconnect" | null
 }
 
 export interface TossContainer {

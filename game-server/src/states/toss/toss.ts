@@ -3,9 +3,10 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { InputContainer } from "../../types";
 import { State } from "../types"
-import { TossOutput } from "./types";
-import { leaveLogic } from "./logic";
+import { PlayerMoveResult, TossOutput } from "./types";
+import { leaveLogic, playerMoveLogic } from "./logic";
 import { LeaveResult } from "./types";
+import crypto from "crypto";
 
 export default class Toss {
   stateMap: Map<string, State>
@@ -60,11 +61,38 @@ export default class Toss {
   }
 
   playerMove(playerId: string, input: string) {
+    let currPlayer = this.playerDB.getPlayer(playerId)!;
+    let gameId = currPlayer.gameId!;
+    let currGame = this.currentGames.get(gameId)!;
 
+    let result: PlayerMoveResult = playerMoveLogic(playerId, currGame, input);
+
+    switch(result.decision) {
+      case "badMove":
+        this.tossLeave(playerId);
+        break;
+      case "partial":
+        currGame.players[result.index].move = input;
+        break;
+      case "fulfillOther":
+        let generateMove = crypto.randomInt(0, 7).toString();
+        currGame.players[result.index].move = input;
+        currGame.players[result.otherPlayerIndex].move = generateMove;
+        this.completeState(gameId);
+        break;
+      case "complete":
+        currGame.players[result.index].move = input;
+        this.completeState(gameId);
+        break;
+    }
   }
   
   computerMove(gameId: string) {
     
+  }
+
+  completeState(gameId: string) {
+
   }
 
   tossLeave(playerId: string) {

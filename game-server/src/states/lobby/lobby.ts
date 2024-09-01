@@ -25,7 +25,12 @@ export default class Lobby {
 
     let newGame: Game = {
       players: [
-        { playerId: player1Id, username: this.playerDB.getPlayer(player1Id)!.username }
+        { 
+          playerId: player1Id, 
+          username: this.playerDB.getPlayer(player1Id)!.username, 
+          move: null,
+          goneOrTemporaryDisconnect: null
+         }
       ],
       toss: null,
       scoreboard: null
@@ -38,14 +43,24 @@ export default class Lobby {
     switch(player2Id) {
       case undefined:
         let dummyUsername = "Guest_" + crypto.randomInt(9999);
-        newGame.players.push({playerId: "#", username: dummyUsername}) //dummy player
+        newGame.players.push({
+          playerId: "#", 
+          username: dummyUsername,
+          move: null,
+          goneOrTemporaryDisconnect: null
+        }) //dummy player
         break;
       default:
         let p2Player = this.playerDB.getPlayer(player2Id)!;
         p2Player.status = "lobby";
         p1Player.gameId = newGameId;
 
-        let p2 =  { playerId: player2Id, username: this.playerDB.getPlayer(player2Id)!.username }
+        let p2 =  { 
+          playerId: player2Id, 
+          username: this.playerDB.getPlayer(player2Id)!.username,
+          move: null,
+          goneOrTemporaryDisconnect: null
+        }
         newGame.players.push(p2);
         break;
     }

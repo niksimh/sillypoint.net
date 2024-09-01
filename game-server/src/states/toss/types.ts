@@ -25,3 +25,29 @@ export interface LeaveNoOneLeftResult {
 export type LeaveResult = 
   LeaveOneLeftResult |
   LeaveNoOneLeftResult;
+
+export interface PlayerMoveBadMoveResult {
+  decision: "badMove"
+}
+
+export interface PlayerMovePartialResult {
+  decision: "partial"
+  index: number
+}
+
+export interface PlayerMoveFulfillOtherResult {
+  decision: "fulfillOther"
+  index: number
+  otherPlayerIndex: number
+}
+
+export interface PlayerMoveCompleteResult {
+  decision: "complete"
+  index: number
+}
+
+export type PlayerMoveResult = 
+  PlayerMoveBadMoveResult |
+  PlayerMovePartialResult |
+  PlayerMoveFulfillOtherResult |
+  PlayerMoveCompleteResult
