@@ -1,8 +1,9 @@
 import { Game } from "../../game-engine/types";
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
-import { State } from "../types"
 import { TossWinnerSelectionOutput } from "./types";
+import { State } from "../types"
+import { InputContainer } from "../../types";
 
 export default class TossWinnerSelection {
   stateMap: Map<string, State>
@@ -47,8 +48,31 @@ export default class TossWinnerSelection {
 
   }
   
+  playerMove(playerId: string, input: string) {
+
+  }
 
   computerMove(gameId: string) {
-    
+
+  }
+
+  
+  completeState(gameId: string) {
+
+  }
+
+  leave(playerId: string) {
+
+  }
+
+  inputHandler(playerId: string, inputContainer: InputContainer) {
+    switch(inputContainer.type) {
+      case "tossWinnerSelectionLeave":
+        this.leave(playerId);
+        break;
+      case "tossWinnerSelectionPlayerMove":
+        this.playerMove(playerId, inputContainer.input);
+        break;
+    }
   }
 }
