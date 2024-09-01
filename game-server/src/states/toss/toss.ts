@@ -78,10 +78,12 @@ export default class Toss {
         let generateMove = crypto.randomInt(0, 7).toString();
         currGame.players[result.index].move = input;
         currGame.players[result.otherPlayerIndex].move = generateMove;
+        clearTimeout(currGame.timeout);
         this.completeState(gameId);
         break;
       case "complete":
         currGame.players[result.index].move = input;
+        clearTimeout(currGame.timeout);
         this.completeState(gameId);
         break;
     }
