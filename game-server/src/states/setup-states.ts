@@ -27,7 +27,7 @@ export default function setupStates(stateMap: Map<string, State>, playerDB: Play
   let privateWaitingRoomState= new PrivateWaitingRoom(stateMap, playerDB, relayService);
   stateMap.set("privateWaitingRoom", privateWaitingRoomState);
 
-  let lobbyState = new Lobby(stateMap, playerDB);
+  let lobbyState = new Lobby(stateMap, playerDB, relayService);
   stateMap.set("lobby", lobbyState);
 
   let tossState = new Toss(stateMap, playerDB);

@@ -3,7 +3,9 @@ import { State } from "../types";
 import type { Game } from "../../game-engine/types";
 import type RelayService from "../../relay-service/relay-service";
 import crypto from "crypto";
-import { LobbyOutput } from "./types";
+import { LeaveResult, LobbyOutput } from "./types";
+import { InputContainer } from "../../types";
+import { leaveLogic } from "./logic";
 
 export default class Lobby {
   stateMap: Map<string, State>
@@ -25,11 +27,13 @@ export default class Lobby {
       players: [
         { playerId: player1Id, username: this.playerDB.getPlayer(player1Id)!.username }
       ],
-      toss: undefined,
-      scoreboard: undefined
+      toss: null,
+      scoreboard: null
     }
+    
     let p1Player = this.playerDB.getPlayer(player1Id)!;
     p1Player.status = "lobby";
+    p1Player.gameId = newGameId;
 
     switch(player2Id) {
       case undefined:
@@ -39,7 +43,8 @@ export default class Lobby {
       default:
         let p2Player = this.playerDB.getPlayer(player2Id)!;
         p2Player.status = "lobby";
-    
+        p1Player.gameId = newGameId;
+
         let p2 =  { playerId: player2Id, username: this.playerDB.getPlayer(player2Id)!.username }
         newGame.players.push(p2);
         break;
@@ -66,5 +71,37 @@ export default class Lobby {
     this.currentGames.delete(gameId);
     let tossState = this.stateMap.get("toss")! as any;
     tossState.transitionInto(gameId);
+  }
+
+  lobbyLeave(playerId: string) {
+    let currPlayer = this.playerDB.getPlayer(playerId)!
+    let gameId = currPlayer.gameId!;
+    let currGame = this.currentGames.get(gameId)!;
+
+    let result: LeaveResult = leaveLogic(playerId, currGame);
+
+    switch(result.decision) {
+      case "oneLeft":
+        currGame.players.splice(result.index, 1);
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
+      case "noOneLeft":
+        this.currentGames.delete(gameId);
+        this.playerDB.removePlayer(playerId);
+        this.relayService.serverCloseHandler(currPlayer.socket);
+        break;
+    }
+  } 
+
+  inputHandler(playerId: string, inputContainer: InputContainer) {
+    switch(inputContainer.type) {
+      case "lobbyLeave":
+        this.lobbyLeave(playerId);
+        break;
+      default:
+        break;
+        //ignore
+    }
   }
 }

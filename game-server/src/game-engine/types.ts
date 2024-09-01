@@ -1,6 +1,7 @@
 export interface PlayerContainer {
   playerId: string
   username: string
+  goneOrTemporaryDisconnect?: "gone" | "temporaryDisconnect"
   move?: string
 }
 
@@ -19,8 +20,8 @@ export interface Scoreboard {
 
 export interface Game {
   players: PlayerContainer[]
-  toss: Toss | undefined
-  scoreboard: Scoreboard | undefined 
+  toss: Toss | null
+  scoreboard: Scoreboard | null
 }
 
 export type MAX_BALLS = 30;
