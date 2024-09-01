@@ -1,8 +1,8 @@
 import { Game } from "../../game-engine/types";
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
-import { TossWinnerSelectionOutput, PlayerMoveResult } from "./types";
-import { playerMoveLogic } from "./logic";
+import { TossWinnerSelectionOutput, PlayerMoveResult, ComputerMoveResult } from "./types";
+import { playerMoveLogic, computerMoveLogic } from "./logic";
 import { State } from "../types"
 import { InputContainer } from "../../types";
 
@@ -69,7 +69,19 @@ export default class TossWinnerSelection {
   }
 
   computerMove(gameId: string) {
+    let currGame = this.currentGames.get(gameId)!;
 
+    let result: ComputerMoveResult = computerMoveLogic(currGame);
+    
+    switch(result.decision) {
+      case "0":
+        currGame.players[0].move = Math.random() > 0.5 ? "bat" : " bowl";
+        break;
+      case "1":
+        currGame.players[1].move = Math.random() > 0.5 ? "bat" : " bowl";
+        break;
+    }
+    this.completeState(gameId);
   }
 
   

@@ -24,3 +24,15 @@ export interface PlayerMoveCompleteResult {
 export type PlayerMoveResult = 
   PlayerMoveBadMoveResult |
   PlayerMoveCompleteResult;
+
+export interface ComputerMove0Result {
+  decision: "0"
+}
+
+export interface ComputerMove1Result {
+  decision: "1"
+}
+
+export type ComputerMoveResult = 
+  ComputerMove0Result |
+  ComputerMove1Result;
