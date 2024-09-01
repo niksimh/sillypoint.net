@@ -69,7 +69,7 @@ export default class Toss {
 
     switch(result.decision) {
       case "badMove":
-        this.tossLeave(playerId);
+        this.leave(playerId);
         break;
       case "partial":
         currGame.players[result.index].move = input;
@@ -130,7 +130,7 @@ export default class Toss {
     tossWinnerSelection.transitionInto(gameId, currGame);
   }
 
-  tossLeave(playerId: string) {
+  leave(playerId: string) {
     let currPlayer = this.playerDB.getPlayer(playerId)!
     let gameId = currPlayer.gameId!;
     let currGame = this.currentGames.get(gameId)!;
@@ -155,9 +155,9 @@ export default class Toss {
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "tossLeave":
-        this.tossLeave(playerId);
+        this.leave(playerId);
         break;
-      case "playerMove":
+      case "tossPlayerMove":
         this.playerMove(playerId, inputContainer.input);
         break;
     }
