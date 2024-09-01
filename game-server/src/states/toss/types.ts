@@ -10,3 +10,18 @@ export interface TossOutput extends GameStateOutput{
     deadline: number
   }
 }
+
+
+export interface LeaveOneLeftResult {
+  decision: "oneLeft"
+  index: 0 | 1
+}
+
+export interface LeaveNoOneLeftResult {
+  decision: "noOneLeft"
+  index: 0 | 1
+}
+
+export type LeaveResult = 
+  LeaveOneLeftResult |
+  LeaveNoOneLeftResult;
