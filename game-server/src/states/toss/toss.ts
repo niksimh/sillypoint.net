@@ -3,8 +3,8 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { InputContainer } from "../../types";
 import { State } from "../types"
-import { ComputerMoveResult, PlayerMoveResult, TossOutput } from "./types";
-import { computerMoveLogic, leaveLogic, playerMoveLogic } from "./logic";
+import { CompleteStateResult, ComputerMoveResult, PlayerMoveResult, TossOutput } from "./types";
+import { completeStateLogic, computerMoveLogic, leaveLogic, playerMoveLogic } from "./logic";
 import { LeaveResult } from "./types";
 import crypto from "crypto";
 
@@ -112,7 +112,22 @@ export default class Toss {
   }
 
   completeState(gameId: string) {
+    let currGame = this.currentGames.get(gameId)!;
+    let toss = currGame.toss!;
 
+    let result: CompleteStateResult = completeStateLogic(currGame);
+
+    switch(result.decision) {
+      case "0":
+        toss.winnerId = currGame.players[0].playerId;
+        break;
+      case "1":
+        toss.winnerId = currGame.players[1].playerId;
+    }
+
+    //transition to next state
+    let tossWinnerSelection = this.stateMap.get("tossWinnerSelection")! as any;
+    tossWinnerSelection.transitionInto(gameId, currGame);
   }
 
   tossLeave(playerId: string) {

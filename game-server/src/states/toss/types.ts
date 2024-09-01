@@ -68,3 +68,8 @@ export type ComputerMoveResult =
   ComputerMove0Result |
   ComputerMove1Result |
   ComputerMove01Result;
+
+
+export interface CompleteStateResult {
+  decision: "0" | "1"
+} 

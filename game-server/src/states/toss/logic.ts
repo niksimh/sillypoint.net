@@ -1,4 +1,4 @@
-import { ComputerMoveResult, LeaveResult, PlayerMoveResult } from "./types";
+import { CompleteStateResult, ComputerMoveResult, LeaveResult, PlayerMoveResult } from "./types";
 import { Game } from "../../game-engine/types";
 
 export function leaveLogic(playerId: string, game: Game): LeaveResult {
@@ -66,4 +66,26 @@ export function computerMoveLogic(game: Game): ComputerMoveResult {
   }
 
   return { decision: "1" };
+}
+
+export function completeStateLogic(game: Game): CompleteStateResult {
+  let players = game.players;
+  let tossContainer = game.toss!;
+
+  let p1Move = Number(players[0].move);
+  let p2Move = Number(players[1].move);
+
+  let evenResult = (p1Move + p2Move) % 2 === 0;
+
+  if(evenResult) {
+    if (tossContainer.evenId === players[0].playerId) {
+      return { decision: "0" }
+    }
+    return { decision: "1" }
+  } else {
+    if (tossContainer.evenId === players[0].playerId) {
+      return { decision: "1" }
+    }
+    return { decision: "0" }
+  }
 }
