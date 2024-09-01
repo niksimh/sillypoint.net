@@ -70,7 +70,7 @@ export default class Lobby {
   process(gameId: string) {
     this.currentGames.delete(gameId);
     let tossState = this.stateMap.get("toss")! as any;
-    tossState.transitionInto(gameId);
+    tossState.transitionInto(gameId, this.currentGames.get(gameId)!);
   }
 
   lobbyLeave(playerId: string) {

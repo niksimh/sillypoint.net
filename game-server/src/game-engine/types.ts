@@ -5,12 +5,12 @@ export interface PlayerContainer {
   move?: string
 }
 
-export interface Toss {
+export interface TossContainer {
   evenId: string
-  winnerId: string
+  winnerId: string | null
 }
 
-export interface Scoreboard {
+export interface ScoreboardContainer {
   runs: number
   balls: number
   wickets: number
@@ -20,8 +20,8 @@ export interface Scoreboard {
 
 export interface Game {
   players: PlayerContainer[]
-  toss: Toss | null
-  scoreboard: Scoreboard | null
+  toss: TossContainer | null
+  scoreboard: ScoreboardContainer | null
   timeout?: NodeJS.Timeout
 }
 
