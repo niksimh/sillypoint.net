@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { PlayerIdTokenPayload } from "../types";
+import { RegisterJSON } from "./types";
 
 export let badWordList = [
   "fuck",
@@ -23,31 +24,35 @@ export function hasBadWord(str: string, badWordList: string[]) {
   return false;
 }
 
-export default function register(username: string | undefined, playerId: string, randomNumber: number, secret: string) {
+export default function register(
+  username: string | undefined, 
+  playerId: string, 
+  randomNumber: number, 
+  secret: string): RegisterJSON {
   
   if (username === undefined) {
-    return { error: true, status: "undefinedUsername"}
+    return { error: true, data: "undefinedUsername"}
   }
 
   if (username === "") {
-    let playerIdPayload = {
+    let playerIdPayload: PlayerIdTokenPayload = {
       playerId,
       username: `Guest_${randomNumber}`
     }
     let playerIdToken = jwt.sign(playerIdPayload, secret);
-    return { error: false, playerIdToken };
+    return { error: false, data: playerIdToken };
   } 
 
   if (!isAlphaNumeric(username)) {
-    return { error: true, status: "notAlphaNumeric"}
+    return { error: true, data: "notAlphaNumeric"}
   }
 
   if (hasBadWord(username.toLowerCase(), badWordList)) {
-    return { error: true, status: "hasBadWord"};
+    return { error: true, data: "hasBadWord"};
   }
 
   if (username.length > 15) {
-    return { error: true, status: "tooLong"}
+    return { error: true, data: "tooLong"}
   }
 
   let playerIdPayload: PlayerIdTokenPayload = {
@@ -55,5 +60,5 @@ export default function register(username: string | undefined, playerId: string,
     username
   }
   let playerIdToken = jwt.sign(playerIdPayload, secret);
-  return { error: false, playerIdToken };
+  return { error: false, data: playerIdToken };
 }

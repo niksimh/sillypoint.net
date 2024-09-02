@@ -4,6 +4,7 @@ import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
+import { RegisterJSON } from "@/types/index-handler-types";
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -25,11 +26,11 @@ export default function RegisterPage() {
     try {
       let response = await fetch(fetchUrl);
       if (response.ok) {
-        let responseJSON = await response.json();
+        let responseJSON: RegisterJSON = await response.json();
         if(responseJSON.error) {
-          setSubmissionStatus(responseJSON.status);
+          setSubmissionStatus(responseJSON.data);
         } else {
-          localStorage.setItem("playerIdToken", responseJSON.playerIdToken);
+          localStorage.setItem("playerIdToken", responseJSON.data);
           router.push('/game');
         }
       }
@@ -54,6 +55,9 @@ export default function RegisterPage() {
       break;
     case "tooLong":
       additionalMessage = "Please make sure your username is 15 characters or less";
+      break;
+    case "undefinedUsername":
+      console.log("Please don't meddle with the client");
       break;
   }
 

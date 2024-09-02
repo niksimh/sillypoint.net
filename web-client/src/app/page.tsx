@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Footer from "../shared/Footer";
 import { useState, useEffect } from "react"
+import { CheckInJSON } from "@/types/index-handler-types";
 
 export default function Home() {
 
@@ -21,8 +22,7 @@ export default function Home() {
       try {
         let response = await fetch(fetchUrl);
         if(response.ok) {
-          let responseJSON = await response.json();
-          console.log(responseJSON);
+          let responseJSON: CheckInJSON = await response.json();
           setGetStartedHref(responseJSON.direction);
         }
       } catch {
