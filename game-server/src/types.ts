@@ -3,16 +3,22 @@ export interface PlayerIdTokenPayload {
   username: string
 }
 
-export interface GameOutput {
-  type: string
+export interface OutputContainer {
+  subType: string
+  data: any
 }
 
-export interface GameInput {
-  seqNum: number
-  inputContainer: InputContainer
+export interface GameOutput {
+  type: string  
+  outputContainer: OutputContainer
 }
 
 export interface InputContainer {
   type: string
   input: string
+}
+
+export interface GameInput {
+  seqNum: number
+  inputContainer: InputContainer
 }

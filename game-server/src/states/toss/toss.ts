@@ -43,12 +43,14 @@ export default class Toss {
     //Send out 
     let tossOutput: TossOutput = {
       type: "gameState",
-      state: "toss",
-      data: {
-        p1: { playerId: game.players[0].playerId, username: game.players[0].username },
-        p2: { playerId: game.players[1].playerId, username: game.players[1].username },
-        evenId: toss.evenId,
-        deadline: deadline
+      outputContainer: {
+        subType: "toss",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          evenId: toss.evenId,
+          deadline: deadline
+        }
       }
     }
 

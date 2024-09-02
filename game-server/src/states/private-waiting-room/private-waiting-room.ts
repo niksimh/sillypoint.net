@@ -49,9 +49,11 @@ export default class PrivateWaitingRoom {
 
         let creatorOutput: PrivateWaitingRoomCreatorNoJoinerOutput = {
           type: "gameState",
-          state: "privateWaitingRoomCreator",
-          data: {
-            roomId
+          outputContainer: {
+            subType: "privateWaitingRoomCreator",
+            data: {
+              roomId
+            }
           }
         }
         this.relayService.sendHandler(playerId, JSON.stringify(creatorOutput));
@@ -59,9 +61,11 @@ export default class PrivateWaitingRoom {
       case "joiner":
         let joinerOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
           type: "gameState",
-          state: "privateWaitingRoomJoiner",
-          data: {
-            status: "pending"
+          outputContainer: {
+            subType: "privateWaitingRoomJoiner",
+            data: {
+              status: "pending"
+            }
           }
         };
         this.relayService.sendHandler(playerId, JSON.stringify(joinerOutput));
@@ -106,9 +110,11 @@ export default class PrivateWaitingRoom {
         //handler creator 
         let pwrcnjo: PrivateWaitingRoomCreatorNoJoinerOutput = {
           type: "gameState",
-          state: "privateWaitingRoomCreator",
-          data: {
-            roomId
+          outputContainer: {
+            subType: "privateWaitingRoomCreator",
+            data: {
+              roomId
+            }
           }
         }
         this.relayService.sendHandler(room.creatorId, JSON.stringify(pwrcnjo));
@@ -129,9 +135,11 @@ export default class PrivateWaitingRoom {
       case 'badRoom':
         let badRoomOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
           type: "gameState",
-          state: "privateWaitingRoomJoiner",
-          data: {
-            status: "badRoom"
+          outputContainer: {
+            subType: "privateWaitingRoomJoiner",
+            data: {
+              status: "badRoom"
+            }
           }
         };
         this.relayService.sendHandler(playerId, JSON.stringify(badRoomOutput));
@@ -139,9 +147,11 @@ export default class PrivateWaitingRoom {
       case "fullRoom":
         let fullRoomOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
           type: "gameState",
-          state: "privateWaitingRoomJoiner",
-          data: {
-            status: "fullRoom"
+          outputContainer: {
+            subType: "privateWaitingRoomJoiner",
+            data: {
+              status: "fullRoom"
+            }
           }
         };
         this.relayService.sendHandler(playerId, JSON.stringify(fullRoomOutput));
@@ -156,11 +166,13 @@ export default class PrivateWaitingRoom {
         //Output to joiner
         let joinerJoinedOutput: PrivateWaitingRoomJoinerJoinedOutput = {
           type: "gameState",
-          state: "privateWaitingRoomJoiner",
-          data: {
-            roomId,
-            otherPlayerId: currWaitingNode.creatorId,
-            otherPlayerUsername: this.playerDB.getPlayer(currWaitingNode.creatorId)!.username
+          outputContainer: {
+            subType: "privateWaitingRoomJoiner",
+            data: {
+              roomId,
+              otherPlayerId: currWaitingNode.creatorId,
+              otherPlayerUsername: this.playerDB.getPlayer(currWaitingNode.creatorId)!.username
+            }
           }
         }
         this.relayService.sendHandler(playerId, JSON.stringify(joinerJoinedOutput));
@@ -168,11 +180,13 @@ export default class PrivateWaitingRoom {
         //Output to creator
         let creatorOutput: PrivateWaitingRoomCreatorJoinerOutput = {
           type: "gameState",
-          state: "privateWaitingRoomCreator",
-          data: {
-            roomId,
-            otherPlayerId: currWaitingNode.joinerId,
-            otherPlayerUsername: this.playerDB.getPlayer(currWaitingNode.joinerId)!.username
+          outputContainer: {
+            subType: "privateWaitingRoomCreator",
+            data: {
+              roomId,
+              otherPlayerId: currWaitingNode.joinerId,
+              otherPlayerUsername: this.playerDB.getPlayer(currWaitingNode.joinerId)!.username
+            }
           }
         }
         this.relayService.sendHandler(currWaitingNode.creatorId, JSON.stringify(creatorOutput));
@@ -207,9 +221,11 @@ export default class PrivateWaitingRoom {
         //Creator output 
         let creatorOutput: PrivateWaitingRoomCreatorNoJoinerOutput = {
           type: "gameState",
-          state: "privateWaitingRoomCreator",
-          data: {
-            roomId: newRoomId
+          outputContainer: {
+            subType: "privateWaitingRoomCreator",
+            data: {
+              roomId: newRoomId
+            }
           }
         }
         this.relayService.sendHandler(playerId, JSON.stringify(creatorOutput));

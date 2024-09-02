@@ -26,7 +26,8 @@ export type State =
 
 export interface GameStateOutput extends GameOutput {
   type: "gameState"
-  state: string
-  data?: any
+  outputContainer: {
+    subType: string
+    data: any
+  }
 }
-  

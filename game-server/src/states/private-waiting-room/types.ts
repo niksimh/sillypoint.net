@@ -101,36 +101,45 @@ export type StartGameResult =
   
 export interface PrivateWaitingRoomCreatorNoJoinerOutput extends GameStateOutput{
   type: "gameState"
-  state: "privateWaitingRoomCreator"
-  data: {
-    roomId: number
+  outputContainer: {
+    subType: "privateWaitingRoomCreator"
+    data: {
+      roomId: number
+    }
   }
+
 }
 
 export interface PrivateWaitingRoomCreatorJoinerOutput extends GameStateOutput {
   type: "gameState"
-  state: "privateWaitingRoomCreator"
-  data: {
-    roomId: number
-    otherPlayerId: string
-    otherPlayerUsername: string
+  outputContainer: {
+    subType: "privateWaitingRoomCreator"
+    data: {
+      roomId: number
+      otherPlayerId: string
+      otherPlayerUsername: string
+    }
   }
 }
 
 export interface PrivateWaitingRoomJoinerPreJoinOutput extends GameStateOutput {
   type: "gameState"
-  state: "privateWaitingRoomJoiner"
-  data: {
-    status: string
+  outputContainer: {
+    subType: "privateWaitingRoomJoiner"
+    data: {
+      status: string
+    }
   }
 }
 
 export interface PrivateWaitingRoomJoinerJoinedOutput extends GameStateOutput{
   type: "gameState"
-  state: "privateWaitingRoomJoiner"
-  data: {
-    roomId: number
-    otherPlayerId: string
-    otherPlayerUsername: string
+  outputContainer: {
+    subType: "privateWaitingRoomJoiner"
+    data: {
+      roomId: number
+      otherPlayerId: string
+      otherPlayerUsername: string
+    }
   }
 }

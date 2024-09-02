@@ -22,8 +22,12 @@ export default class GameSelection {
 
     let gameSelectionOutput: GameSelectionOutput = {
       type: "gameState",
-      state: "gameSelection"
-    }
+      outputContainer: {
+        subType: "gameSelection",
+        data: {}
+      }
+    };
+    
     this.relayService.sendHandler(playerId, JSON.stringify(gameSelectionOutput));
   }
 

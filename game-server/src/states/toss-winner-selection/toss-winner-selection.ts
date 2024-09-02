@@ -33,12 +33,14 @@ export default class TossWinnerSelection {
     //Send out result
     let tossOutput: TossWinnerSelectionOutput = {
       type: "gameState",
-      state: "tossWinnerSelection",
-      data: {
-        p1: { playerId: game.players[0].playerId, username: game.players[0].username },
-        p2: { playerId: game.players[1].playerId, username: game.players[1].username },
-        winnerId: game.toss!.winnerId!,
-        deadline: deadline
+      outputContainer: {
+        subType: "tossWinnerSelection",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          winnerId: game.toss!.winnerId!,
+          deadline: deadline
+        }
       }
     }
 

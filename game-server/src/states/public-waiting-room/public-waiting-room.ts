@@ -31,8 +31,12 @@ export default class PublicWaitingRoom {
 
     let publicWaitingRoomOutput: PublicWaitingRoomOutput = {
       type: "gameState",
-      state: "publicWaitingRoom"
-    }
+      outputContainer: {
+        subType: "publicWaitingRoom",
+        data: {}
+      }
+    };
+    
     this.relayService.sendHandler(playerId, JSON.stringify(publicWaitingRoomOutput));
   }
   

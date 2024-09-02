@@ -34,7 +34,12 @@ export default class RelayService {
               
         let seqNumOutput: SeqNumOutput = {
           type: "seqNum",
-          seqNum: startingSeqNum
+          outputContainer: {
+            subType: "",
+            data: {
+              seqNum: startingSeqNum
+            }
+          }
         };
 
         socket.send(JSON.stringify(seqNumOutput));
@@ -67,7 +72,12 @@ export default class RelayService {
     (socket as any).seqNum = newSeqNum
     let seqNumOutput: SeqNumOutput = {
       type: "seqNum",
-      seqNum: newSeqNum
+      outputContainer: {
+        subType: "",
+        data: {
+          seqNum: newSeqNum
+        }
+      }
     };
     socket.send(JSON.stringify(seqNumOutput));
 

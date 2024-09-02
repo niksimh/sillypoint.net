@@ -23,7 +23,12 @@ export interface MessageLeaveResult {
 
 export type MessageResult = MessageHandleResult | MessageLeaveResult;
 
-export interface SeqNumOutput extends GameOutput{
+export interface SeqNumOutput extends GameOutput {
   type: "seqNum"
-  seqNum: number
+  outputContainer: {
+    subType: ""
+    data: {
+      seqNum: number
+    }
+  }
 }

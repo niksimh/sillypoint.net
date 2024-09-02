@@ -69,12 +69,14 @@ export default class Lobby {
 
     let output: LobbyOutput = {
       type: "gameState",
-      state: "lobby",
-      data: {
-        p1: { playerId: newGame.players[0].playerId, username: newGame.players[0].username },
-        p2: { playerId: newGame.players[1].playerId, username: newGame.players[1].username }
-      }
-    }
+      outputContainer: {
+        subType: "lobby",
+        data: {
+          p1: { playerId: newGame.players[0].playerId, username: newGame.players[0].username },
+          p2: { playerId: newGame.players[1].playerId, username: newGame.players[1].username }
+        }
+      }      
+    };
 
     this.relayService.sendHandler(newGame.players[0].playerId, JSON.stringify(output));
     this.relayService.sendHandler(newGame.players[1].playerId, JSON.stringify(output));

@@ -21,6 +21,10 @@ export interface ProcessResult {
 }
 
 export interface PublicWaitingRoomOutput extends GameStateOutput {
-  type: "gameState"
-  state: "publicWaitingRoom"
+  type: "gameState",
+  outputContainer: {
+    subType: "publicWaitingRoom"
+    data: {}
+  }
+
 }
