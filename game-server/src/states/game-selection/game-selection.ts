@@ -16,9 +16,9 @@ export default class GameSelection {
   }
  
   transitionInto(playerId: string) {
-    let currPlayer = this.playerDB.getPlayer(playerId)!;
+    let currentPlayer = this.playerDB.getPlayer(playerId)!;
     
-    currPlayer.status = "gameSelection";
+    currentPlayer.status = "gameSelection";
 
     let gameSelectionOutput: GameSelectionOutput = {
       type: "gameState",
@@ -29,15 +29,6 @@ export default class GameSelection {
     };
     
     this.relayService.sendHandler(playerId, gameSelectionOutput);
-  }
-
-  gameSelectionLeave(playerId: string) {
-    let currPlayer = this.playerDB.getPlayer(playerId)!;
-    
-    this.playerDB.removePlayer(playerId);
-    
-    let playerSocket = currPlayer.socket;
-    this.relayService.serverCloseHandler(playerSocket);
   }
 
   selectGame(playerId: string, input: string) {
@@ -55,15 +46,25 @@ export default class GameSelection {
         privateWaitingRoomJ.transitionInto(playerId, "joiner");
         break;
       default:
-        this.gameSelectionLeave(playerId);
+        this.leave(playerId);
         break;
     }
+  }
+
+  leave(playerId: string) {
+    //Nothing to cleanup at this state
+    let currentPlayer = this.playerDB.getPlayer(playerId)!;
+    
+    this.playerDB.removePlayer(playerId);
+    
+    let playerSocket = currentPlayer.socket;
+    this.relayService.serverCloseHandler(playerSocket);
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "gameSelectionLeave":
-        this.gameSelectionLeave(playerId);
+        this.leave(playerId);
         break;
       case "selectGame":
         this.selectGame(playerId, inputContainer.input);
