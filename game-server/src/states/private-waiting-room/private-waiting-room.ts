@@ -56,7 +56,7 @@ export default class PrivateWaitingRoom {
             }
           }
         }
-        this.relayService.sendHandler(playerId, JSON.stringify(creatorOutput));
+        this.relayService.sendHandler(playerId, creatorOutput);
         break;
       case "joiner":
         let joinerOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
@@ -68,7 +68,7 @@ export default class PrivateWaitingRoom {
             }
           }
         };
-        this.relayService.sendHandler(playerId, JSON.stringify(joinerOutput));
+        this.relayService.sendHandler(playerId, joinerOutput);
         break;
     }
   }
@@ -117,7 +117,7 @@ export default class PrivateWaitingRoom {
             }
           }
         }
-        this.relayService.sendHandler(room.creatorId, JSON.stringify(pwrcnjo));
+        this.relayService.sendHandler(room.creatorId, pwrcnjo);
         break;
     }
   }
@@ -142,7 +142,7 @@ export default class PrivateWaitingRoom {
             }
           }
         };
-        this.relayService.sendHandler(playerId, JSON.stringify(badRoomOutput));
+        this.relayService.sendHandler(playerId, badRoomOutput);
         break;
       case "fullRoom":
         let fullRoomOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
@@ -154,7 +154,7 @@ export default class PrivateWaitingRoom {
             }
           }
         };
-        this.relayService.sendHandler(playerId, JSON.stringify(fullRoomOutput));
+        this.relayService.sendHandler(playerId, fullRoomOutput);
         break;
       case "succesful":
         let roomId = Number(input);
@@ -175,7 +175,7 @@ export default class PrivateWaitingRoom {
             }
           }
         }
-        this.relayService.sendHandler(playerId, JSON.stringify(joinerJoinedOutput));
+        this.relayService.sendHandler(playerId, joinerJoinedOutput);
 
         //Output to creator
         let creatorOutput: PrivateWaitingRoomCreatorJoinerOutput = {
@@ -189,7 +189,7 @@ export default class PrivateWaitingRoom {
             }
           }
         }
-        this.relayService.sendHandler(currWaitingNode.creatorId, JSON.stringify(creatorOutput));
+        this.relayService.sendHandler(currWaitingNode.creatorId, creatorOutput);
         break;
     }
   }
@@ -228,7 +228,7 @@ export default class PrivateWaitingRoom {
             }
           }
         }
-        this.relayService.sendHandler(playerId, JSON.stringify(creatorOutput));
+        this.relayService.sendHandler(playerId, creatorOutput);
 
         //Transition joiner back to gameSelection
         let gameSelectionState = this.stateMap.get("gameSelection")! as any;

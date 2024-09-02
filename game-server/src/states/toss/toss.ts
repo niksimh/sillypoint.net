@@ -55,8 +55,8 @@ export default class Toss {
     }
 
 
-    this.relayService.sendHandler(game.players[0].playerId, JSON.stringify(tossOutput));
-    this.relayService.sendHandler(game.players[1].playerId, JSON.stringify(tossOutput));
+    this.relayService.sendHandler(game.players[0].playerId, tossOutput);
+    this.relayService.sendHandler(game.players[1].playerId, tossOutput);
 
     game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
   

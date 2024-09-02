@@ -37,7 +37,7 @@ export default class PublicWaitingRoom {
       }
     };
     
-    this.relayService.sendHandler(playerId, JSON.stringify(publicWaitingRoomOutput));
+    this.relayService.sendHandler(playerId, publicWaitingRoomOutput);
   }
   
   process() {

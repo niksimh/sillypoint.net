@@ -62,9 +62,9 @@ export default class RelayService {
     }
   }
 
-  sendHandler(playerId: string, message: string) {
-    let currPlayer = this.playerDB.getPlayer(playerId);
-    currPlayer?.socket?.send(message);
+  sendHandler(playerId: string, message: {}) {
+    let currPlayer = this.playerDB.getPlayer(playerId)!;
+    currPlayer.socket?.send(JSON.stringify(message));
   }
 
   messageHandler(socket: WebSocket, message: string) {

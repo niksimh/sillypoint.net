@@ -28,7 +28,7 @@ export default class GameSelection {
       }
     };
     
-    this.relayService.sendHandler(playerId, JSON.stringify(gameSelectionOutput));
+    this.relayService.sendHandler(playerId, gameSelectionOutput);
   }
 
   gameSelectionLeave(playerId: string) {
