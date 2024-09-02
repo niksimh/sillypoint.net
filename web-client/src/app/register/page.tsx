@@ -8,41 +8,41 @@ import { useRouter } from 'next/navigation'
 export default function RegisterPage() {
   const router = useRouter()
 
-  let [submissionState, setSubmissionState] = useState("pending");
+  let [submissionStatus, setSubmissionStatus] = useState("pending");
   
-  function submitHandler(e: React.FormEvent<HTMLFormElement>) {
-    (document.getElementById("joinButton") as HTMLButtonElement).disabled = true;
-
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+    //Prevent default 
     e.preventDefault();
+    
+    //Prevent further form submissions 
+    let submitInput = (document.getElementById("submitInput") as HTMLInputElement);
+    submitInput.disabled = true;
 
+    //Get the entered username and setup fetch url
     let username = (document.getElementById("usernameBox") as HTMLInputElement).value;
-    let fetchUrl = `http://localhost:4000/register?username=${username}`
+    let fetchUrl = `http://localhost:4000/register?username=${username}`;
 
-    fetch(fetchUrl)
-      .then((response) => {
-        if(response.ok) {
-          response.json()
-            .then((registerResult) => {
-              if(registerResult.error) {
-                setSubmissionState(registerResult.reason);
-              } else {
-                localStorage.setItem("playerIdToken", registerResult.playerIdToken);
-                router.push('/game')
-              }
-              (document.getElementById("joinButton") as HTMLButtonElement).disabled = false;
-            })
-            .catch(() => {
-              (document.getElementById("joinButton") as HTMLButtonElement).disabled = false;
-            })
+    try {
+      let response = await fetch(fetchUrl);
+      if (response.ok) {
+        let responseJSON = await response.json();
+        if(responseJSON.error) {
+          setSubmissionStatus(responseJSON.status);
+        } else {
+          localStorage.setItem("playerIdToken", responseJSON.playerIdToken);
+          router.push('/game');
         }
-      })
-      .catch(() => {
-        (document.getElementById("joinButton") as HTMLButtonElement).disabled = false;
-      }) 
+      }
+    } catch {
+      // do nothing. server is down.
     }
+    
+    //Allow submissions again
+    submitInput.disabled = false;
+  }
 
   let additionalMessage;
-  switch(submissionState) {
+  switch(submissionStatus) {
     case "pending":
       additionalMessage = "";
       break;
@@ -64,7 +64,7 @@ export default function RegisterPage() {
         <label htmlFor="usernameBox">Enter a username to play! Or leave it blank to get a random one.</label>
         <input type="text" id="usernameBox" name="usernameBox" />
         { additionalMessage }
-        <input type="submit" id="joinButton" value="Join" />
+        <input type="submit" id="submitInput" value="submit" />
       </form>
       <Footer />    
   </>

@@ -26,7 +26,7 @@ export function hasBadWord(str: string, badWordList: string[]) {
 export default function register(username: string | undefined, playerId: string, randomNumber: number, secret: string) {
   
   if (username === undefined) {
-    return { error: true, reason: "undefinedUsername"}
+    return { error: true, status: "undefinedUsername"}
   }
 
   if (username === "") {
@@ -39,15 +39,15 @@ export default function register(username: string | undefined, playerId: string,
   } 
 
   if (!isAlphaNumeric(username)) {
-    return { error: true, reason: "notAlphaNumeric"}
+    return { error: true, status: "notAlphaNumeric"}
   }
 
   if (hasBadWord(username.toLowerCase(), badWordList)) {
-    return { error: true, reason: "hasBadWord"};
+    return { error: true, status: "hasBadWord"};
   }
 
   if (username.length > 15) {
-    return { error: true, reason: "tooLong"}
+    return { error: true, status: "tooLong"}
   }
 
   let playerIdPayload: PlayerIdTokenPayload = {

@@ -32,14 +32,14 @@ test("Catch bad word in capital letters", () => {
   expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
 })
 
-test("Catch multiple bad words", () => {
+test("Catch different bad words", () => {
   BAD_WORD_LIST.forEach(badWord => {
     let badUsername = `start${badWord}end`;  
     expect(hasBadWord(badUsername, BAD_WORD_LIST)).toEqual(true);
   });
 })
 
-test("Check username without bad words", () => {
+test("Check username without bad words for bad words", () => {
   let notBadUsername = "startend";
   expect(hasBadWord(notBadUsername, BAD_WORD_LIST)).toEqual(false);
 })
@@ -49,7 +49,7 @@ test("Register with undefined username", () => {
   let registrationResult = register(username, ID, RANDOM_NUMBER, SECRET);
   
   expect(registrationResult.error).toEqual(true);
-  expect(registrationResult.reason).toEqual("undefinedUsername");
+  expect(registrationResult.status).toEqual("undefinedUsername");
 })
 
 test("Register with blank username", () => {
@@ -68,7 +68,7 @@ test("Register with username that is not alphanumeric", () => {
   let registrationResult = register(username, ID, RANDOM_NUMBER, SECRET);
   
   expect(registrationResult.error).toEqual(true);
-  expect(registrationResult.reason).toEqual("notAlphaNumeric");
+  expect(registrationResult.status).toEqual("notAlphaNumeric");
 })
 
 test("Register with username that has bad word", () => {
@@ -76,7 +76,7 @@ test("Register with username that has bad word", () => {
   let registrationResult = register(username, ID, RANDOM_NUMBER, SECRET);
   
   expect(registrationResult.error).toEqual(true);
-  expect(registrationResult.reason).toEqual("hasBadWord");
+  expect(registrationResult.status).toEqual("hasBadWord");
 })
 
 test("Register with username that is more than 15 characters", () => {
@@ -84,7 +84,7 @@ test("Register with username that is more than 15 characters", () => {
   let registrationResult = register(username, ID, RANDOM_NUMBER, SECRET);
   
   expect(registrationResult.error).toEqual(true);
-  expect(registrationResult.reason).toEqual("tooLong");
+  expect(registrationResult.status).toEqual("tooLong");
 })
 
 test("Register with valid username", () => {

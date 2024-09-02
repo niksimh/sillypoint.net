@@ -36,9 +36,9 @@ app.get('/register', cors(), (req, res) => {
   let id = crypto.randomUUID();
   let randomNumber = crypto.randomInt(9999);
   
-  let registrationResult = register(req.query.username as string, id, randomNumber, process.env.playerIdTokenSecret!);
+  let result = register(req.query.username as string, id, randomNumber, process.env.playerIdTokenSecret!);
   
-  res.json(registrationResult);
+  res.json(result);
 })
 
 let server = app.listen(port, () => {
