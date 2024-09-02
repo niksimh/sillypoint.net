@@ -1,3 +1,4 @@
+import { Game } from "../game-engine/types"
 import type { Player } from "../player-db/types"
 import { GameOutput } from "../types"
 
@@ -7,11 +8,11 @@ export interface ConnectionAddResult {
   username: string
 }
 
-export interface ConnectionTerminateResult {
-  decision: "terminate"
+export interface ConnectionBadConnectionRequestResult {
+  decision: "badConnectionRequest"
 }
 
-export type ConnectionResult = ConnectionAddResult | ConnectionTerminateResult;
+export type ConnectionResult = ConnectionAddResult | ConnectionBadConnectionRequestResult;
 
 export interface MessageHandleResult {
   decision: "handle"
@@ -30,5 +31,13 @@ export interface SeqNumOutput extends GameOutput {
     data: {
       seqNum: number
     }
+  }
+}
+
+export interface LeaveBadConnectionRequestOutput extends GameOutput {
+  type: "leave"
+  outputContainer: {
+    subType: "badConnectionRequest"
+    data: {}
   }
 }

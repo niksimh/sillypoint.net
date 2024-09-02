@@ -8,27 +8,27 @@ import { PlayerIdTokenPayload } from "../types";
 
 export function connectionLogic(requestURL: string | undefined, secret: string): ConnectionResult {
   if (requestURL === undefined) {
-    return { decision: "terminate" };
+    return { decision: "badConnectionRequest" };
   }
 
   let fullURL = new URL(requestURL, "wss://base.url");
 
   if (fullURL.pathname !== "/wsConnection") {
-    return { decision: "terminate" };
+    return { decision: "badConnectionRequest" };
   }
 
   let params = fullURL.searchParams;
   let playerIdToken = params.get("playerIdToken")
 
   if (playerIdToken === null) {
-    return { decision: "terminate" };
+    return { decision: "badConnectionRequest" };
   }
 
   let playerIdTokenPayload;
   try {
     playerIdTokenPayload = (jwt.verify(playerIdToken, secret) as jwt.JwtPayload) as PlayerIdTokenPayload;
   } catch {
-    return { decision: "terminate" };
+    return { decision: "badConnectionRequest" };
   }
   
   return {

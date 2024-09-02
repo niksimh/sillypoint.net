@@ -3,7 +3,7 @@ import crypto from "crypto";
 import type { IncomingMessage } from "http";
 
 import { connectionLogic, messageLogic } from "./logic";
-import type { ConnectionResult, MessageResult, SeqNumOutput } from "./types";
+import type { ConnectionResult, LeaveBadConnectionRequestOutput, MessageResult, SeqNumOutput } from "./types";
 import { State } from "../states/types";
 import PlayerDB from "../player-db/player-db";
 import { GameInput, InputContainer } from "../types";
@@ -25,8 +25,16 @@ export default class RelayService {
     let result: ConnectionResult = connectionLogic(request.url, process.env.playerIdTokenSecret!);
 
     switch(result.decision) {
-      case "terminate":
-        socket.terminate();
+      case "badConnectionRequest":
+        let leaveOutput: LeaveBadConnectionRequestOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "badConnectionRequest",
+            data: {}
+          }
+        }
+        socket.send(JSON.stringify(leaveOutput));
+        socket.close();
         break;
       case "add":
         (socket as any).playerId = result.playerId;
@@ -41,7 +49,6 @@ export default class RelayService {
             }
           }
         };
-
         socket.send(JSON.stringify(seqNumOutput));
 
         process.nextTick(() => {
