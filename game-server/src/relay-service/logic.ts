@@ -58,5 +58,5 @@ export function messageLogic(currSeqNum: number, message: string): MessageResult
     return { decision: "leave" };
   }
 
-  return { decision: "handle" };
+  return { decision: "handle", parsedMessage };
 }

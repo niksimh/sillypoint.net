@@ -1,6 +1,6 @@
 import { Game } from "../game-engine/types"
 import type { Player } from "../player-db/types"
-import { GameOutput } from "../types"
+import { GameInput, GameOutput } from "../types"
 
 export interface ConnectionAddResult {
   decision: "add"
@@ -16,6 +16,7 @@ export type ConnectionResult = ConnectionAddResult | ConnectionBadConnectionRequ
 
 export interface MessageHandleResult {
   decision: "handle"
+  parsedMessage: GameInput
 }
 
 export interface MessageLeaveResult {

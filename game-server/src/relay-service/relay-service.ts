@@ -75,19 +75,6 @@ export default class RelayService {
 
     let result: MessageResult = messageLogic(currSeqNum, message);
 
-    let newSeqNum = crypto.randomInt(1000);
-    (socket as any).seqNum = newSeqNum
-    let seqNumOutput: SeqNumOutput = {
-      type: "seqNum",
-      outputContainer: {
-        subType: "",
-        data: {
-          seqNum: newSeqNum
-        }
-      }
-    };
-    socket.send(JSON.stringify(seqNumOutput));
-
     switch(result.decision) {
       case "leave":
         let overridenInputContainer: InputContainer = {
@@ -97,8 +84,22 @@ export default class RelayService {
         currState.inputHandler(playerId, overridenInputContainer);
         break;
       case "handle":
-        let parsedMessage: GameInput = JSON.parse(message);
-        let inputContainer = parsedMessage.inputContainer;
+        //Take care of seqNum
+        let newSeqNum = crypto.randomInt(1000);
+        (socket as any).seqNum = newSeqNum
+        let seqNumOutput: SeqNumOutput = {
+          type: "seqNum",
+          outputContainer: {
+            subType: "",
+            data: {
+              seqNum: newSeqNum
+            }
+          }
+        };
+        socket.send(JSON.stringify(seqNumOutput));
+
+        //Take care of input
+        let inputContainer = result.parsedMessage.inputContainer;
         currState.inputHandler(playerId, inputContainer);
     }
   }

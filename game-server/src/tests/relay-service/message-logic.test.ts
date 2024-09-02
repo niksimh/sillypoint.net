@@ -1,15 +1,26 @@
 import { messageLogic } from "../../relay-service/logic";
+import { MessageLeaveResult, MessageHandleResult } from "../../relay-service/types";
 
 test("Handle message with non-JSON format", () => {
   let message = "badMessage";
-  expect(messageLogic(0, message)).toEqual({ decision: "leave" });
+
+  let rightResult: MessageLeaveResult = {
+    decision: "leave"
+  };
+
+  expect(messageLogic(0, message)).toEqual(rightResult);
 })
 
 test("Handle message that is JSON-formatted but not following the defined shape", () => {
   let message = {
     bad: "schema"
   };
-  expect(messageLogic(0, JSON.stringify(message))).toEqual({ decision: "leave" });
+
+  let rightResult: MessageLeaveResult = {
+    decision: "leave"
+  };
+
+  expect(messageLogic(0, JSON.stringify(message))).toEqual(rightResult);
 })
 
 test("Handle message with bad seqNumber", () => {
@@ -20,7 +31,12 @@ test("Handle message with bad seqNumber", () => {
       input: "5"
     }
   };
-  expect(messageLogic(0, JSON.stringify(message))).toEqual({ decision: "leave" });
+
+  let rightResult: MessageLeaveResult = {
+    decision: "leave"
+  };
+
+  expect(messageLogic(0, JSON.stringify(message))).toEqual(rightResult);
 })
 
 test("Handle good message", () => {
@@ -31,5 +47,11 @@ test("Handle good message", () => {
       input: "5"
     }
   };
-  expect(messageLogic(123, JSON.stringify(message))).toEqual({ decision: "handle" });
+
+  let rightResult: MessageHandleResult = {
+    decision: "handle",
+    parsedMessage: message
+  };
+
+  expect(messageLogic(123, JSON.stringify(message))).toEqual(rightResult);
 })
