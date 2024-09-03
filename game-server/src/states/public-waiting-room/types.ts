@@ -5,16 +5,10 @@ export interface WaitingNode {
   timeJoined: number
 }
 
-export interface LeaveProcessedLeaveResult {
+export interface LeaveResult {
   decision: "processedLeave"
   index: number
 }
-
-export interface LeaveUnprocessedLeaveResult {
-  decision: "unprocessedLeave"
-}
-
-export type LeaveResult = LeaveProcessedLeaveResult | LeaveUnprocessedLeaveResult;
 
 export interface ProcessResult {
   decision: 0 | 1 | 2 

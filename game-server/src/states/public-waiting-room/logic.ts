@@ -6,15 +6,15 @@ export function leaveLogic(playerId: string, waitingQueue: WaitingNode[]): Leave
       return { decision: "processedLeave", index: i };
     }
   }
-  return { decision: "unprocessedLeave" };
+  return { decision: "processedLeave", index: 0 } //To appease TS;
 }
 
-export function processLogic(waitingQueue: WaitingNode[], currTime: number): ProcessResult {
+export function processLogic(waitingQueue: WaitingNode[], currentTime: number): ProcessResult {
   if(waitingQueue.length >= 2) {
     return { decision: 2 };
   }
 
-  if(waitingQueue.length === 1 && currTime - waitingQueue[0].timeJoined >= 10000) {
+  if(waitingQueue.length === 1 && currentTime - waitingQueue[0].timeJoined >= 10000) {
     return { decision: 1 };
   }
 

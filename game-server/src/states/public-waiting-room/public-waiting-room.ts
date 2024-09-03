@@ -3,6 +3,7 @@ import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
 import { LeaveResult, ProcessResult, PublicWaitingRoomOutput, WaitingNode } from "./types"
 import { leaveLogic, processLogic } from "./logic"
+import { InputContainer } from "../../types"
 
 export default class PublicWaitingRoom {
   stateMap: Map<string, State>
@@ -16,7 +17,7 @@ export default class PublicWaitingRoom {
     this.waitingQueue = [];
     this.relayService = relayService;
 
-    setInterval(() => { this.process() }, 100);
+    setInterval(() => { this.processWaitingQueue() }, 100);
   }
 
   transitionInto(playerId: string) {
@@ -40,7 +41,7 @@ export default class PublicWaitingRoom {
     this.relayService.sendHandler(playerId, publicWaitingRoomOutput);
   }
   
-  process() {
+  processWaitingQueue() {
     let result: ProcessResult = processLogic(this.waitingQueue, Date.now());
     
     let lobbyState = this.stateMap.get("lobby")! as any;
@@ -48,42 +49,34 @@ export default class PublicWaitingRoom {
       case 0:
         break;
       case 1:
-        let p = this.waitingQueue.shift()!;
-        lobbyState.transitionInto(p.playerId);
+        let player = this.waitingQueue.shift()!;
+        lobbyState.transitionInto(player.playerId);
         break;
       case 2:
-        let p1 = this.waitingQueue.shift()!;
-        let p2 = this.waitingQueue.shift()!;
-        lobbyState.transitionInto(p1.playerId, p2.playerId);
+        let player1 = this.waitingQueue.shift()!;
+        let player2 = this.waitingQueue.shift()!;
+        lobbyState.transitionInto(player1.playerId, player2.playerId);
         break;
     }
   }
 
-  publicWaitingRoomLeave(playerId: string) {
+  leave(playerId: string) {
+    let currentPlayer = this.playerDB.getPlayer(playerId)!;
+
     let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
 
-    let currPlayer = this.playerDB.getPlayer(playerId)!;
-    switch(result.decision) {
-      case "processedLeave":
-        this.waitingQueue.splice(result.index, 1);
-        this.playerDB.removePlayer(playerId);
-        this.relayService.serverCloseHandler(currPlayer.socket);
-        break;
-      case "unprocessedLeave":
-        this.playerDB.removePlayer(playerId);
-        this.relayService.serverCloseHandler(currPlayer.socket);
-        break;
-    }
+    this.waitingQueue.splice(result.index, 1);
+    this.playerDB.removePlayer(playerId);
+    this.relayService.serverCloseHandler(currentPlayer.socket);
   }
 
-  inputHandler(playerId: string, inputContainer: { type: string, input: string}) {
+  inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "publicWaitingRoomLeave":
-        this.publicWaitingRoomLeave(playerId);
+        this.leave(playerId);
         break;
       default:
         break;
     }
-    
   }
 }
