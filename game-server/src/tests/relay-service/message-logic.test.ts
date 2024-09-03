@@ -1,5 +1,45 @@
 import { messageLogic } from "../../relay-service/logic";
-import { MessageLeaveResult, MessageHandleResult } from "../../relay-service/types";
+import { 
+  MessageLeaveResult,
+  MessageHandleResult,
+  MessageIgnoreResult 
+} from "../../relay-service/types";
+
+const OPEN = 1;
+const CLOSING = 2;
+const CLOSED = 3;
+
+test("Handle message while socket is closing", () => {
+  let message = {
+    seqNum: 123, 
+    inputContainer: {
+      type: "someInput",
+      input: "5"
+    }
+  };
+
+  let rightResult: MessageIgnoreResult = {
+    decision: "ignore"
+  };
+
+  expect(messageLogic(CLOSING, 123, JSON.stringify(message))).toEqual(rightResult);
+})
+
+test("Handle message when socket is closed", () => {
+  let message = {
+    seqNum: 123, 
+    inputContainer: {
+      type: "someInput",
+      input: "5"
+    }
+  };
+
+  let rightResult: MessageIgnoreResult = {
+    decision: "ignore"
+  };
+
+  expect(messageLogic(CLOSED, 123, JSON.stringify(message))).toEqual(rightResult);
+})
 
 test("Handle message with non-JSON format", () => {
   let message = "badMessage";
@@ -8,7 +48,7 @@ test("Handle message with non-JSON format", () => {
     decision: "leave"
   };
 
-  expect(messageLogic(0, message)).toEqual(rightResult);
+  expect(messageLogic(OPEN, 0, message)).toEqual(rightResult);
 })
 
 test("Handle message that is JSON-formatted but not following the defined shape", () => {
@@ -20,7 +60,7 @@ test("Handle message that is JSON-formatted but not following the defined shape"
     decision: "leave"
   };
 
-  expect(messageLogic(0, JSON.stringify(message))).toEqual(rightResult);
+  expect(messageLogic(OPEN, 0, JSON.stringify(message))).toEqual(rightResult);
 })
 
 test("Handle message with bad seqNumber", () => {
@@ -36,7 +76,7 @@ test("Handle message with bad seqNumber", () => {
     decision: "leave"
   };
 
-  expect(messageLogic(0, JSON.stringify(message))).toEqual(rightResult);
+  expect(messageLogic(OPEN, 0, JSON.stringify(message))).toEqual(rightResult);
 })
 
 test("Handle good message", () => {
@@ -53,5 +93,5 @@ test("Handle good message", () => {
     parsedMessage: message
   };
 
-  expect(messageLogic(123, JSON.stringify(message))).toEqual(rightResult);
+  expect(messageLogic(OPEN, 123, JSON.stringify(message))).toEqual(rightResult);
 })

@@ -68,12 +68,18 @@ export default class RelayService {
   }
 
   messageHandler(socket: WebSocket, message: string) {
-    let playerId = (socket as any).playerId as string; //will be present
     let currSeqNum = (socket as any).seqNum as number; //will be present
+
+    let result: MessageResult = messageLogic(socket.readyState, currSeqNum, message);
+
+    switch(result.decision) {
+      case "ignore":
+        return; //ignore the result since this came in after closing
+    }
+
+    let playerId = (socket as any).playerId as string;    
     let currPlayer = this.playerDB.getPlayer(playerId)!; //will be present
     let currState = this.stateMap.get(currPlayer.status)! as any;
-
-    let result: MessageResult = messageLogic(currSeqNum, message);
 
     switch(result.decision) {
       case "leave":

@@ -38,7 +38,11 @@ export function connectionLogic(requestURL: string | undefined, secret: string):
   }
 }
 
-export function messageLogic(currSeqNum: number, message: string): MessageResult {
+export function messageLogic(readyState: number, currSeqNum: number, message: string): MessageResult {
+  if (readyState === 2 || readyState === 3) {
+    return { decision: "ignore" };
+  }
+  
   let gameInputSchema = z.object({
     seqNum: z.number(),
     inputContainer: z.object({

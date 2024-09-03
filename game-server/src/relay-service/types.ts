@@ -23,7 +23,11 @@ export interface MessageLeaveResult {
   decision: "leave"
 }
 
-export type MessageResult = MessageHandleResult | MessageLeaveResult;
+export interface MessageIgnoreResult {
+  decision: "ignore"
+}
+
+export type MessageResult = MessageHandleResult | MessageLeaveResult | MessageIgnoreResult;
 
 export interface SeqNumOutput extends GameOutput {
   type: "seqNum"
