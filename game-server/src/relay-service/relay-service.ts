@@ -105,6 +105,7 @@ export default class RelayService {
   }
 
   serverCloseHandler(socket: WebSocket | null) {
+    socket?.removeAllListeners();
     socket?.close();
   }
 }
