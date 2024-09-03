@@ -1,7 +1,7 @@
-import { JoinResult, KickResult, LeaveResult, StartGameResult, WaitingNode } from "./types";
+import { JoinResult, KickResult, LeaveResult, StartGameResult, WaitingRoom } from "./types";
 
 export function leaveLogic(
-  waitingRooms: Map<number, WaitingNode>, 
+  waitingRooms: Map<number, WaitingRoom>, 
   playerToWaitingRoom: Map<string, number>, 
   playerId: string): LeaveResult {
 
@@ -9,10 +9,10 @@ export function leaveLogic(
     return { decision: "leaveNotPresent" }
   }
 
-  let currWaitingNode = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
+  let currWaitingRoom = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
 
-  if(currWaitingNode.creatorId === playerId) {
-    if (currWaitingNode.joinerId === undefined) {
+  if(currWaitingRoom.creatorId === playerId) {
+    if (currWaitingRoom.joinerId === null) {
       return { decision: "leaveCreatorNoJoiner" }
     } 
     return { decision: "leaveCreatorJoiner" };
@@ -22,7 +22,7 @@ export function leaveLogic(
 }
 
 export function joinLogic(
-  waitingRooms: Map<number, WaitingNode>,
+  waitingRooms: Map<number, WaitingRoom>,
   playerToWaitingRoom: Map<string, number>,
   playerId: string, 
   input: string):  JoinResult {
@@ -31,16 +31,16 @@ export function joinLogic(
       return { decision: "present" };
     }
 
-    let roomId = Number(input);
-    if (Number.isNaN(roomId)) {
+    let RoomId = Number(input);
+    if (Number.isNaN(RoomId)) {
       return { decision: "badInput" };
     }
 
-    let currWaitingNode = waitingRooms.get(roomId);
-    if (currWaitingNode === undefined) {
+    let currWaitingRoom = waitingRooms.get(RoomId);
+    if (currWaitingRoom === undefined) {
       return { decision: "badRoom" };
     }
-    if(currWaitingNode.joinerId !== undefined) {
+    if(currWaitingRoom.joinerId !== null) {
       return { decision: "fullRoom" };
     }
     
@@ -48,7 +48,7 @@ export function joinLogic(
   }
 
 export function kickLogic(
-  waitingRooms: Map<number, WaitingNode>,
+  waitingRooms: Map<number, WaitingRoom>,
   playerToWaitingRoom: Map<string, number>,
   playerId: string,
   ): KickResult {
@@ -57,13 +57,13 @@ export function kickLogic(
       return { decision: "notPresent" };
     }
 
-    let waitingNode = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
+    let waitingRoom = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
 
-    if (waitingNode.joinerId === playerId) {
+    if (waitingRoom.joinerId === playerId) {
       return { decision: "notCreator" };
     }
 
-    if (waitingNode.joinerId === undefined) {
+    if (waitingRoom.joinerId === null) {
       return { decision: "empty" };
     }
 
@@ -71,7 +71,7 @@ export function kickLogic(
   }
 
 export function startGameLogic(
-  waitingRooms: Map<number, WaitingNode>,
+  waitingRooms: Map<number, WaitingRoom>,
   playerToWaitingRoom: Map<string, number>,
   playerId: string,
   ): StartGameResult {
@@ -80,13 +80,13 @@ export function startGameLogic(
       return { decision: "notPresent" };
     }
 
-    let waitingNode = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
+    let waitingRoom = waitingRooms.get(playerToWaitingRoom.get(playerId)!)!;
 
-    if (waitingNode.joinerId === playerId) {
+    if (waitingRoom.joinerId === playerId) {
       return { decision: "notCreator" };
     }
 
-    if (waitingNode.joinerId === undefined) {
+    if (waitingRoom.joinerId === null) {
       return { decision: "noJoiner" };
     }
 

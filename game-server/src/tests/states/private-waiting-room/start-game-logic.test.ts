@@ -4,11 +4,11 @@ import {
   StartGameNotCreatorResult,
   StartGameNoJoinerResult,
   StartGameSuccessfulResult,
-  WaitingNode 
+  WaitingRoom 
 } from "../../../states/private-waiting-room/types";
 
 test("Start game from private waiting room when not present", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
   let rightResult: StartGameNotPresentResult = {
@@ -19,7 +19,7 @@ test("Start game from private waiting room when not present", () => {
 })
 
 test("Start game from private waiting room when not the creator", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
   waitingRooms.set(1, { creatorId: "pId1", joinerId: "pId2" });
@@ -35,10 +35,10 @@ test("Start game from private waiting room when not the creator", () => {
 })
 
 test("Start game from private waiting room when there is no joiner", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
-  waitingRooms.set(1, { creatorId: "pId1" });
+  waitingRooms.set(1, { creatorId: "pId1", joinerId: null });
 
   playerToWaitingRoom.set("pId1", 1);
   
@@ -50,7 +50,7 @@ test("Start game from private waiting room when there is no joiner", () => {
 })
 
 test("Start game from private waiting room successfully", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
   waitingRooms.set(1, { creatorId: "pId1", joinerId: "pId2" });

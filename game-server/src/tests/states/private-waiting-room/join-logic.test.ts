@@ -5,11 +5,11 @@ import {
   JoinBadRoomResult,
   JoinFullResult,
   JoinSuccessfulResult,
-  WaitingNode 
+  WaitingRoom 
 } from "../../../states/private-waiting-room/types";
 
 test("Joining private waiting room when already present", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
   waitingRooms.set(1, { creatorId: "pId1", joinerId: "pId2" });
@@ -25,10 +25,10 @@ test("Joining private waiting room when already present", () => {
 })
 
 test("Joining private waiting room with non-numerical input", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
-  waitingRooms.set(1, { creatorId: "pId1"});
+  waitingRooms.set(1, { creatorId: "pId1", joinerId: null });
 
   playerToWaitingRoom.set("pId1", 1);
 
@@ -40,10 +40,10 @@ test("Joining private waiting room with non-numerical input", () => {
 })
 
 test("Joining private waiting room with a bad room ID", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
-  waitingRooms.set(1, { creatorId: "pId1"});
+  waitingRooms.set(1, { creatorId: "pId1", joinerId: null });
 
   playerToWaitingRoom.set("pId1", 1);
 
@@ -55,7 +55,7 @@ test("Joining private waiting room with a bad room ID", () => {
 })
 
 test("Joining private waiting room when the room is already full", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
   waitingRooms.set(1, { creatorId: "pId1", joinerId: "pId2" });
@@ -71,10 +71,10 @@ test("Joining private waiting room when the room is already full", () => {
 })
 
 test("Joining private waiting room successfully", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
-  waitingRooms.set(1, { creatorId: "pId1" });
+  waitingRooms.set(1, { creatorId: "pId1", joinerId: null });
 
   playerToWaitingRoom.set("pId1", 1);
   

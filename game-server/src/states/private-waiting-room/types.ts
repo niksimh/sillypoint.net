@@ -1,8 +1,8 @@
 import { GameStateOutput } from "../types"
 
-export interface WaitingNode {
+export interface WaitingRoom {
   creatorId: string
-  joinerId?: string
+  joinerId: string | null
 }
 
 export interface LeaveNotPresentResult {

@@ -4,11 +4,11 @@ import {
    LeaveCreatorNoJoinerResult,
    LeaveCreatorJoinerResult,
    LeaveJoinerResult,
-   WaitingNode 
+   WaitingRoom 
 } from "../../../states/private-waiting-room/types";
 
 test("Leaving private waiting room when not present", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
 
   let rightResult: LeaveNotPresentResult = {
@@ -18,9 +18,9 @@ test("Leaving private waiting room when not present", () => {
 });
 
 test("Leaving private waiting as the creator when there is no joiner", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
-  waitingRooms.set(1, { creatorId: "pId" });
+  waitingRooms.set(1, { creatorId: "pId", joinerId: null });
   playerToWaitingRoom.set("pId", 1);
 
   let rightResult: LeaveCreatorNoJoinerResult = {
@@ -30,7 +30,7 @@ test("Leaving private waiting as the creator when there is no joiner", () => {
 });
 
 test("Leaving private waiting as the creator when there is a joiner", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
   waitingRooms.set(1, { creatorId: "pId1", joinerId: "pId2" });
   playerToWaitingRoom.set("pId1", 1);
@@ -43,7 +43,7 @@ test("Leaving private waiting as the creator when there is a joiner", () => {
 });
 
 test("Leaving private waiting room as the joiner", () => {
-  let waitingRooms = new Map<number, WaitingNode>();
+  let waitingRooms = new Map<number, WaitingRoom>();
   let playerToWaitingRoom = new Map<string, number>();
   waitingRooms.set(1, { creatorId: "pId1", joinerId: "pId2" });
   playerToWaitingRoom.set("pId1", 1);
