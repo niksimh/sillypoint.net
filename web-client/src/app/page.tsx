@@ -11,13 +11,13 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      let playerIdJWT = "";
-      
-      if (typeof window !== "undefined") {
-        playerIdJWT = localStorage.getItem("playerIdJWT") || "";
+      if (typeof window === "undefined") {
+        return;
       }
-
-      let fetchUrl = `http://localhost:4000/check-in?playerIdToken=${playerIdJWT}`
+      
+      let playerIdToken = localStorage.getItem("playerIdToken") || "";
+      
+      let fetchUrl = `http://localhost:4000/check-in?playerIdToken=${playerIdToken}`;
 
       try {
         let response = await fetch(fetchUrl);
