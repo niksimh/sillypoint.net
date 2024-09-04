@@ -130,7 +130,7 @@ export default class Toss {
 
     //Clear moves
     currentGame.players[0].move = null;
-    currentGame.players[0].move = null;
+    currentGame.players[1].move = null;
 
     //Delete game from this state
     this.currentGames.delete(gameId);
