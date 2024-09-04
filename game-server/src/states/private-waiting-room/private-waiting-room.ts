@@ -1,7 +1,7 @@
 import type PlayerDB from "../../player-db/player-db"
 import type RelayService from "../../relay-service/relay-service"
-import { InputContainer } from "../../types";
-import { State } from "../types"
+import { GameOutput, InputContainer, LeaveOutput } from "../../types";
+import { GameStateOutput, State } from "../types"
 import { joinLogic, kickLogic, leaveLogic, startGameLogic } from "./logic";
 import { 
   JoinResult, 
@@ -9,10 +9,6 @@ import {
   LeaveResult, 
   StartGameResult, 
   WaitingRoom,
-  PrivateWaitingRoomCreatorNoJoinerOutput,
-  PrivateWaitingRoomCreatorJoinerOutput,
-  PrivateWaitingRoomJoinerPreJoinOutput,
-  PrivateWaitingRoomJoinerJoinedOutput
  } from "./types"
 import crypto from "crypto";
 
@@ -48,7 +44,7 @@ export default class PrivateWaitingRoom {
         this.waitingRooms.set(RoomId, newWaitingRoom);
         this.playerToWaitingRoom.set(playerId, RoomId);
 
-        let creatorOutput: PrivateWaitingRoomCreatorNoJoinerOutput = {
+        let creatorOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomCreator",
@@ -60,7 +56,7 @@ export default class PrivateWaitingRoom {
         this.relayService.sendHandler(playerId, creatorOutput);
         break;
       case "joiner":
-        let joinerOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
+        let joinerOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomJoiner",
@@ -79,13 +75,13 @@ export default class PrivateWaitingRoom {
 
     switch(result.decision) {
       case "present":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "badInput":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case 'badRoom':
-        let badRoomOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
+        let badRoomOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomJoiner",
@@ -97,7 +93,7 @@ export default class PrivateWaitingRoom {
         this.relayService.sendHandler(playerId, badRoomOutput);
         break;
       case "fullRoom":
-        let fullRoomOutput: PrivateWaitingRoomJoinerPreJoinOutput = {
+        let fullRoomOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomJoiner",
@@ -117,7 +113,7 @@ export default class PrivateWaitingRoom {
         currWaitingRoom.joinerId = playerId;
 
         //Output to joiner
-        let joinerJoinedOutput: PrivateWaitingRoomJoinerJoinedOutput = {
+        let joinerJoinedOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomJoiner",
@@ -131,7 +127,7 @@ export default class PrivateWaitingRoom {
         this.relayService.sendHandler(playerId, joinerJoinedOutput);
 
         //Output to creator
-        let creatorOutput: PrivateWaitingRoomCreatorJoinerOutput = {
+        let creatorOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomCreator",
@@ -152,13 +148,13 @@ export default class PrivateWaitingRoom {
 
     switch(result.decision) {
       case "notPresent":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "notCreator":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "empty":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "successful":
         let newRoomId = crypto.randomInt(1000, 10000);
@@ -172,7 +168,7 @@ export default class PrivateWaitingRoom {
         this.waitingRooms.set(newRoomId, { creatorId: playerId, joinerId: null });
 
         //Creator output 
-        let creatorOutput: PrivateWaitingRoomCreatorNoJoinerOutput = {
+        let creatorOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomCreator",
@@ -194,13 +190,13 @@ export default class PrivateWaitingRoom {
 
     switch(result.decision) {
       case "notPresent":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "notCreator":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "noJoiner":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "successful":
         let roomId = this.playerToWaitingRoom.get(playerId)!;
@@ -215,9 +211,34 @@ export default class PrivateWaitingRoom {
     }
   }
 
-  leave(playerId: string) {
+  leave(playerId: string, input: string) {
     let result: LeaveResult = leaveLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
 
+    //Handle leave output 
+    switch(input) {
+      case "badInput":
+        let badInputLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "badInput",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, badInputLeave);
+        break;
+      default:
+        let deliberateLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "deliberate",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, deliberateLeave);
+        break;
+    }
+
+    //Handle leaving
     let currPlayer = this.playerDB.getPlayer(playerId)!;
     let roomId = this.playerToWaitingRoom.get(playerId)!
     let waitingRoom = this.waitingRooms.get(roomId)!;
@@ -255,7 +276,7 @@ export default class PrivateWaitingRoom {
         this.relayService.serverCloseHandler(currPlayer.socket);
 
         //handler creator 
-        let creatorOutput: PrivateWaitingRoomCreatorNoJoinerOutput = {
+        let creatorOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomCreator",
@@ -272,7 +293,7 @@ export default class PrivateWaitingRoom {
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "privateWaitingRoomLeave":
-        this.leave(playerId);
+        this.leave(playerId, inputContainer.input);
         break;
       case "join":
         this.join(playerId, inputContainer.input);
