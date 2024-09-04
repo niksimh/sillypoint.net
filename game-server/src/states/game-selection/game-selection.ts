@@ -1,6 +1,6 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
-import { InputContainer } from "../../types";
+import { InputContainer, LeaveOutput } from "../../types";
 import { State, GameStateOutput } from "../types"
 
 export default class GameSelection {
@@ -45,15 +45,40 @@ export default class GameSelection {
         privateWaitingRoomJ.transitionInto(playerId, "joiner");
         break;
       default:
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
     }
   }
 
-  leave(playerId: string) {
+  leave(playerId: string, input: string) {
     //Nothing to cleanup at this state
-    let currentPlayer = this.playerDB.getPlayer(playerId)!;
     
+    //Send appropriate leaves 
+    switch(input) {
+      case "badInput":
+        let badInputLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "badInput",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, badInputLeave);
+        break;
+      default:
+        let deliberateLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "deliberate",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, deliberateLeave);
+        break;
+    }
+    
+    //Cleanup players
+    let currentPlayer = this.playerDB.getPlayer(playerId)!;
     this.playerDB.removePlayer(playerId);
     
     let playerSocket = currentPlayer.socket;
@@ -63,7 +88,7 @@ export default class GameSelection {
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "gameSelectionLeave":
-        this.leave(playerId);
+        this.leave(playerId, inputContainer.input);
         break;
       case "selectGame":
         this.selectGame(playerId, inputContainer.input);
