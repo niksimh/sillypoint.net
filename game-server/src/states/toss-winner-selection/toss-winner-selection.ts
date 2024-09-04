@@ -64,7 +64,7 @@ export default class TossWinnerSelection {
         break;
       case "complete":
         currGame.players[result.index].move = input;
-        clearTimeout(currGame.timeout);
+        clearTimeout(currGame.timeout!);
         this.completeState(gameId);
         break;
     }

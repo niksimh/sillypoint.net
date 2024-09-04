@@ -13,7 +13,8 @@ test("Computer needing to make a move for p1", () => {
       { playerId: "pId2",  username: "user2", move: "3", goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: ComputerMove0Result = {
@@ -30,7 +31,8 @@ test("Computer needing to make a move for p2", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: ComputerMove1Result = {
@@ -47,7 +49,8 @@ test("Computer needing to make a move for p1 and p2", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: ComputerMove01Result = {

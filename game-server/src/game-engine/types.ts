@@ -8,6 +8,7 @@ export interface PlayerContainer {
 export interface TossContainer {
   evenId: string
   winnerId: string | null
+  winnerSelection: "bat" | "bowl" | null
 }
 
 export interface ScoreboardContainer {
@@ -15,14 +16,14 @@ export interface ScoreboardContainer {
   balls: number
   wickets: number
   last6: [string,string,string,string,string,string]
-  target?: number
+  target: number | null
 }
 
 export interface Game {
   players: PlayerContainer[]
   toss: TossContainer | null
   scoreboard: ScoreboardContainer | null
-  timeout?: NodeJS.Timeout
+  timeout: NodeJS.Timeout | null
 }
 
 export type MAX_BALLS = 30;

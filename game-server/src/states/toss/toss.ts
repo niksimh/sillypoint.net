@@ -35,7 +35,8 @@ export default class Toss {
     //Setup toss variables
     let toss: TossContainer = {
       evenId: (Math.random() > 0.5) ? game.players[0].playerId : game.players[1].playerId,
-      winnerId: null
+      winnerId: null,
+      winnerSelection: null
      }
      game.toss = toss;
      
@@ -80,12 +81,12 @@ export default class Toss {
         let generateMove = crypto.randomInt(0, 7).toString();
         currGame.players[result.index].move = input;
         currGame.players[result.otherPlayerIndex].move = generateMove;
-        clearTimeout(currGame.timeout);
+        clearTimeout(currGame.timeout!);
         this.completeState(gameId);
         break;
       case "complete":
         currGame.players[result.index].move = input;
-        clearTimeout(currGame.timeout);
+        clearTimeout(currGame.timeout!);
         this.completeState(gameId);
         break;
     }
@@ -146,7 +147,7 @@ export default class Toss {
         this.relayService.serverCloseHandler(currPlayer.socket);
         break;
       case "noOneLeft":
-        clearTimeout(currGame.timeout);
+        clearTimeout(currGame.timeout!);
         this.currentGames.delete(gameId);
         this.playerDB.removePlayer(playerId);
         this.relayService.serverCloseHandler(currPlayer.socket);

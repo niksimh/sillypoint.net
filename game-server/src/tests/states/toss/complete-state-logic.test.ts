@@ -12,9 +12,11 @@ test("p1 wins toss as even player", () => {
     ],
     toss: { 
       evenId: "pId1",
-      winnerId: null
+      winnerId: null,
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: CompleteStateResult = {
@@ -32,9 +34,11 @@ test("p1 wins toss as odd player", () => {
     ],
     toss: { 
       evenId: "pId2",
-      winnerId: null
+      winnerId: null,
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: CompleteStateResult = {
@@ -52,9 +56,11 @@ test("p2 wins toss as even player", () => {
     ],
     toss: { 
       evenId: "pId2",
-      winnerId: null
+      winnerId: null,
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: CompleteStateResult = {
@@ -72,9 +78,11 @@ test("p2 wins toss as odd player", () => {
     ],
     toss: { 
       evenId: "pId1",
-      winnerId: null
+      winnerId: null,
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: CompleteStateResult = {

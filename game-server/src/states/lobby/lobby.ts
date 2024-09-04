@@ -33,7 +33,8 @@ export default class Lobby {
          }
       ],
       toss: null,
-      scoreboard: null
+      scoreboard: null,
+      timeout: null
     }
     
     let p1Player = this.playerDB.getPlayer(player1Id)!;
@@ -104,7 +105,7 @@ export default class Lobby {
         this.relayService.serverCloseHandler(currPlayer.socket);
         break;
       case "noOneLeft":
-        clearTimeout(currGame.timeout);
+        clearTimeout(currGame.timeout!);
         this.currentGames.delete(gameId);
         this.playerDB.removePlayer(playerId);
         this.relayService.serverCloseHandler(currPlayer.socket);

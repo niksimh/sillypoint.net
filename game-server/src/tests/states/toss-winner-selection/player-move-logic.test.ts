@@ -13,9 +13,11 @@ test ("Toss winner making a selection move that is not 'bat' or 'bowl'", () => {
     ],
     toss: {
       evenId: "pId1",
-      winnerId: "pId1"
+      winnerId: "pId1",
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -33,9 +35,11 @@ test("Non-winner making toss winner selection move", () => {
     ],
     toss: {
       evenId: "pId1",
-      winnerId: "pId1"
+      winnerId: "pId1",
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -53,9 +57,11 @@ test("p1 as toss winner making their selection move", () => {
     ],
     toss: {
       evenId: "pId1",
-      winnerId: "pId1"
+      winnerId: "pId1",
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveCompleteResult = {
@@ -74,9 +80,11 @@ test("p2 as toss winner making their selection move", () => {
     ],
     toss: {
       evenId: "pId1",
-      winnerId: "pId2"
+      winnerId: "pId2",
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveCompleteResult = {

@@ -13,9 +13,11 @@ test("p1 has not yet made their move as the toss winner", () => {
     ],
     toss: {
       evenId: "pId1",
-      winnerId: "pId1"
+      winnerId: "pId1",
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: ComputerMove0Result = {
@@ -33,9 +35,11 @@ test("p2 has not yet made their move as the toss winner", () => {
     ],
     toss: {
       evenId: "pId1",
-      winnerId: "pId2"
+      winnerId: "pId2",
+      winnerSelection: null
     },
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: ComputerMove1Result = {

@@ -14,7 +14,8 @@ test("Make bad move that is not an int as p1", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -31,7 +32,8 @@ test("Make bad move that is an out-of-bound int as p1", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -49,7 +51,8 @@ test("Make move as p1 after previously making move", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -66,7 +69,8 @@ test("Make move as p1 after p2 has made their move", () => {
       { playerId: "pId2",  username: "user2", move: "3", goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveCompleteResult = {
@@ -84,7 +88,8 @@ test("Make move as  p1 when p2 is gone/temp disconnect but has made their move p
       { playerId: "pId2",  username: "user2", move: "3", goneOrTemporaryDisconnect: "gone"}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveCompleteResult = {
@@ -102,7 +107,8 @@ test("Make move as p1 before p2 has made their move while they are present", () 
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMovePartialResult = {
@@ -120,7 +126,8 @@ test("Make move as p1 when p2 is dummy", () => {
       { playerId: "#",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveFulfillOtherResult = {
@@ -139,7 +146,8 @@ test("Make move as p1 when p2 is gone/temp disconnect but has not made their mov
       { playerId: "#",  username: "user2", move: null, goneOrTemporaryDisconnect: "temporaryDisconnect"}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveFulfillOtherResult = {
@@ -160,7 +168,8 @@ test("Make bad move as p2", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -177,7 +186,8 @@ test("Make bad move that is an out-of-bound int as p2", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -194,7 +204,8 @@ test("Make move as p2 after previously making move", () => {
       { playerId: "pId2",  username: "user2", move: "3", goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveBadMoveResult = {
@@ -211,7 +222,8 @@ test("Make move as p2 after p1 has made their move", () => {
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveCompleteResult = {
@@ -229,7 +241,8 @@ test("Make move as p2 when p1 is gone/temp disconnect but has made their move pr
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveCompleteResult = {
@@ -247,7 +260,8 @@ test("Make move as p2 before p1 has made their move while they are present", () 
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMovePartialResult = {
@@ -265,7 +279,8 @@ test("Make move as p2 when p1 is gone/temp disconnect but has not made their mov
       { playerId: "pId2",  username: "user2", move: null, goneOrTemporaryDisconnect: null}
     ],
     toss: null,
-    scoreboard: null
+    scoreboard: null,
+    timeout: null
   };
 
   let rightResult: PlayerMoveFulfillOtherResult = {
