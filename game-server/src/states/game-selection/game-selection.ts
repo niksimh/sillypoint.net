@@ -1,8 +1,7 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { InputContainer } from "../../types";
-import { State } from "../types"
-import { GameSelectionOutput } from "./types";
+import { State, GameStateOutput } from "../types"
 
 export default class GameSelection {
   stateMap: Map<string, State>
@@ -20,7 +19,7 @@ export default class GameSelection {
     
     currentPlayer.status = "gameSelection";
 
-    let gameSelectionOutput: GameSelectionOutput = {
+    let gameSelectionOutput: GameStateOutput = {
       type: "gameState",
       outputContainer: {
         subType: "gameSelection",

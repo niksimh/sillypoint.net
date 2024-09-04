@@ -5,7 +5,6 @@ import { z } from "zod";
 import { ConnectionResult, MessageResult } from "./types";
 import { PlayerIdTokenPayload } from "../types";
 
-
 export function connectionLogic(requestURL: string | undefined, secret: string): ConnectionResult {
   if (requestURL === undefined) {
     return { decision: "badConnectionRequest" };
@@ -35,7 +34,7 @@ export function connectionLogic(requestURL: string | undefined, secret: string):
     decision: "add",
     playerId: playerIdTokenPayload.playerId,
     username: playerIdTokenPayload.username
-  }
+  };
 }
 
 export function messageLogic(readyState: number, currSeqNum: number, message: string): MessageResult {

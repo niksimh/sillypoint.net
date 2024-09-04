@@ -24,7 +24,7 @@ export type State =
   Innings2 | 
   GameOver
 
-export interface GameStateOutput extends GameOutput {
+export interface GameStateOutput {
   type: "gameState"
   outputContainer: {
     subType: string

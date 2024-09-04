@@ -19,7 +19,7 @@ export default class Connecting {
       username: username,
       socket: socket,
       status: "connecting"
-    }
+    };
     this.playerDB.addPlayer(playerId, newPlayer);
           
     let gameSelectionState = this.stateMap.get("gameSelection") as any;

@@ -3,10 +3,10 @@ import crypto from "crypto";
 import type { IncomingMessage } from "http";
 
 import { connectionLogic, messageLogic } from "./logic";
-import type { ConnectionResult, LeaveBadConnectionRequestOutput, MessageResult, SeqNumOutput } from "./types";
+import type { ConnectionResult, MessageResult } from "./types";
 import { State } from "../states/types";
 import PlayerDB from "../player-db/player-db";
-import { GameInput, InputContainer } from "../types";
+import { InputContainer, LeaveOutput, SeqNumOutput } from "../types";
 
 export default class RelayService {
   wss: WebSocketServer
@@ -26,7 +26,7 @@ export default class RelayService {
 
     switch(result.decision) {
       case "badConnectionRequest":
-        let leaveOutput: LeaveBadConnectionRequestOutput = {
+        let leaveOutput: LeaveOutput = {
           type: "leave",
           outputContainer: {
             subType: "badConnectionRequest",

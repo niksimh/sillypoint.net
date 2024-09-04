@@ -29,20 +29,3 @@ export interface MessageIgnoreResult {
 
 export type MessageResult = MessageHandleResult | MessageLeaveResult | MessageIgnoreResult;
 
-export interface SeqNumOutput extends GameOutput {
-  type: "seqNum"
-  outputContainer: {
-    subType: ""
-    data: {
-      seqNum: number
-    }
-  }
-}
-
-export interface LeaveBadConnectionRequestOutput extends GameOutput {
-  type: "leave"
-  outputContainer: {
-    subType: "badConnectionRequest"
-    data: {}
-  }
-}
