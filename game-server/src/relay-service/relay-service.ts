@@ -85,7 +85,7 @@ export default class RelayService {
       case "leave":
         let overridenInputContainer: InputContainer = {
           type: currPlayer.status+"Leave",
-          input: ""
+          input: "deliberate"
         }
         currState.inputHandler(playerId, overridenInputContainer);
         break;
