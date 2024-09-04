@@ -9,6 +9,12 @@ export let badWordList = [
   "shit",
   "ass",
   "arse",
+  "bastard",
+  "bitch",
+  "whore",
+  "nigg",
+  "kike",
+  "dyke"
 ];
 
 export function isAlphaNumeric(str: string) {

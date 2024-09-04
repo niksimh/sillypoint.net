@@ -1,22 +1,28 @@
 'use client';
 
-import Header from "../../shared/Header";
-import Footer from "../../shared/Footer";
+import Header from "@/shared/Header";
+import Footer from "@/shared/Footer";
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { RegisterJSON } from "@/types/index-handler-types";
 
 export default function RegisterPage() {
-  const router = useRouter()
+  const router = useRouter();
 
-  let [submissionStatus, setSubmissionStatus] = useState("pending");
+  let [submissionStatus, setSubmissionStatus] = useState("pendingSubmission");
   
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     //Prevent default 
     e.preventDefault();
     
-    //Prevent further form submissions 
     let submitInput = (document.getElementById("submitInput") as HTMLInputElement);
+
+    //If event was placed on queue before disabling, noop
+    if (submitInput.disabled) {
+      return;
+    }
+
+    //Prevent further form submissions 
     submitInput.disabled = true;
 
     //Get the entered username and setup fetch url
@@ -44,7 +50,7 @@ export default function RegisterPage() {
 
   let additionalMessage;
   switch(submissionStatus) {
-    case "pending":
+    case "pendingSubmission":
       additionalMessage = "";
       break;
     case "notAlphaNumeric":
@@ -66,8 +72,11 @@ export default function RegisterPage() {
       <Header title='Register'/>
       <form onSubmit={submitHandler}>
         <label htmlFor="usernameBox">Enter a username to play! Or leave it blank to get a random one.</label>
+        <br />
         <input type="text" id="usernameBox" name="usernameBox" />
+        <br />
         { additionalMessage }
+        <br />
         <input type="submit" id="submitInput" value="submit" />
       </form>
       <Footer />    
