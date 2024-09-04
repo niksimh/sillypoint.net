@@ -51,7 +51,7 @@ export function playerMoveLogic(playerId: string, game: Game, move: string): Pla
     return { decision: "fulfillOther", index: 1, otherPlayerIndex: 0 };
   }
 
-  return { decision: "partial", index: 1 }
+  return { decision: "partial", index: 1 };
 }
 
 export function computerMoveLogic(game: Game): ComputerMoveResult {
