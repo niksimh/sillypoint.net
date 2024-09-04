@@ -13,8 +13,16 @@ export function playerMoveLogic(playerId: string, game: Game, input: string): Pl
   }
 
   let players = game.players;
+
   if (players[0].playerId === playerId) {
+    if(players[0].move !== null) {
+      return { decision: "badMove" };
+    }
     return { decision: "complete", index: 0};
+  }
+
+  if(players[1].move !== null) {
+    return { decision: "badMove" };
   }
   return { decision: "complete", index: 1};
 }

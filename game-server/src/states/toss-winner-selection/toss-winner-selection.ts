@@ -3,7 +3,7 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { TossWinnerSelectionOutput, PlayerMoveResult, ComputerMoveResult } from "./types";
 import { playerMoveLogic, computerMoveLogic } from "./logic";
-import { State } from "../types"
+import { GameStateOutput, State } from "../types"
 import { InputContainer } from "../../types";
 
 export default class TossWinnerSelection {
@@ -31,7 +31,7 @@ export default class TossWinnerSelection {
 
     let deadline = Date.now() + (100 + 1000 + 10000);
     //Send out result
-    let tossOutput: TossWinnerSelectionOutput = {
+    let tossOutput: GameStateOutput = {
       type: "gameState",
       outputContainer: {
         subType: "tossWinnerSelection",
@@ -48,23 +48,22 @@ export default class TossWinnerSelection {
     this.relayService.sendHandler(game.players[1].playerId, tossOutput);
 
     game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
-
   }
   
   playerMove(playerId: string, input: string) {
-    let currPlayer = this.playerDB.getPlayer(playerId)!;
-    let gameId = currPlayer.gameId!;
-    let currGame = this.currentGames.get(gameId)!;
+    let currentPlayer = this.playerDB.getPlayer(playerId)!;
+    let gameId = currentPlayer.gameId!;
+    let currentGame = this.currentGames.get(gameId)!;
 
-    let result: PlayerMoveResult = playerMoveLogic(playerId, currGame, input);
+    let result: PlayerMoveResult = playerMoveLogic(playerId, currentGame, input);
 
     switch(result.decision) {
       case "badMove":
-        this.leave(playerId);
+        this.leave(playerId, "badInput");
         break;
       case "complete":
-        currGame.players[result.index].move = input;
-        clearTimeout(currGame.timeout!);
+        currentGame.players[result.index].move = input;
+        clearTimeout(currentGame.timeout!);
         this.completeState(gameId);
         break;
     }
@@ -91,14 +90,14 @@ export default class TossWinnerSelection {
 
   }
 
-  leave(playerId: string) {
+  leave(playerId: string, input: string) {
 
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "tossWinnerSelectionLeave":
-        this.leave(playerId);
+        this.leave(playerId, inputContainer.input);
         break;
       case "tossWinnerSelectionPlayerMove":
         this.playerMove(playerId, inputContainer.input);
