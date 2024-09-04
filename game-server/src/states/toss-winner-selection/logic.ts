@@ -1,5 +1,5 @@
 import { Game } from "../../game-engine/types";
-import { ComputerMoveResult, PlayerMoveResult } from "./types";
+import { CompleteStateResult, ComputerMoveResult, PlayerMoveResult } from "./types";
 
 
 export function playerMoveLogic(playerId: string, game: Game, input: string): PlayerMoveResult {
@@ -28,6 +28,17 @@ export function playerMoveLogic(playerId: string, game: Game, input: string): Pl
 }
 
 export function computerMoveLogic(game: Game): ComputerMoveResult {
+  let players = game.players;
+  let tossContainer = game.toss!;
+  let tossWinnerId = tossContainer.winnerId!;
+  
+  if (players[0].playerId === tossWinnerId) {
+    return { decision: "0" };
+  }
+  return { decision: "1" };
+}
+
+export function completeStateLogic(game: Game): CompleteStateResult {
   let players = game.players;
   let tossContainer = game.toss!;
   let tossWinnerId = tossContainer.winnerId!;

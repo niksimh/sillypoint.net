@@ -87,7 +87,30 @@ export default class TossWinnerSelection {
 
   
   completeState(gameId: string) {
+    let currentGame = this.currentGames.get(gameId)!;
+    
+    let result: ComputerMoveResult = computerMoveLogic(currentGame);
+    
+    let tossContainer = currentGame.toss!;
+    switch(result.decision) {
+      case "0":
+        tossContainer.winnerSelection = currentGame.players[0].move as ("bat" | "bowl");
+        break;
+      case "1":
+        tossContainer.winnerSelection = currentGame.players[1].move as ("bat" | "bowl");
+        break;
+    }
+    
+    //Clear moves
+    currentGame.players[0].move = null;
+    currentGame.players[1].move = null;
 
+    //Delete game from this state
+    this.currentGames.delete(gameId);
+
+    //Send game over to innings1
+    let innings1State = this.stateMap.get("innings1")! as any;
+    innings1State.transitionInto(gameId, currentGame);
   }
 
   leave(playerId: string, input: string) {
