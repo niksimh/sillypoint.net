@@ -70,16 +70,16 @@ export default class TossWinnerSelection {
   }
 
   computerMove(gameId: string) {
-    let currGame = this.currentGames.get(gameId)!;
+    let currentGame = this.currentGames.get(gameId)!;
 
-    let result: ComputerMoveResult = computerMoveLogic(currGame);
+    let result: ComputerMoveResult = computerMoveLogic(currentGame);
     
     switch(result.decision) {
       case "0":
-        currGame.players[0].move = Math.random() > 0.5 ? "bat" : " bowl";
+        currentGame.players[0].move = Math.random() > 0.5 ? "bat" : " bowl";
         break;
       case "1":
-        currGame.players[1].move = Math.random() > 0.5 ? "bat" : " bowl";
+        currentGame.players[1].move = Math.random() > 0.5 ? "bat" : " bowl";
         break;
     }
     this.completeState(gameId);
