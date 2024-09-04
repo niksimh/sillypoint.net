@@ -1,9 +1,9 @@
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
-import { State } from "../types"
-import { LeaveResult, ProcessResult, PublicWaitingRoomOutput, WaitingNode } from "./types"
+import { GameStateOutput, State } from "../types"
+import { LeaveResult, ProcessResult, WaitingNode } from "./types"
 import { leaveLogic, processLogic } from "./logic"
-import { InputContainer } from "../../types"
+import { InputContainer, LeaveOutput } from "../../types"
 
 export default class PublicWaitingRoom {
   stateMap: Map<string, State>
@@ -30,7 +30,7 @@ export default class PublicWaitingRoom {
       timeJoined: Date.now()
     });
 
-    let publicWaitingRoomOutput: PublicWaitingRoomOutput = {
+    let publicWaitingRoomOutput: GameStateOutput = {
       type: "gameState",
       outputContainer: {
         subType: "publicWaitingRoom",
@@ -60,10 +60,20 @@ export default class PublicWaitingRoom {
     }
   }
 
-  leave(playerId: string) {
+  leave(playerId: string, input: string) {
     let currentPlayer = this.playerDB.getPlayer(playerId)!;
 
     let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
+
+    //Send leave output
+    let leaveOutput: LeaveOutput = {
+      type: "leave",
+      outputContainer: {
+        subType: "deliberate",
+        data: {}
+      }
+    };
+    this.relayService.sendHandler(playerId, leaveOutput);
 
     this.waitingQueue.splice(result.index, 1);
     this.playerDB.removePlayer(playerId);
@@ -73,7 +83,7 @@ export default class PublicWaitingRoom {
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "publicWaitingRoomLeave":
-        this.leave(playerId);
+        this.leave(playerId, inputContainer.input);
         break;
       default:
         break;
