@@ -1,5 +1,5 @@
 import type PlayerDB from "../../player-db/player-db";
-import { State } from "../types";
+import { GameStateOutput, State } from "../types";
 import type { Game } from "../../game-engine/types";
 import type RelayService from "../../relay-service/relay-service";
 import crypto from "crypto";
@@ -20,55 +20,69 @@ export default class Lobby {
     this.currentGames = new Map();
   }
   
-  transitionInto(player1Id: string, player2Id?: string) {
+  transitionInto(players: string[]) {
     let newGameId = crypto.randomUUID();
 
-    let newGame: Game = {
-      players: [
-        { 
-          playerId: player1Id, 
-          username: this.playerDB.getPlayer(player1Id)!.username, 
-          move: null,
-          goneOrTemporaryDisconnect: null
-         }
-      ],
-      toss: null,
-      scoreboard: null,
-      timeout: null
-    }
-    
-    let p1Player = this.playerDB.getPlayer(player1Id)!;
-    p1Player.status = "lobby";
-    p1Player.gameId = newGameId;
-
-    switch(player2Id) {
-      case undefined:
+    let newGame: Game;
+    switch(players.length) {
+      case 1:
         let dummyUsername = "Guest_" + crypto.randomInt(9999);
-        newGame.players.push({
-          playerId: "#", 
-          username: dummyUsername,
-          move: null,
-          goneOrTemporaryDisconnect: null
-        }) //dummy player
+
+        newGame = {
+          players: [
+            { 
+              playerId: players[0], 
+              username: this.playerDB.getPlayer(players[0])!.username, 
+              move: null,
+              goneOrTemporaryDisconnect: null
+             }, 
+             {
+              playerId: "#", //dummyId 
+              username: dummyUsername, 
+              move: null,
+              goneOrTemporaryDisconnect: null
+             }
+          ],
+          toss: null,
+          scoreboard: null,
+          timeout: null
+        };
+
+        let player = this.playerDB.getPlayer(players[0])!;
+        player.status = "lobby";
+        player.gameId = newGameId;
         break;
       default:
-        let p2Player = this.playerDB.getPlayer(player2Id)!;
-        p2Player.status = "lobby";
-        p1Player.gameId = newGameId;
-
-        let p2 =  { 
-          playerId: player2Id, 
-          username: this.playerDB.getPlayer(player2Id)!.username,
-          move: null,
-          goneOrTemporaryDisconnect: null
-        }
-        newGame.players.push(p2);
-        break;
+        newGame = {
+          players: [
+            { 
+              playerId: players[0], 
+              username: this.playerDB.getPlayer(players[0])!.username, 
+              move: null,
+              goneOrTemporaryDisconnect: null
+             }, 
+             {
+              playerId: players[1], 
+              username: this.playerDB.getPlayer(players[1])!.username, 
+              move: null,
+              goneOrTemporaryDisconnect: null
+             }
+          ],
+          toss: null,
+          scoreboard: null,
+          timeout: null
+        };
+      let player1 = this.playerDB.getPlayer(players[0])!;
+      let player2 = this.playerDB.getPlayer(players[1])!;
+      player1.status = "lobby";
+      player1.gameId = newGameId;
+      player2.status = "lobby";
+      player2.gameId = newGameId;
     }
 
     this.currentGames.set(newGameId, newGame);
 
-    let output: LobbyOutput = {
+    let lobbyOutput: GameStateOutput = {
       type: "gameState",
       outputContainer: {
         subType: "lobby",
@@ -79,16 +93,21 @@ export default class Lobby {
       }      
     };
 
-    this.relayService.sendHandler(newGame.players[0].playerId, JSON.stringify(output));
-    this.relayService.sendHandler(newGame.players[1].playerId, JSON.stringify(output));
+    this.relayService.sendHandler(newGame.players[0].playerId, lobbyOutput);
+    this.relayService.sendHandler(newGame.players[1].playerId, lobbyOutput);
 
     newGame.timeout = setTimeout(() => this.process(newGameId), 6000);
   }
 
   process(gameId: string) {
+    let currentGame = this.currentGames.get(gameId)!
+
+    //Delete game from this state
     this.currentGames.delete(gameId);
+
+    //Send game over to toss
     let tossState = this.stateMap.get("toss")! as any;
-    tossState.transitionInto(gameId, this.currentGames.get(gameId)!);
+    tossState.transitionInto(gameId, currentGame);
   }
 
   lobbyLeave(playerId: string) {

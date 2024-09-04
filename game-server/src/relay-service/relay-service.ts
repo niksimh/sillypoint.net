@@ -63,7 +63,7 @@ export default class RelayService {
   }
 
   sendHandler(playerId: string, message: {}) {
-    let currPlayer = this.playerDB.getPlayer(playerId);
+    let currPlayer = this.playerDB.getPlayer(playerId); //accounting for dummy players
     currPlayer?.socket?.send(JSON.stringify(message));
   }
 
