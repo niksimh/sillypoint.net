@@ -41,7 +41,7 @@ export default class Toss {
      game.toss = toss;
      
 
-    let deadline = Date.now() + (100 + 1000 + 1000);
+    let deadline = Date.now() + (100 + 1000 + 10000);
     //Send toss output
     let tossOutput: GameStateOutput = {
       type: "gameState",
