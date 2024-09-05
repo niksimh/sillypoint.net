@@ -4,7 +4,7 @@ import { State } from "../types"
 import { Game, ScoreboardContainer } from "../../game-engine/types"
 import { TransitionIntoResult } from "./types"
 import { transitionIntoLogic } from "./logic"
-import { GameStateOutput } from "../../types"
+import { GameStateOutput, InputContainer } from "../../types"
 
 export default class Innings1 {
   stateMap: Map<string, State>
@@ -62,6 +62,19 @@ export default class Innings1 {
     game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
   }
 
+  playerMove(playerId: string, input: string) {
+    
+  }
 
-  computerMove(gameId: string) {}
+  computerMove(gameId: string) {
+
+  }
+
+  leave(playerId: string, input: string) {
+
+  }
+
+  inputHandler(playerId: string, inputContainer: InputContainer) {
+    
+  }
  }
