@@ -63,3 +63,46 @@ export function endOfInnings(scoreboard: ScoreboardContainer): "innings1" | "inn
    }
   }
 }
+
+//Called only at the end of a second innings when a target has been set
+export function winningStatement(
+  scoreboard: ScoreboardContainer,
+  batterUsername: string, 
+  bowlerUsername: string): string {
+
+  if(scoreboard.runs >= scoreboard.target!) {
+    let wicketsRemaining = MAX_WICKETS - scoreboard.wickets;
+    let wicketsStatement;
+    if (wicketsRemaining !== 1) {
+      wicketsStatement = `${wicketsRemaining} wickets`;
+    } else {
+      wicketsStatement = `${wicketsRemaining} wicket`; 
+    }
+
+    let ballsRemaining = MAX_BALLS - scoreboard.balls;
+    let ballsStatement;
+    if (ballsRemaining !== 1) {
+      ballsStatement = `${ballsRemaining} balls left`;
+    } else {
+      ballsStatement = `${ballsRemaining} ball left`;
+    }
+
+    return `${batterUsername} has won by ${wicketsStatement} (with ${ballsStatement}).`;
+  } else if (scoreboard.runs < (scoreboard.target! - 1)) {
+    let runsRemaining = scoreboard.target! - 1 - scoreboard.runs;
+    let runsStatement;
+    if (runsRemaining !== 1) {
+      runsStatement = `${runsRemaining} runs`;
+    } else {
+      runsStatement = `${runsRemaining} run`;
+    }
+
+    return `${bowlerUsername} has won by ${runsStatement}.`;
+  } else {
+    if (scoreboard.runs !== 1) {
+      return `The match has been tied with both players scoring ${scoreboard.runs} runs.`
+    } else {
+      return `The match has been tied with both players scoring ${scoreboard.runs} run.` 
+    }
+  }
+}

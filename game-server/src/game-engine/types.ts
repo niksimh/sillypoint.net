@@ -26,5 +26,3 @@ export interface Game {
   timeout: NodeJS.Timeout | null
 }
 
-export type MAX_BALLS = 30;
-export type WICKETS = 3;
