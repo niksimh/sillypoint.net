@@ -51,3 +51,17 @@ export interface CompleteState1Result {
 export type CompleteStateResult = 
   ComputerMove0Result |
   ComputerMove1Result;
+
+export interface LeaveOneLeftResult {
+  decision: "oneLeft"
+  index: 0 | 1
+}
+
+export interface LeaveNoOneLeftResult {
+  decision: "noOneLeft"
+  index: 0 | 1
+}
+
+export type LeaveResult = 
+  LeaveOneLeftResult |
+  LeaveNoOneLeftResult;
