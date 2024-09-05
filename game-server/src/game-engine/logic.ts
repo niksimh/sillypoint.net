@@ -1,4 +1,10 @@
-import { ScoreboardContainer } from "./types";
+import { 
+  ScoreboardContainer
+} from "./types";
+
+export const MAX_BALLS = 30;
+export const MAX_WICKETS = 3;
+
 
 //20% chance of a no-ball
 export function isNoBall() {
@@ -34,4 +40,26 @@ export function processBall(
   }
 
   return newScoreboard;
+}
+
+export function endOfInnings(scoreboard: ScoreboardContainer): "innings1" | "innings2" | null {
+  if (scoreboard.target) {
+    let conditionBalls = scoreboard.balls === MAX_BALLS;
+    let conditionWickets = scoreboard.wickets === MAX_WICKETS;
+    let conditionRuns = scoreboard.runs >= scoreboard.target;
+
+    if (conditionBalls || conditionWickets || conditionRuns) {
+      return "innings2";
+    } else {
+      return null;
+    }      
+  } else {
+    let conditionBalls = scoreboard.balls === MAX_BALLS;
+    let conditionWickets = scoreboard.wickets === MAX_WICKETS;
+    if (conditionBalls || conditionWickets) {
+      return "innings1";
+    } else {
+      return null;
+   }
+  }
 }
