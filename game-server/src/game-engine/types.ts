@@ -12,6 +12,7 @@ export interface TossContainer {
 }
 
 export interface ScoreboardContainer {
+  batterId: string
   runs: number
   balls: number
   wickets: number
