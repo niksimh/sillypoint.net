@@ -2,9 +2,10 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
 import { Game, ScoreboardContainer } from "../../game-engine/types"
-import { TransitionIntoResult } from "./types"
-import { transitionIntoLogic } from "./logic"
+import { TransitionIntoResult, PlayerMoveResult } from "./types"
+import { transitionIntoLogic, playerMoveLogic } from "./logic"
 import { GameStateOutput, InputContainer } from "../../types"
+import crypto from "crypto";
 
 export default class Innings1 {
   stateMap: Map<string, State>
@@ -63,10 +64,39 @@ export default class Innings1 {
   }
 
   playerMove(playerId: string, input: string) {
-    
+    let currentPlayer = this.playerDB.getPlayer(playerId)!;
+    let gameId = currentPlayer.gameId!;
+    let currentGame = this.currentGames.get(gameId)!;
+
+    let result: PlayerMoveResult = playerMoveLogic(playerId, currentGame, input);
+
+    switch(result.decision) {
+      case "badMove":
+        this.leave(playerId, "badInput");
+        break;
+      case "partial":
+        currentGame.players[result.index].move = input;
+        break;
+      case "fulfillOther":
+        let generateMove = crypto.randomInt(0, 7).toString();
+        currentGame.players[result.index].move = input;
+        currentGame.players[result.otherPlayerIndex].move = generateMove;
+        clearTimeout(currentGame.timeout!);
+        this.completeState(gameId);
+        break;
+      case "complete":
+        currentGame.players[result.index].move = input;
+        clearTimeout(currentGame.timeout!);
+        this.completeState(gameId);
+        break;
+    }
   }
 
   computerMove(gameId: string) {
+
+  }
+
+  completeState(gameId: string) {
 
   }
 
@@ -75,6 +105,6 @@ export default class Innings1 {
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
-    
+
   }
  }
