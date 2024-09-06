@@ -213,6 +213,13 @@ export default class Innings1 {
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
-
+    switch(inputContainer.type) {
+      case "innings1Leave":
+        this.leave(playerId, inputContainer.input);
+        break;
+      case "innings1PlayerMove":
+        this.playerMove(playerId, inputContainer.input);
+        break;
+    }
   }
  }
