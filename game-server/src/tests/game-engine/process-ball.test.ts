@@ -3,6 +3,7 @@ import { ScoreboardContainer } from "../../game-engine/types";
 
 test("Process ball during no-ball when batter and bowler have the same move", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: 0,
     wickets: 0,
@@ -11,6 +12,7 @@ test("Process ball during no-ball when batter and bowler have the same move", ()
   };
 
   let rightResult = {
+    batterId: "pId1",
     runs: 1,
     balls: 0,
     wickets: 0,
@@ -23,6 +25,7 @@ test("Process ball during no-ball when batter and bowler have the same move", ()
 
 test("Process ball during no-ball when batter and bowler have different moves", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: 0,
     wickets: 0,
@@ -31,6 +34,7 @@ test("Process ball during no-ball when batter and bowler have different moves", 
   };
 
   let rightResult = {
+    batterId: "pId1",
     runs: 7,
     balls: 0,
     wickets: 0,
@@ -43,6 +47,7 @@ test("Process ball during no-ball when batter and bowler have different moves", 
 
 test("Process ball during valid ball when batter and bowler have the same move", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: 0,
     wickets: 0,
@@ -51,6 +56,7 @@ test("Process ball during valid ball when batter and bowler have the same move",
   };
 
   let rightResult = {
+    batterId: "pId1",
     runs: 0,
     balls: 1,
     wickets: 1,
@@ -63,6 +69,7 @@ test("Process ball during valid ball when batter and bowler have the same move",
 
 test("Process ball during valid ball when batter and bowler have different moves", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: 0,
     wickets: 0,
@@ -71,6 +78,7 @@ test("Process ball during valid ball when batter and bowler have different moves
   };
 
   let rightResult = {
+    batterId: "pId1",
     runs: 6,
     balls: 1,
     wickets: 0,

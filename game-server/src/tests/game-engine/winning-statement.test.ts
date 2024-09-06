@@ -3,6 +3,7 @@ import { ScoreboardContainer } from "../../game-engine/types";
 
 test("Winning statement with batter winning with 1 wicket and 1 ball left", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 11,
     balls: MAX_BALLS - 1,
     wickets: MAX_WICKETS - 1,
@@ -17,6 +18,7 @@ test("Winning statement with batter winning with 1 wicket and 1 ball left", () =
 
 test("Winning statement with batter winning with multiple wickets and multiple balls left", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 11,
     balls: MAX_BALLS - 2,
     wickets: MAX_WICKETS - 2,
@@ -31,6 +33,7 @@ test("Winning statement with batter winning with multiple wickets and multiple b
 
 test("Winning statement with bowler winning by 1 run", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 8,
     balls: MAX_BALLS,
     wickets: MAX_WICKETS - 2,
@@ -45,6 +48,7 @@ test("Winning statement with bowler winning by 1 run", () => {
 
 test("Winning statement with bowler winning by multiple runs", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 7,
     balls: MAX_BALLS,
     wickets: MAX_WICKETS - 2,
@@ -59,6 +63,7 @@ test("Winning statement with bowler winning by multiple runs", () => {
 
 test("Test tie with 1 run scored by both players", () => {
   let scoreboard: ScoreboardContainer= {
+    batterId: "pId1",
     runs: 1,
     balls: MAX_BALLS,
     wickets: MAX_WICKETS - 2,
@@ -73,6 +78,7 @@ test("Test tie with 1 run scored by both players", () => {
 
 test("Test tie with multiple runs scored by both players", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 14,
     balls: MAX_BALLS,
     wickets: MAX_WICKETS - 2,

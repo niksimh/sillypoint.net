@@ -3,6 +3,7 @@ import { ScoreboardContainer } from "../../game-engine/types";
 
 test("End of innings 1 due to balls", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: MAX_BALLS,
     wickets: 0,
@@ -17,6 +18,7 @@ test("End of innings 1 due to balls", () => {
 
 test("End of innings 1 due to wickets", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: 0,
     wickets: MAX_WICKETS,
@@ -31,6 +33,7 @@ test("End of innings 1 due to wickets", () => {
 
 test("Continuation of innings 1", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 5,
     balls: 29,
     wickets: 2,
@@ -45,6 +48,7 @@ test("Continuation of innings 1", () => {
 
 test("End of innings 2 due to balls", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: MAX_BALLS,
     wickets: 0,
@@ -59,6 +63,7 @@ test("End of innings 2 due to balls", () => {
 
 test("End of innings 2 due to wickets", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 0,
     balls: 0,
     wickets: MAX_WICKETS,
@@ -73,6 +78,7 @@ test("End of innings 2 due to wickets", () => {
 
 test("End of innings 2 due to runs when runs equals target", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 50,
     balls: 20,
     wickets: 2,
@@ -87,6 +93,7 @@ test("End of innings 2 due to runs when runs equals target", () => {
 
 test("End of innings 2 due to runs when runs is greater than target", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 51,
     balls: 2,
     wickets: 2,
@@ -101,6 +108,7 @@ test("End of innings 2 due to runs when runs is greater than target", () => {
 
 test("Continuation of innings 2", () => {
   let scoreboard: ScoreboardContainer = {
+    batterId: "pId1",
     runs: 5,
     balls: 29,
     wickets: 2,
