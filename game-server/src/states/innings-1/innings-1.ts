@@ -2,9 +2,9 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
 import { Game, ScoreboardContainer } from "../../game-engine/types"
-import { TransitionIntoResult, PlayerMoveResult, ComputerMoveResult, CompleteStateResult } from "./types"
-import { transitionIntoLogic, playerMoveLogic, computerMoveLogic, completeStateLogic } from "./logic"
-import { GameStateOutput, InputContainer } from "../../types"
+import { TransitionIntoResult, PlayerMoveResult, ComputerMoveResult, CompleteStateResult, LeaveResult } from "./types"
+import { transitionIntoLogic, playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic } from "./logic"
+import { GameStateOutput, InputContainer, LeaveOutput } from "../../types"
 import crypto from "crypto";
 import { isNoBall } from "../../game-engine/logic"
 
@@ -167,7 +167,49 @@ export default class Innings1 {
   }
 
   leave(playerId: string, input: string) {
+    let currentPlayer = this.playerDB.getPlayer(playerId)!
+    let gameId = currentPlayer.gameId!;
+    let currentGame = this.currentGames.get(gameId)!;
 
+    let result: LeaveResult = leaveLogic(playerId, currentGame);
+
+    switch(result.decision) {
+      case "oneLeft":
+        currentGame.players[result.index].goneOrTemporaryDisconnect = "gone";
+        break;
+      case "noOneLeft":
+        clearTimeout(currentGame.timeout!);
+        this.currentGames.delete(gameId);
+        break;
+    }
+
+    //Handle leave output 
+    switch(input) {
+      case "badInput":
+        let badInputLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "badInput",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, badInputLeave);
+        break;
+      default:
+        let deliberateLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "deliberate",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, deliberateLeave);
+        break;
+    }
+
+    //Handle leaving
+    this.playerDB.removePlayer(playerId);
+    this.relayService.serverCloseHandler(currentPlayer.socket);
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
