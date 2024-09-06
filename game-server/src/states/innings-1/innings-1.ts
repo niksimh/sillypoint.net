@@ -45,7 +45,7 @@ export default class Innings1 {
      
     let deadline = Date.now() + (100 + 1000 + 10000);
     //Send toss output
-    let tossOutput: GameStateOutput = {
+    let innings1Output: GameStateOutput = {
       type: "gameState",
       outputContainer: {
         subType: "innings1",
@@ -56,8 +56,8 @@ export default class Innings1 {
         }
       }
     }
-    this.relayService.sendHandler(game.players[0].playerId, tossOutput);
-    this.relayService.sendHandler(game.players[1].playerId, tossOutput);
+    this.relayService.sendHandler(game.players[0].playerId, innings1Output);
+    this.relayService.sendHandler(game.players[1].playerId, innings1Output);
 
     //Set timeout for cleanup
     game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
