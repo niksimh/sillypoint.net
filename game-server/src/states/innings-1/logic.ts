@@ -1,5 +1,6 @@
+import { endOfInnings, processBall } from "../../game-engine/logic";
 import { Game } from "../../game-engine/types";
-import { TransitionIntoResult, PlayerMoveResult } from "./types";
+import { TransitionIntoResult, PlayerMoveResult, ComputerMoveResult, CompleteStateResult } from "./types";
 
 export function transitionIntoLogic(game: Game): TransitionIntoResult {
   let tossWinnerId = game.toss!.winnerId;
@@ -53,4 +54,42 @@ export function playerMoveLogic(playerId: string, game: Game, move: string): Pla
   }
 
   return { decision: "partial", index: 1 };
+}
+
+export function computerMoveLogic(game: Game): ComputerMoveResult {
+  let players = game.players;
+
+  if (players[0].move === null && players[1].move === null) {
+    return { decision: "01" };
+  }
+
+  if (players[0].move === null) {
+    return { decision: "0" };
+  }
+
+  return { decision: "1" };
+}
+
+export function completeStateLogic(game: Game, isNoBall: boolean): CompleteStateResult {
+  let scoreboard  = game.scoreboard!;
+  let players = game.players!;
+  
+  let batterMove; 
+  let bowlerMove;
+  if (players[0].playerId === scoreboard.batterId) {
+    batterMove = Number(players[0].move);
+    bowlerMove = Number(players[1].move);
+  } else {
+    batterMove = Number(players[1].move);
+    bowlerMove = Number(players[0].move);
+  }
+
+  let newScoreboard = processBall(scoreboard, batterMove, bowlerMove, isNoBall);
+  let endOfInningsRes = endOfInnings(newScoreboard);
+
+  if (endOfInningsRes) {
+    return { decision: "innings1Done", newScoreboard };
+  } else {
+    return { decision: null, newScoreboard };
+  }
 }

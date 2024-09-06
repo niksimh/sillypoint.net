@@ -2,10 +2,11 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
 import { Game, ScoreboardContainer } from "../../game-engine/types"
-import { TransitionIntoResult, PlayerMoveResult } from "./types"
-import { transitionIntoLogic, playerMoveLogic } from "./logic"
+import { TransitionIntoResult, PlayerMoveResult, ComputerMoveResult, CompleteStateResult } from "./types"
+import { transitionIntoLogic, playerMoveLogic, computerMoveLogic, completeStateLogic } from "./logic"
 import { GameStateOutput, InputContainer } from "../../types"
 import crypto from "crypto";
+import { isNoBall } from "../../game-engine/logic"
 
 export default class Innings1 {
   stateMap: Map<string, State>
@@ -93,11 +94,76 @@ export default class Innings1 {
   }
 
   computerMove(gameId: string) {
+    let currGame = this.currentGames.get(gameId)!;
 
+    let result: ComputerMoveResult = computerMoveLogic(currGame);
+
+    let generateMove1 = crypto.randomInt(0, 7).toString();
+    let generateMove2 = crypto.randomInt(0, 7).toString();
+    
+    switch(result.decision) {
+      case "0":
+        currGame.players[0].move = generateMove1;
+        break;
+      case "1":
+        currGame.players[1].move = generateMove2;
+        break
+      case "01":
+        currGame.players[0].move = generateMove1;
+        currGame.players[1].move = generateMove2;
+    }
+    this.completeState(gameId);
   }
 
   completeState(gameId: string) {
+    let currentGame = this.currentGames.get(gameId)!;
 
+    let noBallRes = isNoBall();
+    let result: CompleteStateResult = completeStateLogic(currentGame, noBallRes);
+
+    switch(result.decision) {
+      case "innings1Done":
+        //Clear moves
+        currentGame.players[0].move = null;
+        currentGame.players[1].move = null;
+    
+        //Delete game from this state
+        this.currentGames.delete(gameId);
+    
+        //Send game over to innings break
+        let inningsBreak = this.stateMap.get("inningsBreak")! as any;
+        inningsBreak.transitionInto(gameId, currentGame);
+
+        break;
+      case null:
+        currentGame.scoreboard = result.newScoreboard;
+
+        //Null out moves 
+        currentGame.players[0].move = null;
+        currentGame.players[1].move = null;
+
+        //Send new scoreboard 
+        let deadline = Date.now() + (100 + 1000 + 10000);
+        
+        let innings1Output: GameStateOutput = {
+          type: "gameState",
+          outputContainer: {
+            subType: "innings1",
+            data: {
+              p1: { playerId: currentGame.players[0].playerId, username: currentGame.players[0].username },
+              p2: { playerId: currentGame.players[1].playerId, username: currentGame.players[1].username },
+              scoreboard: result.newScoreboard
+            }
+          }
+        }
+        this.relayService.sendHandler(currentGame.players[0].playerId, innings1Output);
+        this.relayService.sendHandler(currentGame.players[1].playerId, innings1Output);
+
+        //Set timeout for cleanup
+        currentGame.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+        
+        break;
+    }
   }
 
   leave(playerId: string, input: string) {

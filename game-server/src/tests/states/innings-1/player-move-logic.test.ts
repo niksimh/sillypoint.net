@@ -5,7 +5,7 @@ import {
   PlayerMovePartialResult,
   PlayerMoveFulfillOtherResult,
   PlayerMoveCompleteResult
- } from "../../../states/toss/types";
+ } from "../../../states/innings-1/types";
 
 test("Make bad move that is not an int as p1", () => {
   let game: Game = {
