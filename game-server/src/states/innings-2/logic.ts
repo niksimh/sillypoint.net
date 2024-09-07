@@ -1,5 +1,5 @@
 import { Game } from "../../game-engine/types";
-import { PlayerMoveResult } from "./types";
+import { ComputerMoveResult, PlayerMoveResult } from "./types";
 
 export function playerMoveLogic(playerId: string, game: Game, move: string): PlayerMoveResult {
   let numberMove = Number(move);
@@ -36,3 +36,18 @@ export function playerMoveLogic(playerId: string, game: Game, move: string): Pla
 
   return { decision: "partial", index: 1 };
 }
+
+export function computerMoveLogic(game: Game): ComputerMoveResult {
+  let players = game.players;
+
+  if (players[0].move === null && players[1].move === null) {
+    return { decision: "01" };
+  }
+
+  if (players[0].move === null) {
+    return { decision: "0" };
+  }
+
+  return { decision: "1" };
+}
+

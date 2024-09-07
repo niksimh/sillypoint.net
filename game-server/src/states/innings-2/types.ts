@@ -23,3 +23,20 @@ export type PlayerMoveResult =
   PlayerMovePartialResult |
   PlayerMoveFulfillOtherResult |
   PlayerMoveCompleteResult;
+
+export interface ComputerMove0Result {
+  decision: "0"
+}
+
+export interface ComputerMove1Result {
+  decision: "1"
+}
+
+export interface ComputerMove01Result {
+  decision: "01"
+}
+
+export type ComputerMoveResult = 
+  ComputerMove0Result |
+  ComputerMove1Result |
+  ComputerMove01Result;
