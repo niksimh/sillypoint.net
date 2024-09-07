@@ -54,7 +54,14 @@ export default class InningsBreak {
   }
 
   process(gameId: string) {
+    let currentGame = this.currentGames.get(gameId)!
 
+    //Delete game from this state
+    this.currentGames.delete(gameId);
+
+    //Send game over to toss
+    let innings2State = this.stateMap.get("innings2")! as any;
+    innings2State.transitionInto(gameId, currentGame);
   }
 
 
