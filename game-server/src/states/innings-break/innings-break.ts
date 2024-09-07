@@ -2,7 +2,7 @@ import type PlayerDB from "../../player-db/player-db";
 import RelayService from "../../relay-service/relay-service";
 import { Game } from "../../game-engine/types";
 import { State } from "../types";
-import { GameStateOutput, LeaveOutput } from "../../types";
+import { GameStateOutput, LeaveOutput, InputContainer } from "../../types";
 import { TransitionIntoResult, LeaveResult } from "./types";
 import { transitionIntoLogic, leaveLogic } from "./logic";
 
@@ -111,5 +111,14 @@ export default class InningsBreak {
     this.relayService.serverCloseHandler(currentPlayer.socket);
   }
 
-
+  inputHandler(playerId: string, inputContainer: InputContainer) {
+    switch(inputContainer.type) {
+      case "inningsBreakLeave":
+        this.leave(playerId, inputContainer.input);
+        break;
+      default:
+        break;
+        //ignore
+    }
+  }
 }
