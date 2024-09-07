@@ -1,9 +1,10 @@
 import type PlayerDB from "../../player-db/player-db";
 import RelayService from "../../relay-service/relay-service";
 import { Game } from "../../game-engine/types";
-import { State, GameStateOutput } from "../types";
-import { TransitionIntoResult } from "./types";
-import { transitionIntoLogic } from "./logic";
+import { State } from "../types";
+import { GameStateOutput, LeaveOutput } from "../../types";
+import { TransitionIntoResult, LeaveResult } from "./types";
+import { transitionIntoLogic, leaveLogic } from "./logic";
 
 export default class InningsBreak {
   stateMap: Map<string, State>
@@ -64,6 +65,51 @@ export default class InningsBreak {
     innings2State.transitionInto(gameId, currentGame);
   }
 
+  leave(playerId: string, input: string) {
+    let currentPlayer = this.playerDB.getPlayer(playerId)!
+    let gameId = currentPlayer.gameId!;
+    let currentGame = this.currentGames.get(gameId)!;
+
+    let result: LeaveResult = leaveLogic(playerId, currentGame);
+
+    switch(result.decision) {
+      case "oneLeft":
+        currentGame.players[result.index].goneOrTemporaryDisconnect = "gone";
+        break;
+      case "noOneLeft":
+        clearTimeout(currentGame.timeout!);
+        this.currentGames.delete(gameId);
+        break;
+    }
+
+    //Handle leave output 
+    switch(input) {
+      case "badInput":
+        let badInputLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "badInput",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, badInputLeave);
+        break;
+      default:
+        let deliberateLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "deliberate",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, deliberateLeave);
+        break;
+    }
+
+    //Handle leaving
+    this.playerDB.removePlayer(playerId);
+    this.relayService.serverCloseHandler(currentPlayer.socket);
+  }
 
 
 }
