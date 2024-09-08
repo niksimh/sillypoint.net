@@ -1,5 +1,9 @@
+import { endOfInnings, processBall } from "../../game-engine/logic";
 import { Game } from "../../game-engine/types";
-import { ComputerMoveResult, PlayerMoveResult } from "./types";
+import { 
+  ComputerMoveResult, 
+  PlayerMoveResult, 
+  CompleteStateResult } from "./types";
 
 export function playerMoveLogic(playerId: string, game: Game, move: string): PlayerMoveResult {
   let numberMove = Number(move);
@@ -51,3 +55,26 @@ export function computerMoveLogic(game: Game): ComputerMoveResult {
   return { decision: "1" };
 }
 
+export function completeStateLogic(game: Game, isNoBall: boolean): CompleteStateResult {
+  let scoreboard  = game.scoreboard!;
+  let players = game.players!;
+  
+  let batterMove; 
+  let bowlerMove;
+  if (players[0].playerId === scoreboard.batterId) {
+    batterMove = Number(players[0].move);
+    bowlerMove = Number(players[1].move);
+  } else {
+    batterMove = Number(players[1].move);
+    bowlerMove = Number(players[0].move);
+  }
+
+  let newScoreboard = processBall(scoreboard, batterMove, bowlerMove, isNoBall);
+  let endOfInningsRes = endOfInnings(newScoreboard);
+
+  if (endOfInningsRes) {
+    return { decision: "innings2Done", newScoreboard };
+  } else {
+    return { decision: null, newScoreboard };
+  }
+}

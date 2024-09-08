@@ -1,3 +1,5 @@
+import { ScoreboardContainer } from "../../game-engine/types"
+
 export interface PlayerMoveBadInputResult {
   decision: "badInput"
 }
@@ -40,3 +42,18 @@ export type ComputerMoveResult =
   ComputerMove0Result |
   ComputerMove1Result |
   ComputerMove01Result;
+
+export interface CompleteStateNullResult {
+  decision: null
+  newScoreboard: ScoreboardContainer
+}
+
+export interface CompleteStateInnings1DoneResult {
+  decision: "innings2Done"
+  newScoreboard: ScoreboardContainer
+}
+
+export type CompleteStateResult = 
+  CompleteStateNullResult |
+  CompleteStateInnings1DoneResult;
+

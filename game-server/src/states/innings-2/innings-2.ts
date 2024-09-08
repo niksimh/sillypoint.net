@@ -4,8 +4,10 @@ import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
 import { GameStateOutput } from "../../types"
 import crypto from "crypto"
-import { PlayerMoveResult, ComputerMoveResult } from "./types"
-import { playerMoveLogic, computerMoveLogic } from "./logic"
+import { PlayerMoveResult, ComputerMoveResult, CompleteStateResult } from "./types"
+import { playerMoveLogic, computerMoveLogic, completeStateLogic} from "./logic"
+import { isNoBall } from "../../game-engine/logic"
+
 
 export default class Innings2 {
   stateMap: Map<string, State>
@@ -104,7 +106,54 @@ export default class Innings2 {
   }
 
   completeState(gameId: string) {
+    let currentGame = this.currentGames.get(gameId)!;
 
+    let noBallRes = isNoBall();
+    let result: CompleteStateResult = completeStateLogic(currentGame, noBallRes);
+
+    switch(result.decision) {
+      case "innings2Done":
+        //Clear moves
+        currentGame.players[0].move = null;
+        currentGame.players[1].move = null;
+    
+        //Delete game from this state
+        this.currentGames.delete(gameId);
+    
+        //Send game over to game over
+        let gameOver = this.stateMap.get("gameOver")! as any;
+        gameOver.transitionInto(gameId, currentGame);
+
+        break;
+      case null:
+        currentGame.scoreboard = result.newScoreboard;
+
+        //Null out moves 
+        currentGame.players[0].move = null;
+        currentGame.players[1].move = null;
+
+        //Send new scoreboard 
+        let deadline = Date.now() + (100 + 1000 + 10000);
+        
+        let innings2Output: GameStateOutput = {
+          type: "gameState",
+          outputContainer: {
+            subType: "innings2",
+            data: {
+              p1: { playerId: currentGame.players[0].playerId, username: currentGame.players[0].username },
+              p2: { playerId: currentGame.players[1].playerId, username: currentGame.players[1].username },
+              scoreboard: result.newScoreboard
+            }
+          }
+        }
+        this.relayService.sendHandler(currentGame.players[0].playerId, innings2Output);
+        this.relayService.sendHandler(currentGame.players[1].playerId, innings2Output);
+
+        //Set timeout for cleanup
+        currentGame.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+        
+        break;
+    }
   }
 
   leave(playerId: string, input: string) {
