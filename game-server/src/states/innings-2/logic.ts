@@ -3,7 +3,9 @@ import { Game } from "../../game-engine/types";
 import { 
   ComputerMoveResult, 
   PlayerMoveResult, 
-  CompleteStateResult } from "./types";
+  CompleteStateResult,
+  LeaveResult
+ } from "./types";
 
 export function playerMoveLogic(playerId: string, game: Game, move: string): PlayerMoveResult {
   let numberMove = Number(move);
@@ -76,5 +78,22 @@ export function completeStateLogic(game: Game, isNoBall: boolean): CompleteState
     return { decision: "innings2Done", newScoreboard };
   } else {
     return { decision: null, newScoreboard };
+  }
+}
+
+export function leaveLogic(playerId: string, game: Game): LeaveResult {
+  let players = game.players;
+
+  if(players[0].playerId === playerId) {
+    if (players[1].playerId === "#" || players[1].goneOrTemporaryDisconnect === "gone") {
+      return { decision: "noOneLeft", index: 0 }
+    }
+    return { decision: "oneLeft", index: 0 };
+  }
+
+  if (players[0].goneOrTemporaryDisconnect === "gone") {
+    return { decision: "noOneLeft", index: 1 };
+  } else {
+    return { decision: "oneLeft", index: 1 };
   }
 }
