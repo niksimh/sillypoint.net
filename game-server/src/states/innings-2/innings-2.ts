@@ -2,7 +2,7 @@ import { Game } from "../../game-engine/types"
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
-import { GameStateOutput, LeaveOutput } from "../../types"
+import { GameStateOutput, LeaveOutput, InputContainer } from "../../types"
 import crypto from "crypto"
 import { PlayerMoveResult, ComputerMoveResult, CompleteStateResult, LeaveResult } from "./types"
 import { playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic} from "./logic"
@@ -200,5 +200,16 @@ export default class Innings2 {
     //Handle leaving
     this.playerDB.removePlayer(playerId);
     this.relayService.serverCloseHandler(currentPlayer.socket);
+  }
+
+  inputHandler(playerId: string, inputContainer: InputContainer) {
+    switch(inputContainer.type) {
+      case "innings2Leave":
+        this.leave(playerId, inputContainer.input);
+        break;
+      case "innings2PlayerMove":
+        this.playerMove(playerId, inputContainer.input);
+        break;
+    }
   }
 }
