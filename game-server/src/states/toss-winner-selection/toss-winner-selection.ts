@@ -2,7 +2,7 @@ import { Game } from "../../game-engine/types";
 import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { PlayerMoveResult, ComputerMoveResult, LeaveResult } from "./types";
-import { playerMoveLogic, computerMoveLogic, leaveLogic } from "./logic";
+import { playerMoveLogic, computerMoveLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
 import { GameStateOutput, State } from "../types"
 import { InputContainer, LeaveOutput } from "../../types";
 
@@ -30,6 +30,7 @@ export default class TossWinnerSelection {
     this.currentGames.set(gameId, game)
 
     let deadline = Date.now() + (100 + 1000 + 10000);
+    game.deadline = deadline;
     //Send out result
     let tossOutput: GameStateOutput = {
       type: "gameState",
@@ -158,6 +159,38 @@ export default class TossWinnerSelection {
     this.relayService.serverCloseHandler(currentPlayer.socket);
   }
 
+  rejoin(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = rejoinLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = null;
+
+    let tossWinnerSelectionOutput: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "tossWinnerSelection",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          winnerId: game.toss!.winnerId!,
+          deadline: game.deadline
+        }
+      }
+    }
+
+    this.relayService.sendHandler(playerId, tossWinnerSelectionOutput);
+  }
+
+  temporaryLeave(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
+  }
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "tossWinnerSelectionLeave":
