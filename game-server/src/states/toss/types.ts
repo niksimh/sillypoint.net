@@ -75,3 +75,11 @@ export type ComputerMoveResult =
 export interface CompleteStateResult {
   decision: "0" | "1"
 } 
+
+export interface RejoinResult {
+  index: 0 | 1
+}
+
+export interface TemporaryLeaveResult {
+  index: 0 | 1
+}

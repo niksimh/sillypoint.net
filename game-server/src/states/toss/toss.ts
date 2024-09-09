@@ -3,8 +3,8 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { GameStateOutput, InputContainer, LeaveOutput } from "../../types";
 import { State } from "../types"
-import { CompleteStateResult, ComputerMoveResult, PlayerMoveResult, TossOutput } from "./types";
-import { completeStateLogic, computerMoveLogic, leaveLogic, playerMoveLogic } from "./logic";
+import { CompleteStateResult, ComputerMoveResult, PlayerMoveResult } from "./types";
+import { completeStateLogic, computerMoveLogic, leaveLogic, playerMoveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
 import { LeaveResult } from "./types";
 import crypto from "crypto";
 
@@ -42,6 +42,8 @@ export default class Toss {
      
 
     let deadline = Date.now() + (100 + 1000 + 10000);
+    game.deadline = deadline;
+
     //Send toss output
     let tossOutput: GameStateOutput = {
       type: "gameState",
@@ -128,9 +130,10 @@ export default class Toss {
         toss.winnerId = currentGame.players[1].playerId;
     }
 
-    //Clear moves
+    //Clear moves and deadline
     currentGame.players[0].move = null;
     currentGame.players[1].move = null;
+    delete currentGame.deadline;
 
     //Delete game from this state
     this.currentGames.delete(gameId);
@@ -184,6 +187,39 @@ export default class Toss {
     //Handle leaving
     this.playerDB.removePlayer(playerId);
     this.relayService.serverCloseHandler(currentPlayer.socket);
+  }
+
+  rejoin(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = rejoinLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = null;
+
+    //Send toss output
+    let tossOutput: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "toss",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          evenId: game.toss!.evenId,
+          deadline: game.deadline!
+        }
+      }
+    }
+    this.relayService.sendHandler(playerId, tossOutput);
+  }
+
+  temporaryLeave(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
