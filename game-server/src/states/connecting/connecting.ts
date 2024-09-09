@@ -37,6 +37,7 @@ export default class Connecting {
         gameSelectionState.transitionInto(playerId);
         break;
       case "rejoin":
+        player!.socket = socket;
         let currentState = this.stateMap.get(player!.status) as any;
         currentState.rejoin(playerId);
     }
