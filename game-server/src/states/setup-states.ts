@@ -36,15 +36,15 @@ export default function setupStates(stateMap: Map<string, State>, playerDB: Play
   let tossWinnerSelectionState = new TossWinnerSelection(stateMap, playerDB, relayService);
   stateMap.set("tossWinnerSelection", tossWinnerSelectionState);
 
-  let innings1State = new Innings1(stateMap, playerDB);
+  let innings1State = new Innings1(stateMap, playerDB, relayService);
   stateMap.set("innings1", innings1State);
 
-  let inningsBreakState = new InningsBreak(stateMap, playerDB);
+  let inningsBreakState = new InningsBreak(stateMap, playerDB, relayService);
   stateMap.set("inningsBreak", inningsBreakState);
 
-  let innings2State = new Innings2(stateMap, playerDB);
+  let innings2State = new Innings2(stateMap, playerDB, relayService);
   stateMap.set("innings2", innings2State);
 
-  let gameOverState = new GameOver(stateMap, playerDB);
+  let gameOverState = new GameOver(stateMap, playerDB, relayService);
   stateMap.set("gameOver", gameOverState);
 }
