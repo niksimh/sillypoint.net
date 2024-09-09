@@ -2,11 +2,12 @@ import type PlayerDB from "../../player-db/player-db"
 import type RelayService from "../../relay-service/relay-service"
 import { GameOutput, InputContainer, LeaveOutput } from "../../types";
 import { GameStateOutput, State } from "../types"
-import { joinLogic, kickLogic, leaveLogic, startGameLogic } from "./logic";
+import { joinLogic, kickLogic, leaveLogic, rejoinLogic, startGameLogic } from "./logic";
 import { 
   JoinResult, 
   KickResult, 
   LeaveResult, 
+  RejoinResult, 
   StartGameResult, 
   WaitingRoom,
  } from "./types"
@@ -34,22 +35,22 @@ export default class PrivateWaitingRoom {
 
     switch(position) {
       case "creator":
-        let RoomId = crypto.randomInt(1000, 10000);
+        let roomId = crypto.randomInt(1000, 10000);
         
         let newWaitingRoom: WaitingRoom = {
           creatorId: playerId,
           joinerId: null
         }
 
-        this.waitingRooms.set(RoomId, newWaitingRoom);
-        this.playerToWaitingRoom.set(playerId, RoomId);
+        this.waitingRooms.set(roomId, newWaitingRoom);
+        this.playerToWaitingRoom.set(playerId, roomId);
 
         let creatorOutput: GameStateOutput = {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomCreator",
             data: {
-              roomId: RoomId
+              roomId: roomId
             }
           }
         }
@@ -288,6 +289,79 @@ export default class PrivateWaitingRoom {
         this.relayService.sendHandler(waitingRoom.creatorId, creatorOutput);
         break;
     }
+  }
+
+  rejoin(playerId: string) {
+    let result: RejoinResult = rejoinLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+
+    let roomId: number; 
+    let currentWaitingRoom: WaitingRoom;
+    switch(result.decision) {
+      case "creatorJoiner": 
+        roomId = this.playerToWaitingRoom.get(playerId)!;
+        currentWaitingRoom = this.waitingRooms.get(roomId)!;
+
+        let creatorJoinerOutput: GameStateOutput = {
+          type: "gameState",
+          outputContainer: {
+            subType: "privateWaitingRoomCreator",
+            data: {
+              roomId,
+              otherPlayerId: currentWaitingRoom.joinerId,
+              otherPlayerUsername: this.playerDB.getPlayer(currentWaitingRoom.joinerId!)!.username
+            }
+          }
+        }
+        this.relayService.sendHandler(currentWaitingRoom.creatorId, creatorJoinerOutput);
+        break;
+      case "creatorNoJoiner":
+        roomId = this.playerToWaitingRoom.get(playerId)!;
+
+        let creatorNoJoinerOutput: GameStateOutput = {
+          type: "gameState",
+          outputContainer: {
+            subType: "privateWaitingRoomCreator",
+            data: {
+              roomId: roomId
+            }
+          }
+        }
+        this.relayService.sendHandler(playerId, creatorNoJoinerOutput);
+        break;   
+      case "joinerJoined":
+        roomId = this.playerToWaitingRoom.get(playerId)!;
+        currentWaitingRoom = this.waitingRooms.get(roomId)!;
+
+        let joinerJoinedOutput: GameStateOutput = {
+          type: "gameState",
+          outputContainer: {
+            subType: "privateWaitingRoomJoiner",
+            data: {
+              roomId,
+              otherPlayerId: currentWaitingRoom.creatorId,
+              otherPlayerUsername: this.playerDB.getPlayer(currentWaitingRoom.creatorId)!.username
+            }
+          }
+        }
+        this.relayService.sendHandler(playerId, joinerJoinedOutput);
+        break;
+      case "joinerNotJoined":
+        let joinerNotJoinedOutput: GameStateOutput = {
+          type: "gameState",
+          outputContainer: {
+            subType: "privateWaitingRoomJoiner",
+            data: {
+              status: "pending"
+            }
+          }
+        };
+        this.relayService.sendHandler(playerId, joinerNotJoinedOutput);
+        break;
+    }
+  }
+
+  temporaryLeave(playerId: string) {
+    //Do nothing here
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {

@@ -99,6 +99,14 @@ export type StartGameResult =
   StartGameNoJoinerResult |
   StartGameSuccessfulResult;
   
+export interface RejoinResult {
+  decision: 
+    "creatorNoJoiner" |
+    "creatorJoiner" |
+    "joinerNotJoined" |
+    "joinerJoined"
+}
+
 export interface PrivateWaitingRoomCreatorNoJoinerOutput extends GameStateOutput{
   type: "gameState"
   outputContainer: {
