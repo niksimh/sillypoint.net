@@ -5,7 +5,7 @@ import { State } from "../types"
 import { GameStateOutput, LeaveOutput, InputContainer } from "../../types"
 import crypto from "crypto"
 import { PlayerMoveResult, ComputerMoveResult, CompleteStateResult, LeaveResult } from "./types"
-import { playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic} from "./logic"
+import { playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic} from "./logic"
 import { isNoBall } from "../../game-engine/logic"
 
 
@@ -35,6 +35,7 @@ export default class Innings2 {
     //This innings is already set up, so you can simply transition
      
     let deadline = Date.now() + (100 + 1000 + 10000);
+    game.deadline = deadline;
     //Send innings2 output
     let innings2Output: GameStateOutput = {
       type: "gameState",
@@ -134,7 +135,7 @@ export default class Innings2 {
 
         //Send new scoreboard 
         let deadline = Date.now() + (100 + 1000 + 10000);
-        
+        currentGame.deadline = deadline;
         let innings2Output: GameStateOutput = {
           type: "gameState",
           outputContainer: {
@@ -200,6 +201,37 @@ export default class Innings2 {
     //Handle leaving
     this.playerDB.removePlayer(playerId);
     this.relayService.serverCloseHandler(currentPlayer.socket);
+  }
+
+  rejoin(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = rejoinLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = null;
+
+    let innings1Output: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "innings1",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          scoreboard: game.scoreboard
+        }
+      }
+    }
+    this.relayService.sendHandler(playerId, innings1Output);
+  }
+
+  temporaryLeave(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
