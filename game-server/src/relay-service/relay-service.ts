@@ -1,4 +1,4 @@
-import { WebSocketServer, WebSocket, MessageEvent } from "ws";
+import { WebSocketServer, WebSocket, MessageEvent, CloseEvent } from "ws";
 import crypto from "crypto";
 import type { IncomingMessage } from "http";
 
@@ -54,6 +54,10 @@ export default class RelayService {
         process.nextTick(() => {
           socket.addEventListener("message", (event: MessageEvent) => {
             this.messageHandler(event.target, event.data as string);
+          });
+
+          socket.addEventListener("close", (event: CloseEvent) => {
+            this.clientCloseHandler(event.target);
           });
         });
 
@@ -113,5 +117,17 @@ export default class RelayService {
   serverCloseHandler(socket: WebSocket | null) {
     socket?.removeAllListeners();
     socket?.close();
+  }
+
+  clientCloseHandler(socket: WebSocket) {
+    let playerId = (socket as any).playerId as string;    
+    let currentPlayer = this.playerDB.getPlayer(playerId)!; //will be present
+    let currentState = this.stateMap.get(currentPlayer.status)! as any;
+
+    //Null socket on player
+    currentPlayer.socket = null;
+
+    //Perform a bit of cleanup at the state they were in when they left. 
+    currentState.temporaryLeave(playerId);
   }
 }
