@@ -5,7 +5,7 @@ import Header from "@/shared/Header";
 import PendingState from "./gameStates/pending";
 
 import { useState, useEffect } from "react";
-import { GameOutput, OutputContainer } from "@/types/io-types";
+import { GameOutput } from "@/types/io-types";
 import { GameSelectionState } from "./gameStates/gameSelection";
 
 export default function GamePage() {
@@ -16,6 +16,25 @@ export default function GamePage() {
   let [seqNum, setSeqNum] = useState<number>(-1);
   
   useEffect(() => {
+    function messageFunction(event: MessageEvent) {
+      let parsedMessage: GameOutput = JSON.parse(event.data);
+      console.log(parsedMessage);
+      switch(parsedMessage.type) {
+        case "seqNum":
+          setSeqNum(parsedMessage.outputContainer.data.seqNum);
+          break;
+        case "gameState": 
+          setGameState(parsedMessage.outputContainer.subType);
+          setGameStateData(parsedMessage.outputContainer.data);
+          break;
+        case "leave":
+          setSocket(null);
+          setGameState("leave");
+          setGameStateData(parsedMessage.outputContainer);
+          break;
+      }
+    }
+
     //To prevent jarring UI if cnx happens quickly 
     setTimeout(() => {
       if (typeof window === "undefined") {
@@ -27,29 +46,13 @@ export default function GamePage() {
   
       let newSocket = new WebSocket(wsUrl);
   
-      newSocket.addEventListener("message", (event) => {
-        let parsedMessage: GameOutput = JSON.parse(event.data);
-        
-        switch(parsedMessage.type) {
-          case "seqNum":
-            setSeqNum(parsedMessage.outputContainer.data.seqNum);
-            break;
-          case "gameState": 
-            setGameState(parsedMessage.outputContainer.subType);
-            setGameStateData(parsedMessage.outputContainer.data);
-            break;
-          case "leave":
-            setSocket(null);
-            setGameState("leave");
-            setGameStateData(parsedMessage.outputContainer);
-            break;
-        }
-      });
+      newSocket.addEventListener("message", messageFunction);
       
       setSocket(newSocket);
     }, 1000);
 
     return () => {
+      socket?.removeEventListener("message", messageFunction);
       socket?.close();
     }
   }, [])
