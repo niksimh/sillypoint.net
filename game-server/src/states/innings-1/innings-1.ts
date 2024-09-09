@@ -3,7 +3,7 @@ import RelayService from "../../relay-service/relay-service"
 import { State } from "../types"
 import { Game, ScoreboardContainer } from "../../game-engine/types"
 import { TransitionIntoResult, PlayerMoveResult, ComputerMoveResult, CompleteStateResult, LeaveResult } from "./types"
-import { transitionIntoLogic, playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic } from "./logic"
+import { transitionIntoLogic, playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic"
 import { GameStateOutput, InputContainer, LeaveOutput } from "../../types"
 import crypto from "crypto";
 import { isNoBall } from "../../game-engine/logic"
@@ -45,6 +45,7 @@ export default class Innings1 {
      game.scoreboard = scoreboard;
      
     let deadline = Date.now() + (100 + 1000 + 10000);
+    game.deadline = deadline;
     //Send toss output
     let innings1Output: GameStateOutput = {
       type: "gameState",
@@ -144,7 +145,7 @@ export default class Innings1 {
 
         //Send new scoreboard 
         let deadline = Date.now() + (100 + 1000 + 10000);
-        
+        currentGame.deadline = deadline;
         let innings1Output: GameStateOutput = {
           type: "gameState",
           outputContainer: {
@@ -212,6 +213,36 @@ export default class Innings1 {
     this.relayService.serverCloseHandler(currentPlayer.socket);
   }
 
+  rejoin(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = rejoinLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = null;
+
+    let innings1Output: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "innings1",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          scoreboard: game.scoreboard
+        }
+      }
+    }
+    this.relayService.sendHandler(playerId, innings1Output);
+  }
+
+  temporaryLeave(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
+  }
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "innings1Leave":
