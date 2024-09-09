@@ -77,12 +77,28 @@ export default class GameSelection {
         break;
     }
     
-    //Cleanup players
+    //Cleanup player
     let currentPlayer = this.playerDB.getPlayer(playerId)!;
     this.playerDB.removePlayer(playerId);
     
     let playerSocket = currentPlayer.socket;
     this.relayService.serverCloseHandler(playerSocket);
+  }
+
+  rejoin(playerId: string) {
+    let gameSelectionOutput: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "gameSelection",
+        data: {}
+      }
+    };
+    
+    this.relayService.sendHandler(playerId, gameSelectionOutput);
+  }
+
+  temporaryLeave(playerId: string) {
+    //Nothing to clean up here
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
