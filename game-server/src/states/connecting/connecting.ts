@@ -4,6 +4,7 @@ import { State } from "../types"
 import type { WebSocket } from "ws";
 import { TransitionIntoResult } from "./types";
 import { transitionIntoLogic } from "./logic";
+import { LeaveOutput } from "../../types";
 
 export default class Connecting {
   stateMap: Map<string, State>
@@ -23,7 +24,15 @@ export default class Connecting {
     
     switch(result.decision) {
       case "close":
-        this.relayService.serverCloseHandler(socket);
+        let leaveOutput: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "badConnectionRequest",
+            data: {}
+          }
+        }
+        socket.send(JSON.stringify(leaveOutput));
+        socket.close();
         break;
       case "add":
         let newPlayer = {
