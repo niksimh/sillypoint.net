@@ -208,7 +208,7 @@ export default class PrivateWaitingRoom {
         this.waitingRooms.delete(roomId);
 
         let lobbyState = this.stateMap.get("lobby")! as any;
-        lobbyState.transitionInto(waitingRoom.creatorId, waitingRoom.joinerId);
+        lobbyState.transitionInto([waitingRoom.creatorId, waitingRoom.joinerId]);
     }
   }
 

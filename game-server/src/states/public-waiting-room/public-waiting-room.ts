@@ -50,12 +50,12 @@ export default class PublicWaitingRoom {
         break;
       case 1:
         let player = this.waitingQueue.shift()!;
-        lobbyState.transitionInto(player.playerId);
+        lobbyState.transitionInto([player.playerId]);
         break;
       case 2:
         let player1 = this.waitingQueue.shift()!;
         let player2 = this.waitingQueue.shift()!;
-        lobbyState.transitionInto(player1.playerId, player2.playerId);
+        lobbyState.transitionInto([player1.playerId, player2.playerId]);
         break;
     }
   }
