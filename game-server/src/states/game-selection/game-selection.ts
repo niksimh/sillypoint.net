@@ -65,6 +65,16 @@ export default class GameSelection {
         };
         this.relayService.sendHandler(playerId, badInputLeave);
         break;
+      case "timeout":
+        let timeoutLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "timeout",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, timeoutLeave);
+        break;
       default:
         let deliberateLeave: LeaveOutput = {
           type: "leave",
