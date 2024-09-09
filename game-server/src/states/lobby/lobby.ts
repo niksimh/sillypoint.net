@@ -110,7 +110,7 @@ export default class Lobby {
     tossState.transitionInto(gameId, currentGame);
   }
 
-  lobbyLeave(playerId: string, input: string) {
+  leave(playerId: string, input: string) {
     let currentPlayer = this.playerDB.getPlayer(playerId)!
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
@@ -135,9 +135,8 @@ export default class Lobby {
         data: {}
       }
     };
-    this.relayService.sendHandler(currentGame.players[0].playerId, leaveOutput);
-    this.relayService.sendHandler(currentGame.players[1].playerId, leaveOutput);
-
+    this.relayService.sendHandler(currentGame.players[result.index].playerId, leaveOutput);
+    
     //Handle leaving
     this.playerDB.removePlayer(playerId);
     this.relayService.serverCloseHandler(currentPlayer.socket);
@@ -146,7 +145,7 @@ export default class Lobby {
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "lobbyLeave":
-        this.lobbyLeave(playerId, inputContainer.input);
+        this.leave(playerId, inputContainer.input);
         break;
       default:
         break;
