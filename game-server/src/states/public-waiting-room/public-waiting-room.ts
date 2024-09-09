@@ -80,6 +80,22 @@ export default class PublicWaitingRoom {
     this.relayService.serverCloseHandler(currentPlayer.socket);
   }
 
+  rejoin(playerId: string) {
+    let publicWaitingRoomOutput: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "publicWaitingRoom",
+        data: {}
+      }
+    };
+    
+    this.relayService.sendHandler(playerId, publicWaitingRoomOutput);
+  }
+
+  temporaryLeave(playerId: string) {
+    //Nothing to clean up here
+  }
+  
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "publicWaitingRoomLeave":
