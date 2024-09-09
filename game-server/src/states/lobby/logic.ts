@@ -1,4 +1,4 @@
-import { LeaveResult } from "./types";
+import { LeaveResult, RejoinResult, TemporaryLeaveResult } from "./types";
 import { Game } from "../../game-engine/types";
 
 export function leaveLogic(playerId: string, game: Game): LeaveResult {
@@ -16,4 +16,24 @@ export function leaveLogic(playerId: string, game: Game): LeaveResult {
   } else {
     return { decision: "oneLeft", index: 1 };
   }
+}
+
+export function rejoinLogic(playerId: string, game: Game): RejoinResult {
+  let players = game.players;
+
+  if(players[0].playerId === playerId) {
+    return { index: 0 };
+  }
+
+  return { index: 1 };
+}
+
+export function temporaryLeaveLogic(playerId: string, game: Game): TemporaryLeaveResult {
+  let players = game.players;
+
+  if(players[0].playerId === playerId) {
+    return { index: 0 };
+  }
+
+  return { index: 1 };
 }

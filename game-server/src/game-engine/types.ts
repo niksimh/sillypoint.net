@@ -25,5 +25,6 @@ export interface Game {
   toss: TossContainer | null
   scoreboard: ScoreboardContainer | null
   timeout: NodeJS.Timeout | null
+  deadline?: number
 }
 

@@ -5,7 +5,7 @@ import type RelayService from "../../relay-service/relay-service";
 import crypto from "crypto";
 import { LeaveResult } from "./types";
 import { InputContainer, LeaveOutput } from "../../types";
-import { leaveLogic } from "./logic";
+import { leaveLogic, temporaryLeaveLogic } from "./logic";
 
 export default class Lobby {
   stateMap: Map<string, State>
@@ -141,6 +141,37 @@ export default class Lobby {
     this.playerDB.removePlayer(playerId);
     this.relayService.serverCloseHandler(currentPlayer.socket);
   } 
+
+  rejoin(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = null;
+
+    let lobbyOutput: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "lobby",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username }
+        }
+      }      
+    };
+
+    this.relayService.sendHandler(playerId, lobbyOutput);
+  }
+
+  temporaryLeave(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
+  }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {

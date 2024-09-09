@@ -24,3 +24,11 @@ export interface LeaveNoOneLeftResult {
 export type LeaveResult = 
   LeaveOneLeftResult |
   LeaveNoOneLeftResult;
+
+export interface RejoinResult {
+  index: 0 | 1
+}
+
+export interface TemporaryLeaveResult {
+  index: 0 | 1
+}
