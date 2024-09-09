@@ -5,4 +5,5 @@ export interface Player{
   socket: WebSocket | null,
   status: string
   gameId?: string 
+  timeout?: NodeJS.Timeout
 }

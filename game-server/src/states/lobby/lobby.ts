@@ -51,6 +51,8 @@ export default class Lobby {
         let player = this.playerDB.getPlayer(players[0])!;
         player.status = "lobby";
         player.gameId = newGameId;
+        clearTimeout(player.timeout);
+        delete player.timeout;
         break;
       default:
         newGame = {
@@ -76,8 +78,12 @@ export default class Lobby {
       let player2 = this.playerDB.getPlayer(players[1])!;
       player1.status = "lobby";
       player1.gameId = newGameId;
+      clearTimeout(player1.timeout);
+      delete player1.timeout;
       player2.status = "lobby";
       player2.gameId = newGameId;
+      clearTimeout(player2.timeout);
+      delete player2.timeout;
     }
 
     this.currentGames.set(newGameId, newGame);

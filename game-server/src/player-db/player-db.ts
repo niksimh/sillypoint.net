@@ -24,6 +24,7 @@ export default class PlayerDB {
   }
 
   removePlayer(playerId: string) {
+    clearTimeout(this.playerMap.get(playerId)?.timeout);
     this.playerMap.delete(playerId);
   }
 

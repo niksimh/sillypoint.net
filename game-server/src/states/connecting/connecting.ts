@@ -29,7 +29,8 @@ export default class Connecting {
         let newPlayer = {
           username: username,
           socket: socket,
-          status: "connecting"
+          status: "connecting",
+          timeout: setTimeout(() => this.socketTimeout(playerId), 900000)
         };
         this.playerDB.addPlayer(playerId, newPlayer);
               
@@ -41,5 +42,11 @@ export default class Connecting {
         let currentState = this.stateMap.get(player!.status) as any;
         currentState.rejoin(playerId);
     }
+  }
+
+  socketTimeout(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId);
+    let currentState = this.stateMap.get(player!.status) as any;
+    currentState.leave(playerId, "timeout");
   }
 }
