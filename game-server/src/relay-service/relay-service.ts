@@ -121,7 +121,12 @@ export default class RelayService {
 
   clientCloseHandler(socket: WebSocket) {
     let playerId = (socket as any).playerId as string;    
-    let currentPlayer = this.playerDB.getPlayer(playerId)!; //will be present
+    let currentPlayer = this.playerDB.getPlayer(playerId); 
+    
+    if(!currentPlayer) {
+      return;
+    }
+    
     let currentState = this.stateMap.get(currentPlayer.status)! as any;
 
     //Null socket on player
