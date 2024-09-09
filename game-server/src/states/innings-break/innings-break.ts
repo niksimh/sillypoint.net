@@ -4,7 +4,7 @@ import { Game } from "../../game-engine/types";
 import { State } from "../types";
 import { GameStateOutput, LeaveOutput, InputContainer } from "../../types";
 import { TransitionIntoResult, LeaveResult } from "./types";
-import { transitionIntoLogic, leaveLogic } from "./logic";
+import { transitionIntoLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
 
 export default class InningsBreak {
   stateMap: Map<string, State>
@@ -109,6 +109,38 @@ export default class InningsBreak {
     //Handle leaving
     this.playerDB.removePlayer(playerId);
     this.relayService.serverCloseHandler(currentPlayer.socket);
+  }
+
+  rejoin(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = rejoinLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = null;
+
+    let inningsBreakOutput: GameStateOutput = {
+      type: "gameState",
+      outputContainer: {
+        subType: "inningsBreak",
+        data: {
+          p1: { playerId: game.players[0].playerId, username: game.players[0].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          nextBatterId: game.scoreboard?.batterId,
+          target: game.scoreboard?.target,
+        }
+      }
+    }
+    this.relayService.sendHandler(playerId, inningsBreakOutput);
+  }
+
+  temporaryLeave(playerId: string) {
+    let player = this.playerDB.getPlayer(playerId)!;
+    let game = this.currentGames.get(player.gameId!)!;
+      
+    let result = temporaryLeaveLogic(playerId, game);
+
+    game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }
 
   inputHandler(playerId: string, inputContainer: InputContainer) {
