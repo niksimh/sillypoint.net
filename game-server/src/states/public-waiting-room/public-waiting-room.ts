@@ -66,14 +66,28 @@ export default class PublicWaitingRoom {
     let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
 
     //Send leave output
-    let leaveOutput: LeaveOutput = {
-      type: "leave",
-      outputContainer: {
-        subType: "deliberate",
-        data: {}
-      }
-    };
-    this.relayService.sendHandler(playerId, leaveOutput);
+    switch(input) {
+      case "timeout":
+        let timeoutLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "timeout",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, timeoutLeave);
+        break;
+      default:
+        let deliberateLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "deliberate",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, deliberateLeave);
+    }
+
 
     this.waitingQueue.splice(result.index, 1);
     this.playerDB.removePlayer(playerId);
