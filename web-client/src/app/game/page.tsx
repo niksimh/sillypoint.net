@@ -1,6 +1,6 @@
 'use client';
 
-import Footer from "@/shared/Footer";
+import Footer from "@/app/shared/Footer";
 import Header from "@/app/shared/Header";
 import PendingState from "./gameStates/pending";
 

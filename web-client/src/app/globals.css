@@ -25,9 +25,12 @@ body {
   color: #ff314d;
 }
 
+.black { 
+  color: #22262f
+}
+
 .button {
-  border-radius: 5px;
-  box-shadow: 0px 5px #840000;
+  border-radius: 5px;  
   background-color: #ff314d;
   display: flex;
   justify-content: center;
@@ -35,11 +38,6 @@ body {
 }
 
 .button:hover {
+  background-color: #dc001e;
   text-decoration: solid underline whitesmoke;
-}
-
-.button:active {
-  box-shadow: 0px 2px #840000;
-  -webkit-transform: translateY(3px);
-	transform: translateY(3px);
 }

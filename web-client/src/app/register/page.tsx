@@ -1,7 +1,7 @@
 'use client';
 
 import Header from "@/app/shared/Header";
-import Footer from "@/shared/Footer";
+import Footer from "@/app/shared/Footer";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { RegisterJSON } from "@/types/index-handler-types";
@@ -27,7 +27,7 @@ export default function RegisterPage() {
 
     //Get the entered username and setup fetch url
     let username = (document.getElementById("usernameBox") as HTMLInputElement).value;
-    let fetchUrl = `http://localhost:4000/register?username=${username}`;
+    let fetchUrl = `http://localhost:4000/register?username=${encodeURIComponent(username)}`;
 
     try {
       let response = await fetch(fetchUrl);
@@ -70,15 +70,35 @@ export default function RegisterPage() {
   return (
     <>
       <Header title='Register'/>
-      <form onSubmit={submitHandler}>
-        <label htmlFor="usernameBox">Enter a username to play! Or leave it blank to get a random one.</label>
-        <br />
-        <input type="text" id="usernameBox" name="usernameBox" />
-        <br />
-        { additionalMessage }
-        <br />
-        <input type="submit" id="submitInput" value="submit" />
-      </form>
+      <main className="h-[80dvh] ls:h-[75dvh] flex justify-center items-center px-12">
+        <form onSubmit={submitHandler} className="flex flex-col justify-center items-center gap-10 ls:gap-7">
+          <label 
+            htmlFor="usernameBox"
+            className="text-center font-bold text-xl sm:text-2xl ls:text-lg"
+          >
+            <span>Enter a username to play! </span>
+            <span className="inline-block">Or leave it blank to get a random one.</span>
+          </label>
+          <div className="flex justify-center items-center gap-9">
+            <input 
+              type="text" id="usernameBox" name="usernameBox"          
+              className="black font-bold rounded h-12 w-52 sm:w-72 p-5 "
+            /> 
+            <input 
+              className="button button-translate font-bold h-12 w-20 sm:w-36" 
+              type="submit" 
+              id="submitInput" 
+              value="Submit"
+             />
+          </div>  
+          {
+            additionalMessage ?
+            <span className="white underline font-bold">{ additionalMessage}</span> :
+            <span>&nbsp;</span>
+          }
+          
+        </form>
+      </main>
       <Footer />    
   </>
   );
