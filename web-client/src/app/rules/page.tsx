@@ -5,7 +5,7 @@ export default function Rules() {
   return (
     <>
       <Header title='Rules'/>
-      <main className="overflow-auto pt-5 px-4 sm:px-44">
+      <main className="overflow-auto pt-5 px-4 sm:px-24 lg:px-44">
         <h2 className="pink font-bold text-2xl ls:text-xl pb-2">Cricket</h2>
         <p className='white pb-5'>This game is based on the sport of cricket. If you are unfamiliar with cricket, visit the following link to get caught up, though you should be fine just reading the rest of this page: <a target="_blank" rel="noopener noreferrer" href='https://en.wikipedia.org/wiki/Cricket' className='underline'>https://en.wikipedia.org/wiki/Cricket</a>.</p>
         <h2 className="pink font-bold text-2xl ls:text-xl pb-2">Gameplay</h2>

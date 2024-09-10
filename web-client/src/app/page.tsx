@@ -37,7 +37,7 @@ export default function Home() {
       <main className="h-[90dvh] flex flex-col justify-center items-center gap-11 ls:gap-9">
         <div className="flex flex-col justify-center items-center gap-5 ls:gap-1">
           <h1 className="pink font-bold text-4xl md:text-6xl ls:text-3xl">SillyPoint.net!</h1>
-          <h2 className="pink font-bold text-xl md:text-3xl ls:text-lg">Multiplayer Hand Cricket</h2>
+          <h2 className="white font-bold text-xl md:text-3xl ls:text-lg">Multiplayer Hand Cricket</h2>
         </div>
         <nav className="flex flex-col ls:flex-row justify-center items-center gap-5">
           <Link href='/rules' className="button w-40 sm:w-48 ls:w-40 h-12 sm:h-16 ls:h-12">
