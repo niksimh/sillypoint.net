@@ -1,5 +1,5 @@
 import Footer from "@/shared/Footer";
-import Header from "@/shared/Header";
+import Header from "@/app/shared/Header";
 
 export default function PendingState() {
   return (

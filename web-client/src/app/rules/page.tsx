@@ -1,4 +1,4 @@
-import Header from '@/shared/Header';
+import Header from '@/app/shared/Header';
 import Footer from '@/shared/Footer';
 
 export default function Rules() {

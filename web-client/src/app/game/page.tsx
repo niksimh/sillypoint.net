@@ -1,7 +1,7 @@
 'use client';
 
 import Footer from "@/shared/Footer";
-import Header from "@/shared/Header";
+import Header from "@/app/shared/Header";
 import PendingState from "./gameStates/pending";
 
 import { useState, useEffect } from "react";

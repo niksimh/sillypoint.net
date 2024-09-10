@@ -15,3 +15,31 @@
     75%  { content: '. . .'; }
     100% { content: '\00a0'; }
 }
+
+body {
+  background-color: #22262f;
+  color: whitesmoke;
+}
+
+.pink {
+  color: #ff314d;
+}
+
+.button {
+  border-radius: 5px;
+  box-shadow: 0px 5px #840000;
+  background-color: #ff314d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button:hover {
+  text-decoration: solid underline whitesmoke;
+}
+
+.button:active {
+  box-shadow: 0px 2px #840000;
+  -webkit-transform: translateY(3px);
+	transform: translateY(3px);
+}

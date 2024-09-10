@@ -1,6 +1,6 @@
 'use client';
 
-import Header from "@/shared/Header";
+import Header from "@/app/shared/Header";
 import Footer from "@/shared/Footer";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
