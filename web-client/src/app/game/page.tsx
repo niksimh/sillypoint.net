@@ -7,6 +7,7 @@ import PendingState from "./gameStates/pending";
 import { useState, useEffect } from "react";
 import { GameOutput } from "@/types/io-types";
 import { GameSelectionState } from "./gameStates/gameSelection";
+import { PublicWaitingRoomState } from "./gameStates/publicWaitingRoom";
 
 export default function GamePage() {
   
@@ -64,6 +65,10 @@ export default function GamePage() {
       break;
     case "gameSelection":
       renderedGameState = <GameSelectionState socket={socket} seqNum={seqNum}/>;
+      break;
+    case "publicWaitingRoom":
+      renderedGameState = <PublicWaitingRoomState socket={socket} seqNum={seqNum}/>;
+      break;
   }
 
   return (
