@@ -41,11 +41,12 @@ export default class Innings2 {
     let innings2Output: GameStateOutput = {
       type: "gameState",
       outputContainer: {
-        subType: "innings1",
+        subType: "innings2",
         data: {
           p1: { playerId: game.players[0].playerId, username: game.players[0].username },
           p2: { playerId: game.players[1].playerId, username: game.players[1].username },
-          scoreboard: game.scoreboard
+          scoreboard: game.scoreboard,
+          deadline
         }
       }
     }
@@ -135,7 +136,8 @@ export default class Innings2 {
         currentGame.players[1].move = null;
 
         //Send new scoreboard 
-        let deadline = Date.now() + (100 + 1000 + 10000);
+        let deadlineAmount = 100 + 1000 + 10000;
+        let deadline = Date.now() + deadlineAmount;
         currentGame.deadline = deadline;
         let innings2Output: GameStateOutput = {
           type: "gameState",
@@ -144,7 +146,8 @@ export default class Innings2 {
             data: {
               p1: { playerId: currentGame.players[0].playerId, username: currentGame.players[0].username },
               p2: { playerId: currentGame.players[1].playerId, username: currentGame.players[1].username },
-              scoreboard: result.newScoreboard
+              scoreboard: result.newScoreboard,
+              deadline
             }
           }
         }
@@ -152,7 +155,7 @@ export default class Innings2 {
         this.relayService.sendHandler(currentGame.players[1].playerId, innings2Output);
 
         //Set timeout for cleanup
-        currentGame.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+        currentGame.timeout = setTimeout(() => this.computerMove(gameId), deadlineAmount + 1000);
         
         break;
     }

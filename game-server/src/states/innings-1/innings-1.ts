@@ -55,7 +55,8 @@ export default class Innings1 {
         data: {
           p1: { playerId: game.players[0].playerId, username: game.players[0].username },
           p2: { playerId: game.players[1].playerId, username: game.players[1].username },
-          scoreboard: scoreboard
+          scoreboard: scoreboard,
+          deadline: deadline
         }
       }
     }
@@ -145,8 +146,9 @@ export default class Innings1 {
         currentGame.players[1].move = null;
 
         //Send new scoreboard 
-        let deadline = Date.now() + (100 + 1000 + 10000);
-        currentGame.deadline = deadline;
+        let deadlineAmount = 100 + 1000 + 10000;
+        let deadline = Date.now() + deadlineAmount;
+        currentGame.deadline = deadline;        
         let innings1Output: GameStateOutput = {
           type: "gameState",
           outputContainer: {
@@ -154,7 +156,8 @@ export default class Innings1 {
             data: {
               p1: { playerId: currentGame.players[0].playerId, username: currentGame.players[0].username },
               p2: { playerId: currentGame.players[1].playerId, username: currentGame.players[1].username },
-              scoreboard: result.newScoreboard
+              scoreboard: result.newScoreboard,
+              deadline: deadline
             }
           }
         }
@@ -162,8 +165,7 @@ export default class Innings1 {
         this.relayService.sendHandler(currentGame.players[1].playerId, innings1Output);
 
         //Set timeout for cleanup
-        currentGame.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
-        
+        currentGame.timeout = setTimeout(() => this.computerMove(gameId), deadlineAmount + 1000);        
         break;
     }
   }
@@ -244,6 +246,7 @@ export default class Innings1 {
 
     game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }
+
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "innings1Leave":

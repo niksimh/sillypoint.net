@@ -39,7 +39,6 @@ export default class Toss {
       winnerSelection: null
      }
      game.toss = toss;
-     
 
     let deadlineAmount = 100 + 1000 + 10000;
     let deadline = Date.now() + deadlineAmount;
@@ -81,7 +80,7 @@ export default class Toss {
         currentGame.players[result.index].move = input;
         break;
       case "fulfillOther":
-        let generateMove = crypto.randomInt(0, 7).toString();
+        let generateMove = crypto.randomInt(1, 7).toString();
         currentGame.players[result.index].move = input;
         currentGame.players[result.otherPlayerIndex].move = generateMove;
         clearTimeout(currentGame.timeout!);
@@ -95,8 +94,7 @@ export default class Toss {
     }
   }
   
-  computerMove(gameId: string) {
-    console.log("here");
+  computerMove(gameId: string) {    
     let currGame = this.currentGames.get(gameId)!;
 
     let result: ComputerMoveResult = computerMoveLogic(currGame);
