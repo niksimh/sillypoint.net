@@ -14,6 +14,7 @@ import { PrivateWaitingRoomCreatorState } from "./gameStates/privateWaitingRoomC
 import LobbyState from "./gameStates/lobby";
 import { TossState } from "./gameStates/toss";
 import { TossWinnerSelectionState } from "./gameStates/tossWinnerSelection";
+import { Innings1State } from "./gameStates/innings1";
 
 export default function GamePage() {
   
@@ -89,6 +90,9 @@ export default function GamePage() {
       break;
     case "tossWinnerSelection":
       renderedGameState = <TossWinnerSelectionState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>
+      break;
+    case "innings1":
+      renderedGameState= <Innings1State socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
       break;
   }
 
