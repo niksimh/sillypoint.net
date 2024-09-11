@@ -13,6 +13,7 @@ import { PrivateWaitingRoomJoinerState } from "./gameStates/privateWaitingRoomJo
 import { PrivateWaitingRoomCreatorState } from "./gameStates/privateWaitingRoomCreator";
 import LobbyState from "./gameStates/lobby";
 import { TossState } from "./gameStates/toss";
+import { TossWinnerSelectionState } from "./gameStates/tossWinnerSelection";
 
 export default function GamePage() {
   
@@ -85,6 +86,9 @@ export default function GamePage() {
       break;
     case "toss":
       renderedGameState = <TossState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>
+      break;
+    case "tossWinnerSelection":
+      renderedGameState = <TossWinnerSelectionState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>
       break;
   }
 
