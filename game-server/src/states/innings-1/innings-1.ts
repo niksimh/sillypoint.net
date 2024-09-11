@@ -43,8 +43,9 @@ export default class Innings1 {
       target: null
      }
      game.scoreboard = scoreboard;
-     
-    let deadline = Date.now() + (100 + 1000 + 10000);
+    
+    let deadlineAmount = 100 + 1000 + 10000;
+    let deadline = Date.now() + deadlineAmount;
     game.deadline = deadline;
     //Send toss output
     let innings1Output: GameStateOutput = {
@@ -62,7 +63,7 @@ export default class Innings1 {
     this.relayService.sendHandler(game.players[1].playerId, innings1Output);
 
     //Set timeout for cleanup
-    game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+    game.timeout = setTimeout(() => this.computerMove(gameId), deadlineAmount + 1000);
   }
 
   playerMove(playerId: string, input: string) {

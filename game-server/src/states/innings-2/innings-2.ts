@@ -34,7 +34,8 @@ export default class Innings2 {
 
     //This innings is already set up, so you can simply transition
      
-    let deadline = Date.now() + (100 + 1000 + 10000);
+    let deadlineAmount = 100 + 1000 + 10000;
+    let deadline = Date.now() + deadlineAmount;
     game.deadline = deadline;
     //Send innings2 output
     let innings2Output: GameStateOutput = {
@@ -52,7 +53,7 @@ export default class Innings2 {
     this.relayService.sendHandler(game.players[1].playerId, innings2Output);
 
     //Set timeout for cleanup
-    game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+    game.timeout = setTimeout(() => this.computerMove(gameId), deadlineAmount + 1000);
   }
 
   playerMove(playerId: string, input: string) {
