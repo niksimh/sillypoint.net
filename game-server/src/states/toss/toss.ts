@@ -37,13 +37,13 @@ export default class Toss {
       evenId: (Math.random() > 0.5) ? game.players[0].playerId : game.players[1].playerId,
       winnerId: null,
       winnerSelection: null
-     }
-     game.toss = toss;
+    };
+    game.toss = toss;
 
     let deadlineAmount = 100 + 1000 + 10000;
     let deadline = Date.now() + deadlineAmount;
     game.deadline = deadline;
-
+    
     //Send toss output
     let tossOutput: GameStateOutput = {
       type: "gameState",
@@ -65,7 +65,7 @@ export default class Toss {
   
   }
 
-  playerMove(playerId: string, input: string) {
+  async playerMove(playerId: string, input: string) {
     let currentPlayer = this.playerDB.getPlayer(playerId)!;
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
