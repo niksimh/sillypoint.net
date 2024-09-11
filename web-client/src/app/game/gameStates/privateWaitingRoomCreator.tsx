@@ -1,4 +1,5 @@
 import { GameInput } from "@/types/io-types";
+import { useEffect } from "react";
 
 export function PreJoin(
   { gameStateData } : {socket: WebSocket | null, seqNum: number, gameStateData: any }) {
@@ -14,6 +15,11 @@ export function PreJoin(
 export function Joined(
   { socket, seqNum, gameStateData} : {socket: WebSocket | null, seqNum: number, gameStateData: any }) {
     
+    useEffect(() => {
+      (document.getElementById("kick") as HTMLButtonElement).disabled = false;
+      (document.getElementById("startGame") as HTMLButtonElement).disabled = false;      
+    }, [gameStateData])
+
     function selectionClick(e: React.MouseEvent<HTMLElement>) {
       e.preventDefault();
       
@@ -25,8 +31,7 @@ export function Joined(
   
       //Disable buttons
       (document.getElementById("kick") as HTMLButtonElement).disabled = true;
-      (document.getElementById("startGame") as HTMLButtonElement).disabled = true;
-      (document.getElementById("privateWaitingRoomJoiner") as HTMLButtonElement).disabled = true;
+      (document.getElementById("startGame") as HTMLButtonElement).disabled = true;      
       
       //Process choice
       let choice = buttonClicked.id;
