@@ -41,7 +41,8 @@ export default class Toss {
      game.toss = toss;
      
 
-    let deadline = Date.now() + (100 + 1000 + 10000);
+    let deadlineAmount = 100 + 1000 + 10000;
+    let deadline = Date.now() + deadlineAmount;
     game.deadline = deadline;
 
     //Send toss output
@@ -61,7 +62,7 @@ export default class Toss {
     this.relayService.sendHandler(game.players[1].playerId, tossOutput);
 
     //Set timeout for cleanup
-    game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+    game.timeout = setTimeout(() => this.computerMove(gameId), deadlineAmount + 1000);
   
   }
 
@@ -95,12 +96,13 @@ export default class Toss {
   }
   
   computerMove(gameId: string) {
+    console.log("here");
     let currGame = this.currentGames.get(gameId)!;
 
     let result: ComputerMoveResult = computerMoveLogic(currGame);
 
-    let generateMove1 = crypto.randomInt(0, 7).toString();
-    let generateMove2 = crypto.randomInt(0, 7).toString();
+    let generateMove1 = crypto.randomInt(1, 7).toString();
+    let generateMove2 = crypto.randomInt(1, 7).toString();
     
     switch(result.decision) {
       case "0":
