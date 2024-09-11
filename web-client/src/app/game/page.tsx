@@ -15,6 +15,7 @@ import LobbyState from "./gameStates/lobby";
 import { TossState } from "./gameStates/toss";
 import { TossWinnerSelectionState } from "./gameStates/tossWinnerSelection";
 import { Innings1State } from "./gameStates/innings1";
+import { InningsBreakState } from "./gameStates/inningsBreak";
 
 export default function GamePage() {
   
@@ -93,6 +94,9 @@ export default function GamePage() {
       break;
     case "innings1":
       renderedGameState= <Innings1State socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
+      break;
+    case "inningsBreak":
+      renderedGameState= <InningsBreakState gameStateData={gameStateData} />
       break;
   }
 
