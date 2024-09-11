@@ -9,7 +9,8 @@ import { useState, useEffect } from "react";
 import { GameOutput } from "@/types/io-types";
 import { GameSelectionState } from "./gameStates/gameSelection";
 import { PublicWaitingRoomState } from "./gameStates/publicWaitingRoom";
-
+import { PrivateWaitingRoomJoinerState } from "./gameStates/privateWaitingRoomJoiner";
+import { PrivateWaitingRoomCreatorState } from "./gameStates/privateWaitingRoomCreator";
 
 export default function GamePage() {
   
@@ -69,7 +70,13 @@ export default function GamePage() {
       renderedGameState = <GameSelectionState socket={socket} seqNum={seqNum}/>;
       break;
     case "publicWaitingRoom":
-      renderedGameState = <PublicWaitingRoomState socket={socket} seqNum={seqNum}/>;
+      renderedGameState = <PublicWaitingRoomState />;
+      break;
+    case "privateWaitingRoomJoiner":
+      renderedGameState = <PrivateWaitingRoomJoinerState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>;
+      break;
+    case "privateWaitingRoomCreator":
+      renderedGameState = <PrivateWaitingRoomCreatorState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>;
       break;
   }
 

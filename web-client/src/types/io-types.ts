@@ -17,3 +17,8 @@ export interface GameInput {
   seqNum: number
   inputContainer: InputContainer
 }
+
+export interface PlayerIdTokenPayload {
+  playerId: string
+  username: string
+}
