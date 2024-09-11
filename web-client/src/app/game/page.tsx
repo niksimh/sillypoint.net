@@ -1,6 +1,7 @@
 'use client';
 
 import Footer from "@/app/shared/Footer";
+import GameHeader from "@/app/shared/GameHeader";
 import Header from "@/app/shared/Header";
 import PendingState from "./gameStates/pending";
 
@@ -8,6 +9,7 @@ import { useState, useEffect } from "react";
 import { GameOutput } from "@/types/io-types";
 import { GameSelectionState } from "./gameStates/gameSelection";
 import { PublicWaitingRoomState } from "./gameStates/publicWaitingRoom";
+
 
 export default function GamePage() {
   
@@ -71,9 +73,15 @@ export default function GamePage() {
       break;
   }
 
-  return (
+  let gameHeader;
+  if (gameState === "pendingConnection") {
+    gameHeader = <Header title="Game" />;
+  } else {
+    gameHeader = <GameHeader title="Game" socket={socket} state={gameState} seqNum={seqNum}/>
+  }
+  return ( 
     <>
-      <Header title="Game"/>
+      {gameHeader}
       {renderedGameState}
       <Footer />
     </>

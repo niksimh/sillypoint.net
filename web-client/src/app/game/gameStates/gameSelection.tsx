@@ -25,22 +25,11 @@ export function GameSelectionState({ socket, seqNum} : {socket: WebSocket | null
     //Process choice
     let choice = buttonClicked.id;
 
-    let input: GameInput;
-    if(choice === "gameSelectionLeave") {
-      input = {
-        seqNum: seqNum,
-        inputContainer: {
-          type: "gameSelectionLeave",
-          input: "deliberate" 
-        }
-      }
-    } else {
-      input = {
-        seqNum: seqNum,
-        inputContainer: {
-          type: "selectGame",
-          input: choice 
-        }
+    let input: GameInput = {
+      seqNum: seqNum,
+      inputContainer: {
+        type: "selectGame",
+        input: choice 
       }
     }
     
