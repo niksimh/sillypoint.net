@@ -119,6 +119,7 @@ export default class PrivateWaitingRoom {
           outputContainer: {
             subType: "privateWaitingRoomJoiner",
             data: {
+              status: "joined",
               roomId,
               otherPlayerId: currWaitingRoom.creatorId,
               otherPlayerUsername: this.playerDB.getPlayer(currWaitingRoom.creatorId)!.username
