@@ -49,7 +49,7 @@ export default class PrivateWaitingRoom {
           type: "gameState",
           outputContainer: {
             subType: "privateWaitingRoomCreator",
-            data: {
+            data: {               
               roomId: roomId
             }
           }
@@ -119,9 +119,7 @@ export default class PrivateWaitingRoom {
           outputContainer: {
             subType: "privateWaitingRoomJoiner",
             data: {
-              status: "joined",
-              roomId,
-              otherPlayerId: currWaitingRoom.creatorId,
+              status: "joined",    
               otherPlayerUsername: this.playerDB.getPlayer(currWaitingRoom.creatorId)!.username
             }
           }
@@ -134,8 +132,6 @@ export default class PrivateWaitingRoom {
           outputContainer: {
             subType: "privateWaitingRoomCreator",
             data: {
-              roomId,
-              otherPlayerId: currWaitingRoom.joinerId,
               otherPlayerUsername: this.playerDB.getPlayer(currWaitingRoom.joinerId)!.username
             }
           }
@@ -227,6 +223,16 @@ export default class PrivateWaitingRoom {
           }
         };
         this.relayService.sendHandler(playerId, badInputLeave);
+        break;
+      case "timeout":
+        let timeoutLeave: LeaveOutput = {
+          type: "leave",
+          outputContainer: {
+            subType: "timeout",
+            data: {}
+          }
+        };
+        this.relayService.sendHandler(playerId, timeoutLeave);
         break;
       default:
         let deliberateLeave: LeaveOutput = {
