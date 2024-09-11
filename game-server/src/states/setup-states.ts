@@ -31,7 +31,7 @@ export default function setupStates(stateMap: Map<string, State>, playerDB: Play
   stateMap.set("lobby", lobbyState);
 
   let tossState = new Toss(stateMap, playerDB, relayService);
-  stateMap.set("tossState", tossState);
+  stateMap.set("toss", tossState);
 
   let tossWinnerSelectionState = new TossWinnerSelection(stateMap, playerDB, relayService);
   stateMap.set("tossWinnerSelection", tossWinnerSelectionState);
