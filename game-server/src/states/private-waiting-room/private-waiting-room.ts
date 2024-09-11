@@ -370,6 +370,12 @@ export default class PrivateWaitingRoom {
       case "privateWaitingRoomLeave":
         this.leave(playerId, inputContainer.input);
         break;
+      case "privateWaitingRoomJoinerLeave":
+        this.leave(playerId, inputContainer.input);
+        break;
+      case "privateWaitingRoomCreatorLeave":
+        this.leave(playerId, inputContainer.input);
+        break;
       case "join":
         this.join(playerId, inputContainer.input);
         break;
