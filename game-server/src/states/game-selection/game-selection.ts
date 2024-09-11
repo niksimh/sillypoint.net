@@ -53,7 +53,7 @@ export default class GameSelection {
   leave(playerId: string, input: string) {
     //Nothing to cleanup at this state
     
-    //Send appropriate leaves 
+    //Send appropriate leave output 
     switch(input) {
       case "badInput":
         let badInputLeave: LeaveOutput = {
