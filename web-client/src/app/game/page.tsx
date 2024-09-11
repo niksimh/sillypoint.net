@@ -11,6 +11,7 @@ import { GameSelectionState } from "./gameStates/gameSelection";
 import { PublicWaitingRoomState } from "./gameStates/publicWaitingRoom";
 import { PrivateWaitingRoomJoinerState } from "./gameStates/privateWaitingRoomJoiner";
 import { PrivateWaitingRoomCreatorState } from "./gameStates/privateWaitingRoomCreator";
+import LobbyState from "./gameStates/lobby";
 
 export default function GamePage() {
   
@@ -77,6 +78,9 @@ export default function GamePage() {
       break;
     case "privateWaitingRoomCreator":
       renderedGameState = <PrivateWaitingRoomCreatorState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>;
+      break;
+    case "lobby":
+      renderedGameState = <LobbyState gameStateData={gameStateData} />
       break;
   }
 
