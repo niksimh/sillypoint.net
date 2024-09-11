@@ -50,7 +50,7 @@ export default function GamePage() {
       newSocket.addEventListener("message", messageFunction);
       
       setSocket(newSocket);
-    }, 1000);
+    }, 2000);
 
     return () => {
       socket?.removeEventListener("message", messageFunction);

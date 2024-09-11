@@ -56,16 +56,30 @@ export function GameSelectionState({ socket, seqNum} : {socket: WebSocket | null
     )
   }
   return (
-    <main>
-        <h1>Please choose a game mode!</h1>
-        <div>
-          <button id="publicWaitingRoom" onClick={selectionClick}>Public Game</button>
-          <br />
-          <button id="privateWaitingRoomCreator" onClick={selectionClick}>Create a Private Game</button>
-          <br />
-          <button id="privateWaitingRoomJoiner" onClick={selectionClick}>Join a Private Game</button>
-          <br />
-          <button id="gameSelectionLeave" onClick={selectionClick}>Leave</button>          
+    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-7 px-12">
+        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Please choose a game mode!</h1>
+        <div className="flex flex-col ls:flex-row justify-center items-center gap-5 ls:gap-3">
+          <button 
+            id="publicWaitingRoom" 
+            onClick={selectionClick}
+            className="button font-bold h-12 w-44 sm:w-52 ls:w-40 ls:text-sm"
+          >
+            Public Game
+          </button>
+          <button 
+            id="privateWaitingRoomCreator" 
+            onClick={selectionClick}
+            className="button font-bold h-12 w-44 sm:w-52 ls:w-40 ls:text-sm"
+          >
+            Create Private Game
+          </button>
+          <button 
+            id="privateWaitingRoomJoiner" 
+            onClick={selectionClick}
+            className="button font-bold h-12 w-44 sm:w-52 ls:w-40 ls:text-sm"
+          >
+            Join Private Game
+          </button>
         </div>
     </main>
   )
