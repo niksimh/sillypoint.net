@@ -29,8 +29,13 @@ export default class TossWinnerSelection {
     //Transition game
     this.currentGames.set(gameId, game)
 
-    let deadline = Date.now() + (100 + 1000 + 10000);
+    let turnTime;
+    game.toss!.winnerId! === "#" ? turnTime = 4000 : turnTime = 10000;
+  
+    let deadlineAmount = 100 + 1000 + turnTime;
+    let deadline = Date.now() + deadlineAmount;
     game.deadline = deadline;
+
     //Send out result
     let tossOutput: GameStateOutput = {
       type: "gameState",
@@ -38,7 +43,7 @@ export default class TossWinnerSelection {
         subType: "tossWinnerSelection",
         data: {
           p1: { playerId: game.players[0].playerId, username: game.players[0].username },
-          p2: { playerId: game.players[1].playerId, username: game.players[1].username },
+          p2: { playerId: game.players[1].playerId, username: game.players[1].username },          
           winnerId: game.toss!.winnerId!,
           deadline: deadline
         }
@@ -48,7 +53,7 @@ export default class TossWinnerSelection {
     this.relayService.sendHandler(game.players[0].playerId, tossOutput);
     this.relayService.sendHandler(game.players[1].playerId, tossOutput);
 
-    game.timeout = setTimeout(() => this.computerMove(gameId), deadline + 1000);
+    game.timeout = setTimeout(() => this.computerMove(gameId), deadlineAmount + 1000);
   }
   
   playerMove(playerId: string, input: string) {
@@ -191,6 +196,7 @@ export default class TossWinnerSelection {
 
     game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }
+  
   inputHandler(playerId: string, inputContainer: InputContainer) {
     switch(inputContainer.type) {
       case "tossWinnerSelectionLeave":
