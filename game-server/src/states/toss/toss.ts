@@ -116,7 +116,12 @@ export default class Toss {
     this.completeState(gameId);
   }
 
-  completeState(gameId: string) {
+  async completeState(gameId: string) {
+    //For ui purposes
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+    
     let currentGame = this.currentGames.get(gameId)!;
     let toss = currentGame.toss!;
 

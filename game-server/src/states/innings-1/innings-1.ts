@@ -118,7 +118,12 @@ export default class Innings1 {
     this.completeState(gameId);
   }
 
-  completeState(gameId: string) {
+  async completeState(gameId: string) {
+    //For ui purposes
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+    
     let currentGame = this.currentGames.get(gameId)!;
 
     let noBallRes = isNoBall();
