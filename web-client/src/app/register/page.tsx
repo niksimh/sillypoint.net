@@ -44,8 +44,9 @@ export default function RegisterPage() {
       // do nothing. server is down.
     }
     
-    //Allow submissions again
+    //Allow submissions again and clear box.
     submitInput.disabled = false;
+    (document.getElementById("usernameBox") as HTMLInputElement).value = "";
   }
 
   let additionalMessage;
@@ -71,7 +72,7 @@ export default function RegisterPage() {
     <>
       <Header title='Register'/>
       <main className="h-[80dvh] ls:h-[75dvh] flex justify-center items-center px-12">
-        <form onSubmit={submitHandler} className="flex flex-col justify-center items-center gap-10 ls:gap-7">
+        <form onSubmit={submitHandler} className="flex flex-col justify-center items-center gap-10 ls:gap-5">
           <label 
             htmlFor="usernameBox"
             className="text-center font-bold text-xl sm:text-2xl ls:text-lg"
@@ -79,13 +80,13 @@ export default function RegisterPage() {
             <span>Enter a username to play! </span>
             <span className="inline-block">Or leave it blank to get a random one.</span>
           </label>
-          <div className="flex justify-center items-center gap-9">
+          <div className="flex justify-center items-center gap-5">
             <input 
-              type="text" id="usernameBox" name="usernameBox"          
-              className="black font-bold rounded h-12 w-52 sm:w-72 p-5 "
+              type="text" id="usernameBox" name="usernameBox" autoComplete="off"        
+              className="black font-bold rounded h-12 w-52 sm:w-72 p-5"
             /> 
             <input 
-              className="button button-translate font-bold h-12 w-20 sm:w-36" 
+              className="button button-translate font-bold h-12 w-20 sm:w-24" 
               type="submit" 
               id="submitInput" 
               value="Submit"
@@ -93,10 +94,16 @@ export default function RegisterPage() {
           </div>  
           {
             additionalMessage ?
-            <span className="white underline font-bold">{ additionalMessage}</span> :
-            <span>&nbsp;</span>
-          }
-          
+            <span className="white text-center underline font-bold">{ additionalMessage}</span> :
+            <span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+          }          
         </form>
       </main>
       <Footer />    

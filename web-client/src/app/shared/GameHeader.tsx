@@ -27,11 +27,11 @@ export default function GameHeader(
   }
 
   return (
-    <header className="h-[10dvh] ls:h-[15dvh] pt-4 pl-4 pr-4 flex justify-between">
+    <header className="h-[10dvh] ls:h-[15dvh] pt-4 px-4 flex justify-between">
       <h1 className="white font-bold text-3xl sm:text-4xl ls:text-2xl">
         <Link className="pink hover:underline"href='/'>SP</Link> ||| { title }
       </h1>
-      <button id="leave" className="button h-12 ls:h-7 w-20 sm:w-24" onClick={leaveHandler}>
+      <button id="leave" className="button h-9 sm:h-10 ls:h-7 w-20 sm:w-24 ls:w-16" onClick={leaveHandler}>
         <span className="white hover:underline font-bold text-md sm:text-lg ls:text-sm">Leave</span>
       </button>
     </header>
