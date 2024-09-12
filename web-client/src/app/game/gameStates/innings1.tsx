@@ -110,7 +110,12 @@ export function Selection(
     );
   }
   
-  return selectionOptions;
+  return (
+    <>
+      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`${timeLeft}`}</h1> 
+      { selectionOptions }
+    </>
+  );
 }
 
 export function Scoreboard({ gameStateData }: { gameStateData: any }) {
@@ -139,7 +144,7 @@ export function Innings1State(
   let side; 
   try {
     let playerIdTokenPayload = jwtDecode(localStorage.getItem("playerIdToken")!) as PlayerIdTokenPayload;
-    if(gameStateData.batterId === playerIdTokenPayload.playerId) {
+    if(gameStateData.scoreboard.batterId === playerIdTokenPayload.playerId) {
       side = "batting";
     } else {
       side = "bowling";
