@@ -5,8 +5,8 @@ export function PreJoin(
   { gameStateData } : {socket: WebSocket | null, seqNum: number, gameStateData: any }) {
   
     return (
-      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center px-12">
-        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Your room id is...</h1>
+      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-5">
+        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Room ID</h1>
         <h2 className="font-bold text-xl sm:text-2xl ls:text-lg">{gameStateData.roomId}</h2>
       </main>
     );
