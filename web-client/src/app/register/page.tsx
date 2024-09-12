@@ -46,7 +46,6 @@ export default function RegisterPage() {
     
     //Allow submissions again and clear box.
     submitInput.disabled = false;
-    (document.getElementById("usernameBox") as HTMLInputElement).value = "";
   }
 
   let additionalMessage;
