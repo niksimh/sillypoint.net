@@ -21,10 +21,10 @@ export function InningsBreakState(
     }
     
     return (
-    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap- px-12">      
-      <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">{`${nextBatterUsername} batting next.`}</h1>
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`${gameStateData.target} is needed to win.`}</h1>
-      <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">Innings 2 will start shortly!</h1>
+    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-3 ls:gap-2 px-12">      
+      <h1 className="pink text-center font-bold text-xl sm:text-2xl ls:text-lg">{`${nextBatterUsername} batting next.`}</h1>
+      <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">{`${gameStateData.target} is needed to win.`}</h1>
+      <h1 className="pink text-center font-bold text-xl sm:text-2xl ls:text-lg">Innings 2 will start shortly!</h1>
     </main>
   );
 }

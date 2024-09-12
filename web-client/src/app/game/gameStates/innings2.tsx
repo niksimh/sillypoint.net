@@ -19,8 +19,7 @@ export function Selection(
     setSelection(undefined);
 
     //Setup new time
-    //Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000))
-    setTimeLeft(1000000);
+    setTimeLeft(Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000)));
 
     let intervalId = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {  
@@ -86,57 +85,41 @@ export function Selection(
   if(selection === undefined) {
     selectionOptions = (
       <div className="grid grid-cols-3 md:grid-cols-6 ls:grid-cols-6 gap-5 ls:gap-3">
-      <button id="1" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">1</button>
-      <button id="2" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">2</button>
-      <button id="3" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">3</button>
-      <button id="4" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">4</button>
-      <button id="5" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">5</button>
-      <button id="6" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">6</button>
+      <button id="1" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">1</button>
+      <button id="2" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">2</button>
+      <button id="3" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">3</button>
+      <button id="4" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">4</button>
+      <button id="5" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">5</button>
+      <button id="6" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">6</button>
       </div>
     );
-  } else if (selection === "-1") {
-    selectionOptions = (
-    <div className="flex flex-col ls:flex-row justify-center items-center gap-10 ls:gap-3">
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Oh no! Time ran out!</h1>
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">The computer has made a move for you.</h1>
-    </div>
-    );
   } else {
-    selectionOptions = (
-    <div className="flex flex-col ls:flex-row justify-center items-center gap-10 ls:gap-3">
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`You have selected ${selection}.`}</h1>
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">We are currently waiting for the other player!</h1>
-    </div>
-    );
+    selectionOptions = <></>;
   }
   
-  return (
-    <>
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`${timeLeft}`}</h1> 
-      { selectionOptions }
-    </>
-  );
+  if(selection === undefined) {
+    return (
+      <>
+        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`${timeLeft}`}</h1> 
+        { selectionOptions }
+      </>
+    );
+  } else {
+    return <h1 className="loading font-bold text-xl sm:text-2xl ls:text-lg"></h1>;
+  }
 }
 
 export function Scoreboard({ gameStateData }: { gameStateData: any }) {
   return (
-    <div className="grid grid-cols-3 md:grid-cols-1 gap-5">
-      <div>
-        <h1>Target</h1>
-        <h2 className="grow">{gameStateData.scoreboard.target}</h2>
-      </div>
-      <div className="flex flex-col gap-5">
-        <h1>Runs</h1>
-        <h2 className="grow">{gameStateData.scoreboard.runs}</h2>
-      </div>
-      <div className="flex flex-col gap-5">
-        <h1>Wickets</h1>
-        <h2 className="grow">{gameStateData.scoreboard.wickets}</h2>
-      </div>
-      <div className="flex flex-col gap-5">
-        <h1>Balls</h1>
-        <h2 className="grow">{gameStateData.scoreboard.balls}</h2>
-      </div>
+    <div className="grid grid-cols-4 gap-3">
+      <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Target</h1>
+      <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Runs</h1>
+      <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Wickets</h1>
+      <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Balls</h1>
+      <h1 className="orange font-bold text-center text-2xl sm:text-3xl ls:text-xl">{gameStateData.scoreboard.target}</h1>
+      <h1 className="orange font-bold text-center text-2xl sm:text-3xl ls:text-xl">{gameStateData.scoreboard.runs}</h1>
+      <h1 className="orange font-bold text-center text-2xl sm:text-3xl ls:text-xl">{gameStateData.scoreboard.wickets}</h1>    
+      <h1 className="orange font-bold text-center text-2xl sm:text-3xl ls:text-xl">{gameStateData.scoreboard.balls}</h1>
     </div>
   );
 }
@@ -156,7 +139,7 @@ export function Innings2State(
   } catch {  }
 
   return (
-    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-3 px-12">
+    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
       <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`You are currently ${side}.`}</h1>
       <Scoreboard gameStateData={gameStateData} />
       <Selection socket={socket} seqNum={seqNum} gameStateData={gameStateData} />

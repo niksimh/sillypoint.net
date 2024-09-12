@@ -86,8 +86,8 @@ export function AmWinner(
   if(selection === undefined) {
     selectionOptions = (
       <div className="grid grid-cols-1 ls:grid-cols-2 gap-5 ls:gap-3">
-        <button id="bat" onClick={selectionClick}className="button font-bold h-12 w-28 ls:w-16 ls:text-sm">Bat</button>
-        <button id="bowl" onClick={selectionClick}className="button font-bold h-12 w-28 ls:w-16 ls:text-sm">Bowl</button>
+        <button id="bat" onClick={selectionClick}className="button font-bold h-12 w-44 sm:w-52 ls:w-40 ls:text-sm">Bat</button>
+        <button id="bowl" onClick={selectionClick}className="button font-bold h-12 w-44 sm:w-52 ls:w-40 ls:text-sm">Bowl</button>
       </div>
     );
   } else {

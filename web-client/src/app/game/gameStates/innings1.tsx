@@ -85,12 +85,12 @@ export function Selection(
   if(selection === undefined) {
     selectionOptions = (
       <div className="grid grid-cols-3 md:grid-cols-6 ls:grid-cols-6 gap-5 ls:gap-3">
-      <button id="1" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">1</button>
-      <button id="2" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">2</button>
-      <button id="3" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">3</button>
-      <button id="4" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">4</button>
-      <button id="5" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">5</button>
-      <button id="6" onClick={selectionClick}className="button font-bold h-12 w-20 w-24 ls:w-16 ls:text-sm">6</button>
+      <button id="1" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">1</button>
+      <button id="2" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">2</button>
+      <button id="3" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">3</button>
+      <button id="4" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">4</button>
+      <button id="5" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">5</button>
+      <button id="6" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">6</button>
       </div>
     );
   } else {
@@ -112,7 +112,7 @@ export function Selection(
 
 export function Scoreboard({ gameStateData }: { gameStateData: any }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 ls:grid-cols-3 gap-5">
+    <div className="grid grid-cols-3 gap-3">
       <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Runs</h1>
       <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Wickets</h1>
       <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Balls</h1>
@@ -139,7 +139,7 @@ export function Innings1State(
 
   return (
     <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`You are currently ${side}.`}</h1>
+      <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">{`You are currently ${side}.`}</h1>
       <Scoreboard gameStateData={gameStateData} />
       <Selection socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
     </main>
