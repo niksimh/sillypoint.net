@@ -72,7 +72,7 @@ export default class Innings2 {
         currentGame.players[result.index].move = input;
         break;
       case "fulfillOther":
-        let generateMove = crypto.randomInt(0, 7).toString();
+        let generateMove = crypto.randomInt(1, 7).toString();
         currentGame.players[result.index].move = input;
         currentGame.players[result.otherPlayerIndex].move = generateMove;
         clearTimeout(currentGame.timeout!);
@@ -125,7 +125,7 @@ export default class Innings2 {
     
         //Send game over to game over
         let gameOver = this.stateMap.get("gameOver")! as any;
-        gameOver.transitionInto(gameId, currentGame);
+        gameOver.transitionInto(currentGame);
 
         break;
       case null:
@@ -215,10 +215,10 @@ export default class Innings2 {
 
     game.players[result.index].goneOrTemporaryDisconnect = null;
 
-    let innings1Output: GameStateOutput = {
+    let innings2Output: GameStateOutput = {
       type: "gameState",
       outputContainer: {
-        subType: "innings1",
+        subType: "innings2",
         data: {
           p1: { playerId: game.players[0].playerId, username: game.players[0].username },
           p2: { playerId: game.players[1].playerId, username: game.players[1].username },
@@ -226,7 +226,7 @@ export default class Innings2 {
         }
       }
     }
-    this.relayService.sendHandler(playerId, innings1Output);
+    this.relayService.sendHandler(playerId, innings2Output);
   }
 
   temporaryLeave(playerId: string) {
