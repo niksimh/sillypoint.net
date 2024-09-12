@@ -48,15 +48,15 @@ export function Joined(
     }
 
     return (
-      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-7 px-12">
+      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
         <div>
-        <div className="flex flex-col justify-center items-center gap-5 ls:gap-2">
+        <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
           <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">You</h1>
           <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">vs</h1>
           <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">{gameStateData.otherPlayerUsername}</h1>
         </div>
         </div>
-          <div className="flex flex-col ls:flex-row justify-center items-center gap-5 ls:gap-3">
+          <div className="flex flex-col ls:flex-row justify-center items-center gap-5">
             <button 
               id="kick" 
               onClick={selectionClick}

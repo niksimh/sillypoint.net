@@ -1,7 +1,6 @@
 'use client';
 
-import { GameInput, PlayerIdTokenPayload } from "@/types/io-types";
-import { jwtDecode } from "jwt-decode";
+import { GameInput } from "@/types/io-types";
 import { useEffect } from "react";
 
 
@@ -30,7 +29,7 @@ export function PreJoin(
       //If not number, show error
       if(Number.isNaN(Number(roomId))) {
         document.getElementById("aM")!.innerText = "The room number you enter should be a number"
-        document.getElementById("aM")!.className += " underline font-bold";
+        document.getElementById("aM")!.className += "text-center underline font-bold";
         submitInput.disabled = false;
         return;
       }
@@ -56,16 +55,16 @@ export function PreJoin(
         additionalMessage = "";
         break;
       case "badRoom":
-        additionalMessage = "There does not exist a game with the code you entered";
+        additionalMessage = "There does not exist a room with the code you entered";
         break;
       case "fullRoom":
-        additionalMessage = "The game with the code you entered is full";
+        additionalMessage = "The room with the code you entered is full";
         break;
     }
 
     return (
       <main className="h-[80dvh] ls:h-[75dvh] flex justify-center items-center px-12">
-      <form onSubmit={submitHandler} className="flex flex-col justify-center items-center gap-10 ls:gap-7">
+      <form onSubmit={submitHandler} className="flex flex-col justify-center items-center gap-10 ls:gap-5">
         <label 
           htmlFor="roomIdBox"
           className="text-center font-bold text-xl sm:text-2xl ls:text-lg"
@@ -75,10 +74,10 @@ export function PreJoin(
         <div className="flex justify-center items-center gap-9">
           <input 
             type="text" id="roomIdBox" name="roomIdBox"          
-            className="black font-bold rounded h-12 w-52 sm:w-72 p-5 "
+            className="black font-bold rounded h-12 w-52 sm:w-72 p-5"
           /> 
           <input 
-            className="button button-translate font-bold h-12 w-20 sm:w-36" 
+            className="button button-translate font-bold h-12 w-20 sm:w-24" 
             type="submit" 
             id="submitInput" 
             value="Submit"
@@ -86,8 +85,15 @@ export function PreJoin(
         </div>  
         {
           additionalMessage ?
-          <span id="aM" className="white underline font-bold">{ additionalMessage}</span> :
-          <span id="aM" className="white">&nbsp;</span>
+          <span id="aM" className="white text-center underline font-bold">{ additionalMessage }</span> :
+          <span id="aM" className="white">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
         }
         
       </form>
@@ -98,13 +104,13 @@ export function PreJoin(
 export function Joined(
   { gameStateData } : { gameStateData: any }) {  
     return (
-      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-7 px-12">
-        <div className="flex flex-col justify-center items-center gap-5 ls:gap-2">
+      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
+        <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
           <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">You</h1>
           <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">vs</h1>
           <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">{gameStateData.otherPlayerUsername}</h1>
         </div>
-        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">
+        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">
           Waiting for the creator of the room to start the game!
         </h1>
       </main>
