@@ -26,7 +26,11 @@ body {
 }
 
 .black { 
-  color: #22262f
+  color: #22262f;
+}
+
+.orange {
+  color: #f5950c;
 }
 
 .button {
