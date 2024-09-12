@@ -29,7 +29,7 @@ export default function GamePage() {
   useEffect(() => {
     function messageFunction(event: MessageEvent) {
       let parsedMessage: GameOutput = JSON.parse(event.data);
-      console.log(parsedMessage);
+
       switch(parsedMessage.type) {
         case "seqNum":
           setSeqNum(parsedMessage.outputContainer.data.seqNum);
