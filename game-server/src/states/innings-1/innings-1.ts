@@ -82,7 +82,7 @@ export default class Innings1 {
         currentGame.players[result.index].move = input;
         break;
       case "fulfillOther":
-        let generateMove = crypto.randomInt(0, 7).toString();
+        let generateMove = crypto.randomInt(1, 7).toString();
         currentGame.players[result.index].move = input;
         currentGame.players[result.otherPlayerIndex].move = generateMove;
         clearTimeout(currentGame.timeout!);
@@ -101,8 +101,8 @@ export default class Innings1 {
 
     let result: ComputerMoveResult = computerMoveLogic(currGame);
 
-    let generateMove1 = crypto.randomInt(0, 7).toString();
-    let generateMove2 = crypto.randomInt(0, 7).toString();
+    let generateMove1 = crypto.randomInt(1, 7).toString();
+    let generateMove2 = crypto.randomInt(1, 7).toString();
     
     switch(result.decision) {
       case "0":
