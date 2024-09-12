@@ -45,9 +45,9 @@ export function GameSelectionState({ socket, seqNum} : {socket: WebSocket | null
     )
   }
   return (
-    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-7 px-12">
-        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Please choose a game mode!</h1>
-        <div className="flex flex-col ls:flex-row justify-center items-center gap-5 ls:gap-3">
+    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5">
+        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Choose a game mode!</h1>
+        <div className="flex flex-col ls:flex-row justify-center items-center gap-5">
           <button 
             id="publicWaitingRoom" 
             onClick={selectionClick}
