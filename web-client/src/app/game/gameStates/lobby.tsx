@@ -18,8 +18,8 @@ export default function LobbyState(
     }
     
     return (
-    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap- px-12">
-      <div className="flex flex-col justify-center items-center gap-5 ls:gap-2">
+    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
+      <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
         <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">You</h1>
         <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">vs</h1>
         <h1 className="pink font-bold text-xl sm:text-2xl ls:text-lg">{otherPlayerUsername}</h1>

@@ -4,7 +4,7 @@
 
 .loading::after {
   display: block;
-  animation: loadingDots steps(1,end) 3s infinite;
+  animation: loadingDots steps(1,end) 4.5s infinite;
   content: '\00a0';
 }
 
