@@ -53,7 +53,7 @@ export default function GamePage() {
       }
   
       let playerIdToken = localStorage.getItem("playerIdToken");
-      let wsUrl = "ws://localhost:4000/wsConnection?playerIdToken="+playerIdToken;
+      let wsUrl = "wss://sillypoint.net:4000/wsConnection?playerIdToken="+playerIdToken;
   
       let newSocket = new WebSocket(wsUrl);
   

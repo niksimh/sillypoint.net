@@ -27,7 +27,7 @@ export default function RegisterPage() {
 
     //Get the entered username and setup fetch url
     let username = (document.getElementById("usernameBox") as HTMLInputElement).value;
-    let fetchUrl = `http://localhost:4000/register?username=${encodeURIComponent(username)}`;
+    let fetchUrl = `https://sillypoint.net:4000/register?username=${encodeURIComponent(username)}`;
 
     try {
       let response = await fetch(fetchUrl);
