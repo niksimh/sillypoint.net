@@ -85,12 +85,12 @@ export function TossState(
   if(selection === undefined) {
     selectionOptions = (
       <div className="grid grid-cols-3 md:grid-cols-6 ls:grid-cols-6 gap-5 ls:gap-3">
-      <button id="1" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">1</button>
-      <button id="2" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">2</button>
-      <button id="3" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">3</button>
-      <button id="4" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">4</button>
-      <button id="5" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">5</button>
-      <button id="6" onClick={selectionClick}className="button font-bold h-12 w-16 w-24 ls:w-16 ls:text-sm">6</button>
+      <button id="1" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">1</button>
+      <button id="2" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">2</button>
+      <button id="3" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">3</button>
+      <button id="4" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">4</button>
+      <button id="5" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">5</button>
+      <button id="6" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">6</button>
       </div>
     );
   } else {
