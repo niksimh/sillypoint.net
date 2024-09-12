@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 
 export function NotWinner() {  
     return (
-      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-7 px-12">        
-        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Unfortunately, you did not win the toss.</h1>
-        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Please wait while the winner makes their selection.</h1>
+      <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">  
+        <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
+          <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Unfortunately, you did not win the toss.</h1>
+          <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Please wait while the winner makes their selection.</h1>
+        </div>      
       </main>
     )
 }
@@ -84,29 +86,20 @@ export function AmWinner(
   if(selection === undefined) {
     selectionOptions = (
       <div className="grid grid-cols-1 ls:grid-cols-2 gap-5 ls:gap-3">
-        <button id="bat" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">Bat</button>
-        <button id="bowl" onClick={selectionClick}className="button font-bold h-12 w-24 ls:w-16 ls:text-sm">Bowl</button>
+        <button id="bat" onClick={selectionClick}className="button font-bold h-12 w-28 ls:w-16 ls:text-sm">Bat</button>
+        <button id="bowl" onClick={selectionClick}className="button font-bold h-12 w-28 ls:w-16 ls:text-sm">Bowl</button>
       </div>
     );
-  } else if (selection === "-1") {
-    selectionOptions = (
-    <div className="flex flex-col ls:flex-row justify-center items-center gap-10 ls:gap-3">
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Oh no! Time ran out!</h1>
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">The computer has made a move for you.</h1>
-    </div>
-    );
   } else {
-    selectionOptions = (
-    <div className="flex flex-col ls:flex-row justify-center items-center gap-10 ls:gap-3">
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{`You have selected ${selection}.`}</h1>      
-    </div>
-    );
+    selectionOptions = <></>;
   }
 
   return (
-    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-3 px-12">
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">You have won the toss!</h1>
-      <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">Would you like to bat or bow first?</h1>
+    <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
+      <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
+        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">You have won the toss!</h1>
+        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Would you like to bat or bow first?</h1>
+      </div>
     {
       selection === undefined ? 
       <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{timeLeft}</h1> :
@@ -131,7 +124,6 @@ export function TossWinnerSelectionState(
       amWinner = false;
     }
   } catch {  }
-
 
   if (amWinner) {
     return <AmWinner socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
