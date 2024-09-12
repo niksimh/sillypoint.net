@@ -22,8 +22,8 @@ export function AmWinner(
   const [intervalId, setIntervalId] = useState<any>();
   
   useEffect(() => {
-    //Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000))
-    setTimeLeft(10000);
+    setTimeLeft(Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000)));
+    
     let intervalId = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {  
           let newTimeLeft = prevTimeLeft - 1;
