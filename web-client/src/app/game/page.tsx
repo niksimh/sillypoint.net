@@ -17,6 +17,7 @@ import { TossWinnerSelectionState } from "./gameStates/tossWinnerSelection";
 import { Innings1State } from "./gameStates/innings1";
 import { InningsBreakState } from "./gameStates/inningsBreak";
 import { Innings2State } from "./gameStates/innings2";
+import { LeaveState } from "./gameStates/leave";
 
 export default function GamePage() {
   
@@ -41,7 +42,7 @@ export default function GamePage() {
           setSocket(null);
           setGameState("leave");
           setGameStateData(parsedMessage.outputContainer);
-          break;
+          break;      
       }
     }
 
@@ -94,18 +95,21 @@ export default function GamePage() {
       renderedGameState = <TossWinnerSelectionState socket={socket} seqNum={seqNum} gameStateData={gameStateData}/>
       break;
     case "innings1":
-      renderedGameState= <Innings1State socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
+      renderedGameState = <Innings1State socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
       break;
     case "inningsBreak":
-      renderedGameState= <InningsBreakState gameStateData={gameStateData} />
+      renderedGameState = <InningsBreakState gameStateData={gameStateData} />
       break;
     case "innings2":
-      renderedGameState= <Innings2State socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
+      renderedGameState = <Innings2State socket={socket} seqNum={seqNum} gameStateData={gameStateData} />
+      break;
+    case "leave":
+      renderedGameState = <LeaveState outputContainer={gameStateData} />
       break;
   }
 
   let gameHeader;
-  if (gameState === "pendingConnection") {
+  if (gameState === "pendingConnection" || gameState === "leave") {
     gameHeader = <Header title="Game" />;
   } else {
     gameHeader = <GameHeader title="Game" socket={socket} state={gameState} seqNum={seqNum}/>
