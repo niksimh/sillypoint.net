@@ -121,8 +121,12 @@ export default class Toss {
     await new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
-    
-    let currentGame = this.currentGames.get(gameId)!;
+    let currentGame = this.currentGames.get(gameId);
+    if (currentGame === undefined) {
+      console.log("here")
+      return;
+    }
+
     let toss = currentGame.toss!;
 
     let result: CompleteStateResult = completeStateLogic(currentGame);

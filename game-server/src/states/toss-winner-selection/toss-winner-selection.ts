@@ -96,8 +96,10 @@ export default class TossWinnerSelection {
     await new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
-    
-    let currentGame = this.currentGames.get(gameId)!;
+    let currentGame = this.currentGames.get(gameId);
+    if (currentGame === undefined) {
+      return;
+    }
     
     let result: ComputerMoveResult = computerMoveLogic(currentGame);
     

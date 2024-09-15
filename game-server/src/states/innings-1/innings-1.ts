@@ -123,8 +123,10 @@ export default class Innings1 {
     await new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
-    
-    let currentGame = this.currentGames.get(gameId)!;
+    let currentGame = this.currentGames.get(gameId);
+    if (currentGame === undefined) {
+      return;
+    }
 
     let noBallRes = isNoBall();
     let result: CompleteStateResult = completeStateLogic(currentGame, noBallRes);
