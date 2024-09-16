@@ -1,12 +1,27 @@
-import { Game, TossContainer } from "../../game-engine/types";
-import type PlayerDB from "../../player-db/player-db"
-import RelayService from "../../relay-service/relay-service";
-import { GameStateOutput, InputContainer, LeaveOutput } from "../../types";
-import { State } from "../types"
-import { CompleteStateResult, ComputerMoveResult, PlayerMoveResult } from "./types";
-import { completeStateLogic, computerMoveLogic, leaveLogic, playerMoveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
-import { LeaveResult } from "./types";
 import crypto from "crypto";
+
+import  PlayerDB from "@/player-db/player-db"
+
+import RelayService from "@/relay-service/relay-service";
+
+import { Game, TossContainer } from "@/game-engine/types";
+
+import { GameStateOutput, InputContainer, LeaveOutput } from "@/types";
+
+import { State } from "@/states/types"
+
+import { 
+  CompleteStateResult, 
+  ComputerMoveResult, 
+  PlayerMoveResult, 
+  LeaveResult } from "@/states/toss/types";
+import { 
+  completeStateLogic, 
+  computerMoveLogic, 
+  leaveLogic, 
+  playerMoveLogic, 
+  rejoinLogic, 
+  temporaryLeaveLogic } from "@/states/toss/logic";
 
 export default class Toss {
   stateMap: Map<string, State>

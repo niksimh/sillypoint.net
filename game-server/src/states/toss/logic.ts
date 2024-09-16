@@ -1,3 +1,5 @@
+import { Game } from "@/game-engine/types";
+
 import { 
   CompleteStateResult, 
   ComputerMoveResult, 
@@ -5,8 +7,7 @@ import {
   PlayerMoveResult,
   RejoinResult,
   TemporaryLeaveResult
- } from "./types";
-import { Game } from "../../game-engine/types";
+ } from "@/states/toss/types";
 
 export function leaveLogic(playerId: string, game: Game): LeaveResult {
   let players = game.players;
