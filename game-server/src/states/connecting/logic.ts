@@ -1,5 +1,6 @@
-import { Player } from "../../player-db/types";
-import { TransitionIntoResult } from "./types";
+import { Player } from "@/player-db/types";
+
+import { TransitionIntoResult } from "@/states/connecting/types";
 
 export function transitionIntoLogic(player: Player | undefined): TransitionIntoResult {
   if (player === undefined) {

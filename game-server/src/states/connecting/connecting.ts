@@ -1,10 +1,15 @@
-import type PlayerDB from "../../player-db/player-db"
-import type RelayService from "../../relay-service/relay-service";
-import { State } from "../types"
-import type { WebSocket } from "ws";
-import { TransitionIntoResult } from "./types";
-import { transitionIntoLogic } from "./logic";
-import { LeaveOutput } from "../../types";
+import { WebSocket } from "ws";
+
+import PlayerDB from "@/player-db/player-db"
+
+import RelayService from "@/relay-service/relay-service";
+
+import { State } from "@/states/types"
+
+import { TransitionIntoResult } from "@/states/connecting/types";
+import { transitionIntoLogic } from "@/states/connecting/logic";
+
+import { LeaveOutput } from "@/types";
 
 export default class Connecting {
   stateMap: Map<string, State>
