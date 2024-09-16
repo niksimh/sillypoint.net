@@ -1,8 +1,9 @@
 'use client';
 
 import Link from "next/link";
-import Footer from "./shared/Footer";
 import { useState, useEffect } from "react"
+
+import Footer from "@/app/shared/Footer";
 import { CheckInJSON } from "@/types/index-handler-types";
 
 export default function Home() {
@@ -26,7 +27,7 @@ export default function Home() {
           setGetStartedHref(responseJSON.direction);
         }
       } catch {
-        // do nothing. client will be bricked to only direct home
+        // Do nothing. Client will be bricked -- a sign that the server is down
       }
     }  
     fetchData();  
