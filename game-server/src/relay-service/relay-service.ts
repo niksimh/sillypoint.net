@@ -1,12 +1,15 @@
 import { WebSocketServer, WebSocket, MessageEvent, CloseEvent } from "ws";
 import crypto from "crypto";
-import type { IncomingMessage } from "http";
+import { IncomingMessage } from "http";
 
-import { connectionLogic, messageLogic } from "./logic";
-import type { ConnectionResult, MessageResult } from "./types";
-import { State } from "../states/types";
-import PlayerDB from "../player-db/player-db";
-import { InputContainer, LeaveOutput, SeqNumOutput } from "../types";
+import { connectionLogic, messageLogic } from "@/relay-service/logic";
+import type { ConnectionResult, MessageResult } from "@/relay-service/types";
+
+import { State } from "@/states/types";
+
+import PlayerDB from "@/player-db/player-db";
+
+import { InputContainer, LeaveOutput, SeqNumOutput } from "@/types";
 
 export default class RelayService {
   wss: WebSocketServer
@@ -51,16 +54,14 @@ export default class RelayService {
         };
         socket.send(JSON.stringify(seqNumOutput));
 
-        process.nextTick(() => {
-          socket.addEventListener("message", (event: MessageEvent) => {
-            this.messageHandler(event.target, event.data as string);
-          });
-
-          socket.addEventListener("close", (event: CloseEvent) => {
-            this.clientCloseHandler(event.target);
-          });
+        socket.addEventListener("message", (event: MessageEvent) => {
+          this.messageHandler(event.target, event.data as string);
         });
 
+        socket.addEventListener("close", (event: CloseEvent) => {
+          this.clientCloseHandler(event.target);
+        });
+        
         let connectingState = this.stateMap.get("connecting") as any;
         connectingState.transitionInto(result.playerId, result.username, socket);
     }
@@ -115,6 +116,7 @@ export default class RelayService {
   }
 
   serverCloseHandler(socket: WebSocket | null) {
+    //Socket may be null if the player has already disconnected
     socket?.removeAllListeners();
     socket?.close();
   }
@@ -123,7 +125,8 @@ export default class RelayService {
     let playerId = (socket as any).playerId as string;    
     let currentPlayer = this.playerDB.getPlayer(playerId); 
     
-    if(!currentPlayer) {
+    //There is a period of time where socket events are still queued after we initiate a close.
+    if(!currentPlayer) { 
       return;
     }
     

@@ -2,7 +2,8 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 
-import { ConnectionResult, MessageResult } from "./types";
+import { ConnectionResult, MessageResult } from "@/relay-service/types";
+
 import { PlayerIdTokenPayload } from "@/index-handlers/types";
 
 export function connectionLogic(requestURL: string | undefined, secret: string): ConnectionResult {

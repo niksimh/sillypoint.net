@@ -1,6 +1,4 @@
-import { Game } from "../game-engine/types"
-import type { Player } from "../player-db/types"
-import { GameInput, GameOutput } from "../types"
+import { GameInput } from "@/types"
 
 export interface ConnectionAddResult {
   decision: "add"
