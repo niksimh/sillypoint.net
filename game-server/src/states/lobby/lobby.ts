@@ -1,11 +1,17 @@
-import type PlayerDB from "../../player-db/player-db";
-import { State } from "../types";
-import type { Game } from "../../game-engine/types";
-import type RelayService from "../../relay-service/relay-service";
 import crypto from "crypto";
-import { LeaveResult } from "./types";
-import { InputContainer, LeaveOutput, GameStateOutput } from "../../types";
-import { leaveLogic, temporaryLeaveLogic } from "./logic";
+
+import PlayerDB from "@/player-db/player-db";
+
+import RelayService from "@/relay-service/relay-service";
+
+import { InputContainer, LeaveOutput, GameStateOutput } from "@/types";
+
+import { State } from "@/states/types";
+
+import { Game } from "@/game-engine/types";
+
+import { LeaveResult } from "@/states/lobby/types";
+import { leaveLogic, temporaryLeaveLogic } from "@/states/lobby/logic";
 
 export default class Lobby {
   stateMap: Map<string, State>

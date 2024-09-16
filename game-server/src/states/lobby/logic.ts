@@ -1,5 +1,6 @@
-import { LeaveResult, RejoinResult, TemporaryLeaveResult } from "./types";
-import { Game } from "../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
+import { LeaveResult, RejoinResult, TemporaryLeaveResult } from "@/states/lobby/types";
 
 export function leaveLogic(playerId: string, game: Game): LeaveResult {
   let players = game.players;
