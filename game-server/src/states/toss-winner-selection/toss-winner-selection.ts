@@ -1,10 +1,22 @@
-import { Game } from "../../game-engine/types";
-import type PlayerDB from "../../player-db/player-db"
-import RelayService from "../../relay-service/relay-service";
-import { PlayerMoveResult, ComputerMoveResult, LeaveResult } from "./types";
-import { playerMoveLogic, computerMoveLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
-import { State } from "../types"
-import { InputContainer, LeaveOutput, GameStateOutput } from "../../types";
+import PlayerDB from "@/player-db/player-db"
+
+import RelayService from "@/relay-service/relay-service";
+
+import { Game } from "@/game-engine/types";
+
+import { State } from "@/states/types"
+import { InputContainer, LeaveOutput, GameStateOutput } from "@/types";
+
+import { 
+  PlayerMoveResult, 
+  ComputerMoveResult, 
+  LeaveResult } from "@/states/toss-winner-selection/types";
+import { 
+  playerMoveLogic, 
+  computerMoveLogic, 
+  leaveLogic, 
+  rejoinLogic, 
+  temporaryLeaveLogic } from  "@/states/toss-winner-selection/logic";
 
 export default class TossWinnerSelection {
   stateMap: Map<string, State>

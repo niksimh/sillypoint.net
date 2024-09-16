@@ -1,4 +1,5 @@
-import { Game } from "../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
 import { 
   CompleteStateResult, 
   ComputerMoveResult, 
@@ -6,7 +7,7 @@ import {
   LeaveResult,
   RejoinResult, 
   TemporaryLeaveResult
- } from "./types";
+ } from "@/states/toss-winner-selection/types";
 
 export function playerMoveLogic(playerId: string, game: Game, input: string): PlayerMoveResult {
   if (input !== "bat" && input !== "bowl") {
