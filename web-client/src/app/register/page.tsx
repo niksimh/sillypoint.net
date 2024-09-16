@@ -1,9 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from "react";
+
 import Header from "@/app/shared/Header";
 import Footer from "@/app/shared/Footer";
-import { useState } from "react";
-import { useRouter } from 'next/navigation';
+
 import { RegisterJSON } from "@/types/index-handler-types";
 
 export default function RegisterPage() {
