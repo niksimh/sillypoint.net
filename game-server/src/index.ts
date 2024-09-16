@@ -4,12 +4,15 @@ import cors from "cors";
 import crypto from "crypto";
 import { WebSocketServer } from 'ws';
 
-import checkIn from "./index-handlers/check-in";
-import register from "./index-handlers/register";
-import setupStates from "./states/setup-states";
-import PlayerDB from "./player-db/player-db";
-import RelayService from "./relay-service/relay-service";
-import { State } from "./states/types";
+import checkIn from "@/index-handlers/check-in";
+import register from "@/index-handlers/register";
+
+import { State } from "@/states/types";
+import setupStates from "@/states/setup-states";
+
+import PlayerDB from "@/player-db/player-db";
+
+import RelayService from "@/relay-service/relay-service";
 
 //Setup
 const app = express();
@@ -35,8 +38,10 @@ app.get('/check-in', cors(), (req, res) => {
 app.get('/register', cors(), (req, res) => {
   let playerId = crypto.randomUUID();
   let randomNumber = crypto.randomInt(9999);
-  
-  let result = register(req.query.username as string | undefined, playerId, randomNumber, process.env.playerIdTokenSecret!);
+  let username = req.query.username as string | undefined;
+  let registrationSecret = process.env.playerIdTokenSecret!;
+
+  let result = register(username, playerId, randomNumber, registrationSecret);
   
   res.json(result);
 })
