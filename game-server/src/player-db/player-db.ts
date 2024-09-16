@@ -1,4 +1,4 @@
-import { Player } from "./types";
+import { Player } from "@/player-db/types";
 
 export default class PlayerDB {
   playerMap: Map<string, Player>
