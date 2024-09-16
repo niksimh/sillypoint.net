@@ -1,8 +1,3 @@
-export interface PlayerIdTokenPayload {
-  playerId: string
-  username: string
-}
-
 export interface OutputContainer {
   subType: string
   data: any

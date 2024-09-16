@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { PlayerIdTokenPayload } from "../types";
-import { RegisterJSON } from "./types";
+
+import { 
+  RegisterJSON, 
+  PlayerIdTokenPayload 
+} from "@/index-handlers/types"
 
 export let badWordList = [
   "fuck",

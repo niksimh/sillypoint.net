@@ -1,6 +1,6 @@
 import { connectionLogic } from "../../relay-service/logic";
 import jwt from "jsonwebtoken";
-import { PlayerIdTokenPayload } from "../../types";
+import { PlayerIdTokenPayload } from "@/index-handlers/types";
 
 const CORRECT_URL = "/wsConnection";
 const SECRET = "$ecret"

@@ -1,3 +1,8 @@
+export interface PlayerIdTokenPayload {
+  playerId: string
+  username: string
+}
+
 export interface CheckInJSON { 
   direction: "/register" | "/game"
 }
