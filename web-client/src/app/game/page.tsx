@@ -1,23 +1,24 @@
 'use client';
 
+import { useState, useEffect } from "react";
+
 import Footer from "@/app/shared/Footer";
 import GameHeader from "@/app/shared/GameHeader";
 import Header from "@/app/shared/Header";
-import PendingState from "./gameStates/pending";
+import PendingState from "@/app/game/gameStates/pending";
 
-import { useState, useEffect } from "react";
 import { GameOutput } from "@/types/io-types";
-import { GameSelectionState } from "./gameStates/gameSelection";
-import { PublicWaitingRoomState } from "./gameStates/publicWaitingRoom";
-import { PrivateWaitingRoomJoinerState } from "./gameStates/privateWaitingRoomJoiner";
-import { PrivateWaitingRoomCreatorState } from "./gameStates/privateWaitingRoomCreator";
-import LobbyState from "./gameStates/lobby";
-import { TossState } from "./gameStates/toss";
-import { TossWinnerSelectionState } from "./gameStates/tossWinnerSelection";
-import { Innings1State } from "./gameStates/innings1";
-import { InningsBreakState } from "./gameStates/inningsBreak";
-import { Innings2State } from "./gameStates/innings2";
-import { LeaveState } from "./gameStates/leave";
+import { GameSelectionState } from "@/app/game/gameStates/gameSelection";
+import { PublicWaitingRoomState } from "@/app/game/gameStates/publicWaitingRoom";
+import { PrivateWaitingRoomJoinerState } from "@/app/game/gameStates/privateWaitingRoomJoiner";
+import { PrivateWaitingRoomCreatorState } from "@/app/game/gameStates/privateWaitingRoomCreator";
+import { LobbyState } from "@/app/game/gameStates/lobby";
+import { TossState } from "@/app/game/gameStates/toss";
+import { TossWinnerSelectionState } from "@/app/game/gameStates/tossWinnerSelection";
+import { Innings1State } from "@/app/game/gameStates/innings1";
+import { InningsBreakState } from "@/app/game/gameStates/inningsBreak";
+import { Innings2State } from "@/app/game/gameStates/innings2";
+import { LeaveState } from "@/app/game/gameStates/leave";
 
 export default function GamePage() {
   
@@ -52,8 +53,7 @@ export default function GamePage() {
         return;
       }
   
-      let playerIdToken = localStorage.getItem("playerIdToken");
-      console.log(process.env.NEXT_PUBLIC_SOCKET_URL);
+      let playerIdToken = localStorage.getItem("playerIdToken");      
       let wsUrl = `${process.env.NEXT_PUBLIC_SOCKET_URL}/wsConnection?playerIdToken=${playerIdToken}`;
   
       let newSocket = new WebSocket(wsUrl);

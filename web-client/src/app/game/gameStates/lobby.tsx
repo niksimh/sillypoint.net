@@ -1,7 +1,7 @@
 import { PlayerIdTokenPayload } from "@/types/io-types";
 import { jwtDecode } from "jwt-decode";
 
-export default function LobbyState(
+export function LobbyState(
   { gameStateData }: { gameStateData: any }) {
 
     let otherPlayerUsername = ""; 
