@@ -1,4 +1,4 @@
-import { ScoreboardContainer } from "../../game-engine/types";
+import { ScoreboardContainer } from "@/game-engine/types";
 
 export interface TransitionIntoResult {
   decision: 0 | 1;

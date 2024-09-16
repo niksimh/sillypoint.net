@@ -1,12 +1,32 @@
-import type PlayerDB from "../../player-db/player-db"
-import RelayService from "../../relay-service/relay-service"
-import { State } from "../types"
-import { Game, ScoreboardContainer } from "../../game-engine/types"
-import { TransitionIntoResult, PlayerMoveResult, ComputerMoveResult, CompleteStateResult, LeaveResult } from "./types"
-import { transitionIntoLogic, playerMoveLogic, computerMoveLogic, completeStateLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic"
-import { GameStateOutput, InputContainer, LeaveOutput } from "../../types"
 import crypto from "crypto";
-import { isNoBall } from "../../game-engine/logic"
+
+import PlayerDB from "@/player-db/player-db"
+import RelayService from "@/relay-service/relay-service"
+
+import { State } from "@/states/types"
+
+import { Game, ScoreboardContainer } from "@/game-engine/types"
+import { isNoBall } from "@/game-engine/logic"
+
+import { 
+  TransitionIntoResult, 
+  PlayerMoveResult, 
+  ComputerMoveResult, 
+  CompleteStateResult, 
+  LeaveResult } from "@/states/innings-1/types"
+import { 
+  transitionIntoLogic, 
+  playerMoveLogic, 
+  computerMoveLogic, 
+  completeStateLogic, 
+  leaveLogic,
+  rejoinLogic, 
+  temporaryLeaveLogic } from "@/states/innings-1/logic"
+import { 
+  GameStateOutput, 
+  InputContainer, 
+  LeaveOutput } from "@/types"
+
 
 export default class Innings1 {
   stateMap: Map<string, State>

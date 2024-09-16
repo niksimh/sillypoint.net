@@ -1,5 +1,6 @@
-import { endOfInnings, processBall } from "../../game-engine/logic";
-import { Game } from "../../game-engine/types";
+import { endOfInnings, processBall } from "@/game-engine/logic";
+import { Game } from "@/game-engine/types";
+
 import { 
   TransitionIntoResult, 
   PlayerMoveResult, 
@@ -8,7 +9,7 @@ import {
   LeaveResult,
   RejoinResult,
   TemporaryLeaveResult
- } from "./types";
+ } from "@/states//innings-1/types";
 
 export function transitionIntoLogic(game: Game): TransitionIntoResult {
   let tossWinnerId = game.toss!.winnerId;
