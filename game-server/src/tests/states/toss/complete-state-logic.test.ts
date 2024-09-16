@@ -1,8 +1,9 @@
-import { Game } from "../../../game-engine/types";
-import { completeStateLogic } from "../../../states/toss/logic";
+import { Game } from "@/game-engine/types";
+
+import { completeStateLogic } from "@/states/toss/logic";
 import { 
   CompleteStateResult
- } from "../../../states/toss/types";
+ } from "@/states/toss/types";
 
 test("p1 wins toss as even player", () => {
   let game: Game = {

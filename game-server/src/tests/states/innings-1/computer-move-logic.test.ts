@@ -1,10 +1,11 @@
-import { Game } from "../../../game-engine/types";
-import { computerMoveLogic } from "../../../states/innings-1/logic";
+import { Game } from "@/game-engine/types";
+
+import { computerMoveLogic } from "@/states/innings-1/logic";
 import { 
   ComputerMove0Result,
   ComputerMove1Result,
   ComputerMove01Result
- } from "../../../states/innings-1/types";
+ } from "@/states/innings-1/types";
 
 test("Computer needing to make a move for p1", () => {
   let game: Game = {

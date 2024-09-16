@@ -1,11 +1,12 @@
-import { Game } from "../../../game-engine/types";
-import { playerMoveLogic } from "../../../states/innings-2/logic";
+import { Game } from "@/game-engine/types";
+
+import { playerMoveLogic } from "@/states/innings-2/logic";
 import { 
   PlayerMoveBadInputResult,
   PlayerMovePartialResult,
   PlayerMoveFulfillOtherResult,
   PlayerMoveCompleteResult
- } from "../../../states/innings-2/types";
+ } from "@/states/innings-2/types";
 
 test("Make bad move that is not an int as p1", () => {
   let game: Game = {

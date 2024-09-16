@@ -1,11 +1,11 @@
-import { leaveLogic } from "../../../states/private-waiting-room/logic";
+import { leaveLogic } from "@/states/private-waiting-room/logic";
 import {
    LeaveNotPresentResult, 
    LeaveCreatorNoJoinerResult,
    LeaveCreatorJoinerResult,
    LeaveJoinerResult,
    WaitingRoom 
-} from "../../../states/private-waiting-room/types";
+} from "@/states/private-waiting-room/types";
 
 test("Leaving private waiting room when not present", () => {
   let waitingRooms = new Map<number, WaitingRoom>();

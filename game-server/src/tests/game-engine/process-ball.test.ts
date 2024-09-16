@@ -1,5 +1,5 @@
-import { processBall } from "../../game-engine/logic";
-import { ScoreboardContainer } from "../../game-engine/types";
+import { processBall } from "@/game-engine/logic";
+import { ScoreboardContainer } from "@/game-engine/types";
 
 test("Process ball during no-ball when batter and bowler have the same move", () => {
   let scoreboard: ScoreboardContainer = {

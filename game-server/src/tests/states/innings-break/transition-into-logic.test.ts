@@ -1,6 +1,7 @@
-import { Game } from "../../../game-engine/types";
-import { transitionIntoLogic } from "../../../states/innings-break/logic";
-import { TransitionIntoResult } from "../../../states/innings-break/types";
+import { Game } from "@/game-engine/types";
+
+import { transitionIntoLogic } from "@/states/innings-break/logic";
+import { TransitionIntoResult } from "@/states/innings-break/types";
 
 test("Set up innings 2 when p1 was the batter in innings 1", () => {
   let game: Game = {

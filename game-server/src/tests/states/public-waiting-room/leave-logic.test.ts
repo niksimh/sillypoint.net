@@ -1,8 +1,8 @@
-import { leaveLogic } from "../../../states/public-waiting-room/logic";
+import { leaveLogic } from "@/states/public-waiting-room/logic";
 import type {
   LeaveResult,
   WaitingNode, 
-} from "../../../states/public-waiting-room/types"
+} from "@/states/public-waiting-room/types"
 
 test("Leave public waiting room", ( ) => {
   let waitingQueue: WaitingNode[] = [

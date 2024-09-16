@@ -1,7 +1,8 @@
-import register, { isAlphaNumeric, hasBadWord, badWordList } from "../../index-handlers/register"
 import jwt from "jsonwebtoken"
+
+import register, { isAlphaNumeric, hasBadWord, badWordList } from "@/index-handlers/register"
+
 import { PlayerIdTokenPayload } from "@/index-handlers/types";
-import { RegisterJSON } from "../../index-handlers/types";
 
 const PLAYER_ID = "abc";
 const RANDOM_NUMBER = 100;

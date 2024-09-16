@@ -1,8 +1,7 @@
-import { rejoinLogic } from "../../../states/toss-winner-selection/logic";
-import { 
-  RejoinResult
-} from "../../../states/toss-winner-selection/types";
-import { Game } from "../../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
+import { rejoinLogic } from "@/states/toss-winner-selection/logic";
+import { RejoinResult } from "@/states/toss-winner-selection/types";
 
 test("Rejoining as index 0", () => {
   let game: Game = {

@@ -1,4 +1,4 @@
-import { joinLogic } from "../../../states/private-waiting-room/logic";
+import { joinLogic } from "@/states/private-waiting-room/logic";
 import {
   JoinPresentResult, 
   JoinBadInputResult,
@@ -6,7 +6,7 @@ import {
   JoinFullResult,
   JoinSuccessfulResult,
   WaitingRoom 
-} from "../../../states/private-waiting-room/types";
+} from "@/states/private-waiting-room/types";
 
 test("Joining private waiting room when already present", () => {
   let waitingRooms = new Map<number, WaitingRoom>();

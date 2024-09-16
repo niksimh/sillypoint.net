@@ -1,5 +1,6 @@
-import PlayerDB from "../../player-db/player-db";
 import type { WebSocket } from "ws";
+
+import PlayerDB from "@/player-db/player-db";
 
 test("Add new player when they are not present", () => {
   let playerDB = new PlayerDB();

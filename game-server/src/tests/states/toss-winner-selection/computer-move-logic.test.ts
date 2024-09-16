@@ -1,9 +1,10 @@
-import { computerMoveLogic } from "../../../states/toss-winner-selection/logic";
-import { Game } from "../../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
+import { computerMoveLogic } from "@/states/toss-winner-selection/logic";
 import { 
   ComputerMove0Result,
   ComputerMove1Result
-} from "../../../states/toss-winner-selection/types";
+} from "@/states/toss-winner-selection/types";
 
 test("p1 has not yet made their move as the toss winner", () => {
   let game: Game = {

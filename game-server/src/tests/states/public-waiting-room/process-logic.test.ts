@@ -1,6 +1,5 @@
-import { processLogic } from "../../../states/public-waiting-room/logic";
-import { ProcessResult } from "../../../states/public-waiting-room/types";
-import { WaitingNode } from "../../../states/public-waiting-room/types";
+import { processLogic } from "@/states/public-waiting-room/logic";
+import { ProcessResult, WaitingNode } from "@/states/public-waiting-room/types";
 
 test("2 players in waiting queue", () => {
   let waitingQueue: WaitingNode[] = [

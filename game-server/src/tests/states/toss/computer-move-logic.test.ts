@@ -1,10 +1,11 @@
-import { Game } from "../../../game-engine/types";
-import { computerMoveLogic } from "../../../states/toss/logic";
+import { Game } from "@/game-engine/types";
+
+import { computerMoveLogic } from "@/states/toss/logic";
 import { 
   ComputerMove0Result,
   ComputerMove1Result,
   ComputerMove01Result
- } from "../../../states/toss/types";
+ } from "@/states/toss/types";
 
 test("Computer needing to make a move for p1", () => {
   let game: Game = {

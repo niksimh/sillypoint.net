@@ -1,11 +1,11 @@
-import { kickLogic } from "../../../states/private-waiting-room/logic";
+import { kickLogic } from "@/states/private-waiting-room/logic";
 import {
   KickNotPresentResult,
   KickNotCreatorResult,
   KickEmptyResult,
   KickSuccesfulResult,
   WaitingRoom 
-} from "../../../states/private-waiting-room/types";
+} from "@/states/private-waiting-room/types";
 
 test("Kick from private waiting room when not present", () => {
   let waitingRooms = new Map<number, WaitingRoom>();

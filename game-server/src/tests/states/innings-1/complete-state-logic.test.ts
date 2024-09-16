@@ -1,10 +1,10 @@
-import { Game } from "../../../game-engine/types";
-import { completeStateLogic } from "../../../states/innings-1/logic";
+import { Game } from "@/game-engine/types";
+
+import { completeStateLogic } from "@/states/innings-1/logic";
 import { 
   CompleteStateNullResult,
   CompleteStateInnings1DoneResult
- } from "../../../states/innings-1/types";
-
+ } from "@/states/innings-1/types";
 
 test("Complete state when it is not end-of-innings with p1 as batter", () => {
   let game: Game = {

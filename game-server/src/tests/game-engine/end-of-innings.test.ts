@@ -1,5 +1,5 @@
-import { endOfInnings, MAX_BALLS, MAX_WICKETS } from "../../game-engine/logic";
-import { ScoreboardContainer } from "../../game-engine/types";
+import { endOfInnings, MAX_BALLS, MAX_WICKETS } from "@/game-engine/logic";
+import { ScoreboardContainer } from "@/game-engine/types";
 
 test("End of innings 1 due to balls", () => {
   let scoreboard: ScoreboardContainer = {

@@ -1,9 +1,9 @@
-import { messageLogic } from "../../relay-service/logic";
+import { messageLogic } from "@//relay-service/logic";
 import { 
   MessageLeaveResult,
   MessageHandleResult,
   MessageIgnoreResult 
-} from "../../relay-service/types";
+} from "@//relay-service/types";
 
 const OPEN = 1;
 const CLOSING = 2;

@@ -1,9 +1,10 @@
-import { completeStateLogic } from "../../../states/toss-winner-selection/logic";
-import { Game } from "../../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
+import { completeStateLogic } from "@/states/toss-winner-selection/logic";
 import { 
   CompleteState0Result,
   CompleteState1Result
-} from "../../../states/toss-winner-selection/types";
+} from "@/states/toss-winner-selection/types";
 
 test("Complete state when p1 is the toss winner", () => {
   let game: Game = {

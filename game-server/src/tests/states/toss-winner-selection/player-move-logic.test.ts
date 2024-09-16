@@ -1,9 +1,10 @@
-import { playerMoveLogic } from "../../../states/toss-winner-selection/logic";
-import { Game } from "../../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
+import { playerMoveLogic } from "@/states/toss-winner-selection/logic";
 import { 
   PlayerMoveBadMoveResult,
   PlayerMoveCompleteResult
-} from "../../../states/toss-winner-selection/types";
+} from "@/states/toss-winner-selection/types";
 
 test ("Toss winner making a selection move that is not 'bat' or 'bowl'", () => {
   let game: Game = {

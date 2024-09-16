@@ -1,8 +1,8 @@
-import { rejoinLogic } from "../../../states/private-waiting-room/logic";
+import { rejoinLogic } from "@/states/private-waiting-room/logic";
 import {
   RejoinResult,
   WaitingRoom 
-} from "../../../states/private-waiting-room/types";
+} from "@/states/private-waiting-room/types";
 
 test("Rejoin as a creator with a joiner", () => {
   let waitingRooms = new Map<number, WaitingRoom>();

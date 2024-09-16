@@ -1,8 +1,7 @@
-import { temporaryLeaveLogic } from "../../../states/innings-2/logic";
-import { 
-  TemporaryLeaveResult
-} from "../../../states/innings-2/types";
-import { Game } from "../../../game-engine/types";
+import { Game } from "@/game-engine/types";
+
+import { temporaryLeaveLogic } from "@/states/innings-2/logic";
+import { TemporaryLeaveResult } from "@/states/innings-2/types";
 
 test("Temporarily leaving as index 0", () => {
   let game: Game = {

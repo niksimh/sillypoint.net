@@ -1,6 +1,7 @@
-import { Game } from "../../../game-engine/types";
-import { transitionIntoLogic } from "../../../states/innings-1/logic";
-import { TransitionIntoResult } from "../../../states/innings-1/types";
+import { Game } from "@/game-engine/types";
+
+import { transitionIntoLogic } from "@/states/innings-1/logic";
+import { TransitionIntoResult } from "@/states/innings-1/types";
 
 test("Set up innings 1 when p1 has won toss and has chosen to bat", () => {
   let game: Game = {

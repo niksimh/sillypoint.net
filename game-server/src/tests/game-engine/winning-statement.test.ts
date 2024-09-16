@@ -1,5 +1,5 @@
-import { winningStatement, MAX_BALLS, MAX_WICKETS } from "../../game-engine/logic";
-import { ScoreboardContainer } from "../../game-engine/types";
+import { winningStatement, MAX_BALLS, MAX_WICKETS } from "@/game-engine/logic";
+import { ScoreboardContainer } from "@/game-engine/types";
 
 test("Winning statement with batter winning with 1 wicket and 1 ball left", () => {
   let scoreboard: ScoreboardContainer = {

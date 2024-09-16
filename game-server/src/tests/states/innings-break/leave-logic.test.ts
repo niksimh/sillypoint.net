@@ -1,9 +1,10 @@
-import { leaveLogic } from "../../../states/innings-break/logic";
+import { Game } from "@/game-engine/types";
+
+import { leaveLogic } from "@/states/innings-break/logic";
 import { 
   LeaveOneLeftResult,
   LeaveNoOneLeftResult
-} from "../../../states/innings-break/types";
-import { Game } from "../../../game-engine/types";
+} from "@/states/innings-break/types";
 
 test("Leaving while being p1 with another present player as p2", () => {
   let game: Game = {

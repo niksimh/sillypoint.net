@@ -1,9 +1,10 @@
-import { leaveLogic } from "../../../states/lobby/logic";
+import { Game } from "@/game-engine/types";
+
+import { leaveLogic } from "@/states/lobby/logic";
 import { 
   LeaveOneLeftResult,
   LeaveNoOneLeftResult
-} from "../../../states/lobby/types";
-import { Game } from "../../../game-engine/types";
+} from "@/states/lobby/types";
 
 test("Leaving while being p1 with another present player as p2", () => {
   let game: Game = {

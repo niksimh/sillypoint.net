@@ -1,11 +1,11 @@
-import { startGameLogic } from "../../../states/private-waiting-room/logic";
+import { startGameLogic } from "@/states/private-waiting-room/logic";
 import {
   StartGameNotPresentResult,
   StartGameNotCreatorResult,
   StartGameNoJoinerResult,
   StartGameSuccessfulResult,
   WaitingRoom 
-} from "../../../states/private-waiting-room/types";
+} from "@/states/private-waiting-room/types";
 
 test("Start game from private waiting room when not present", () => {
   let waitingRooms = new Map<number, WaitingRoom>();

@@ -1,11 +1,12 @@
-import { Game } from "../../../game-engine/types";
-import { playerMoveLogic } from "../../../states/toss/logic";
+import { Game } from "@/game-engine/types";
+
+import { playerMoveLogic } from "@/states/toss/logic";
 import { 
   PlayerMoveBadMoveResult,
   PlayerMovePartialResult,
   PlayerMoveFulfillOtherResult,
   PlayerMoveCompleteResult
- } from "../../../states/toss/types";
+ } from "@/states/toss/types";
 
 test("Make bad move that is not an int as p1", () => {
   let game: Game = {

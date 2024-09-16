@@ -1,7 +1,7 @@
-import { Game } from "../../../game-engine/types";
-import { transitionIntoLogic } from "../../../states/game-over/logic";
-import { TransitionIntoResult } from "../../../states/game-over/types";
+import { Game } from "@/game-engine/types";
 
+import { transitionIntoLogic } from "@/states/game-over/logic";
+import { TransitionIntoResult } from "@/states/game-over/types";
 
 test("Batter has won the game as index 0", () => {
   let game: Game = {

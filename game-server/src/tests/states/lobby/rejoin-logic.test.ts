@@ -1,8 +1,9 @@
-import { rejoinLogic } from "../../../states/lobby/logic";
+import { Game } from "@/game-engine/types";
+
+import { rejoinLogic } from "@/states/lobby/logic";
 import { 
   RejoinResult
-} from "../../../states/lobby/types";
-import { Game } from "../../../game-engine/types";
+} from "@/states/lobby/types";
 
 test("Rejoining as index 0", () => {
   let game: Game = {

@@ -1,7 +1,9 @@
-import { Player } from "../../../player-db/types";
-import { transitionIntoLogic } from "../../../states/connecting/logic";
-import { TransitionIntoResult } from "../../../states/connecting/types";
-import WebSocket = require("ws");
+import { WebSocket } from "ws";
+
+import { Player } from "@/player-db/types";
+import { transitionIntoLogic } from "@/states/connecting/logic";
+import { TransitionIntoResult } from "@/states/connecting/types";
+
 test("Connecting with undefined player", () => {
   let rightResult: TransitionIntoResult = {
     decision: "add"
