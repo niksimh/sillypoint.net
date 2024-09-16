@@ -27,4 +27,3 @@ export interface Game {
   timeout: NodeJS.Timeout | null
   deadline?: number
 }
-

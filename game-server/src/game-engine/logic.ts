@@ -1,10 +1,7 @@
-import { 
-  ScoreboardContainer
-} from "./types";
+import { ScoreboardContainer } from "@/game-engine/types";
 
 export const MAX_BALLS = 30;
 export const MAX_WICKETS = 3;
-
 
 //20% chance of a no-ball
 export function isNoBall() {
@@ -64,7 +61,7 @@ export function endOfInnings(scoreboard: ScoreboardContainer): "innings1" | "inn
   }
 }
 
-//Called only at the end of a second innings when a target has been set
+//Only called at the end of a second innings when a target has been set
 export function winningStatement(
   scoreboard: ScoreboardContainer,
   batterUsername: string, 
