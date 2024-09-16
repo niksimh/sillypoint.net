@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "jest",
-    "build": "tsc && node ./build/index.js"
+    "build": "tsc && tsc-alias && node ./build/index.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
