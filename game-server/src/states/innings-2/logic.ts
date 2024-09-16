@@ -1,5 +1,6 @@
-import { endOfInnings, processBall } from "../../game-engine/logic";
-import { Game } from "../../game-engine/types";
+import { endOfInnings, processBall } from "@/game-engine/logic";
+import { Game } from "@/game-engine/types";
+
 import { 
   ComputerMoveResult, 
   PlayerMoveResult, 
@@ -7,7 +8,7 @@ import {
   LeaveResult,
   RejoinResult,
   TemporaryLeaveResult
- } from "./types";
+ } from "@/states/innings-2/types";
 
 export function playerMoveLogic(playerId: string, game: Game, move: string): PlayerMoveResult {
   let numberMove = Number(move);
