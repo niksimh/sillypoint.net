@@ -1,4 +1,11 @@
-import { JoinResult, KickResult, LeaveResult, RejoinResult, StartGameResult, WaitingRoom } from "./types";
+import { 
+  JoinResult, 
+  KickResult, 
+  LeaveResult, 
+  RejoinResult, 
+  StartGameResult, 
+  WaitingRoom,
+ } from "@/states/private-waiting-room/types"
 
 export function leaveLogic(
   waitingRooms: Map<number, WaitingRoom>, 

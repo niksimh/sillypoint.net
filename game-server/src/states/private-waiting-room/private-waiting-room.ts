@@ -1,8 +1,14 @@
-import type PlayerDB from "../../player-db/player-db"
-import type RelayService from "../../relay-service/relay-service"
-import { GameOutput, InputContainer, LeaveOutput } from "../../types";
-import { GameStateOutput, State } from "../types"
-import { joinLogic, kickLogic, leaveLogic, rejoinLogic, startGameLogic } from "./logic";
+import crypto from "crypto";
+
+import type PlayerDB from "@/player-db/player-db"
+
+import type RelayService from "@/relay-service/relay-service"
+
+import { State } from "@/states/types"
+
+import { InputContainer, LeaveOutput, GameStateOutput } from "@/types";
+
+import { joinLogic, kickLogic, leaveLogic, rejoinLogic, startGameLogic } from "@/states/private-waiting-room/logic";
 import { 
   JoinResult, 
   KickResult, 
@@ -10,8 +16,7 @@ import {
   RejoinResult, 
   StartGameResult, 
   WaitingRoom,
- } from "./types"
-import crypto from "crypto";
+ } from "@/states/private-waiting-room/types"
 
 export default class PrivateWaitingRoom {
   stateMap: Map<string, State>
