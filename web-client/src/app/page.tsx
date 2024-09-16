@@ -17,7 +17,7 @@ export default function Home() {
       
       let playerIdToken = localStorage.getItem("playerIdToken") || "";
       
-      let fetchUrl = `https://sillypoint.net:4000/check-in?playerIdToken=${playerIdToken}`;
+      let fetchUrl = `${process.env.NEXT_PUBLIC_GAME_SERVER_URL}/check-in?playerIdToken=${playerIdToken}`;
 
       try {
         let response = await fetch(fetchUrl);

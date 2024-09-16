@@ -7,7 +7,7 @@ export default function LobbyState(
     let otherPlayerUsername = ""; 
     try {
       let playerIdTokenPayload = jwtDecode(localStorage.getItem("playerIdToken")!) as PlayerIdTokenPayload;
-      console.log(playerIdTokenPayload);
+
       if(gameStateData.p1.playerId === playerIdTokenPayload.playerId) {
         otherPlayerUsername = gameStateData.p2.username;
       } else {

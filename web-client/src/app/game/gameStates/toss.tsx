@@ -96,8 +96,7 @@ export function TossState(
       </div>
     );
   } else {
-    selectionOptions = <></>;
-  
+    selectionOptions = <h1 className="loading font-bold text-xl sm:text-2xl ls:text-lg"></h1>;
   }
 
   return (

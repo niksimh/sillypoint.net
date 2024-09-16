@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export function Selection(
   { socket, seqNum, gameStateData} : {socket: WebSocket | null, seqNum: number, gameStateData: any }) {
-  console.log(gameStateData);
+
   const [selection, setSelection] = useState<string>();
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [intervalId, setIntervalId] = useState<any>();
