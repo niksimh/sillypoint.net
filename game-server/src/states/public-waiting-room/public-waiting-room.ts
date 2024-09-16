@@ -6,7 +6,7 @@ import { InputContainer, LeaveOutput, GameStateOutput } from "@/types"
 
 import { State } from "@/states/types"
 
-import { LeaveResult, ProcessResult, WaitingNode } from "@/states/public-waiting-room/types"
+import { WaitingNode } from "@/states/public-waiting-room/types"
 import { leaveLogic, processLogic } from "@/states/public-waiting-room/logic"
 
 export default class PublicWaitingRoom {
@@ -47,7 +47,7 @@ export default class PublicWaitingRoom {
   
   //TODO: Change to a linked list approach. This is just quick and easy for now
   processWaitingQueue() {
-    let result: ProcessResult = processLogic(this.waitingQueue, Date.now());
+    let result = processLogic(this.waitingQueue, Date.now());
     
     let lobbyState = this.stateMap.get("lobby")! as any;
     switch(result.decision) {
@@ -68,7 +68,7 @@ export default class PublicWaitingRoom {
   leave(playerId: string, input: string) {
     let currentPlayer = this.playerDB.getPlayer(playerId)!;
 
-    let result: LeaveResult = leaveLogic(playerId, this.waitingQueue);
+    let result = leaveLogic(playerId, this.waitingQueue);
 
     //Send leave output
     switch(input) {

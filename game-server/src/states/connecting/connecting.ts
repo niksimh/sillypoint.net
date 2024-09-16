@@ -6,7 +6,6 @@ import RelayService from "@/relay-service/relay-service";
 
 import { State } from "@/states/types"
 
-import { TransitionIntoResult } from "@/states/connecting/types";
 import { transitionIntoLogic } from "@/states/connecting/logic";
 
 import { LeaveOutput } from "@/types";
@@ -25,7 +24,7 @@ export default class Connecting {
   transitionInto(playerId: string, username: string, socket: WebSocket) {
     let player = this.playerDB.getPlayer(playerId);
 
-    let result: TransitionIntoResult = transitionIntoLogic(player);
+    let result = transitionIntoLogic(player);
     
     switch(result.decision) {
       case "close":

@@ -8,10 +8,6 @@ import { State } from "@/states/types"
 import { InputContainer, LeaveOutput, GameStateOutput } from "@/types";
 
 import { 
-  PlayerMoveResult, 
-  ComputerMoveResult, 
-  LeaveResult } from "@/states/toss-winner-selection/types";
-import { 
   playerMoveLogic, 
   computerMoveLogic, 
   leaveLogic, 
@@ -73,7 +69,7 @@ export default class TossWinnerSelection {
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: PlayerMoveResult = playerMoveLogic(playerId, currentGame, input);
+    let result = playerMoveLogic(playerId, currentGame, input);
 
     switch(result.decision) {
       case "badMove":
@@ -90,7 +86,7 @@ export default class TossWinnerSelection {
   computerMove(gameId: string) {
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: ComputerMoveResult = computerMoveLogic(currentGame);
+    let result = computerMoveLogic(currentGame);
     
     switch(result.decision) {
       case "0":
@@ -113,7 +109,7 @@ export default class TossWinnerSelection {
       return;
     }
     
-    let result: ComputerMoveResult = computerMoveLogic(currentGame);
+    let result = computerMoveLogic(currentGame);
     
     let tossContainer = currentGame.toss!;
     switch(result.decision) {
@@ -142,7 +138,7 @@ export default class TossWinnerSelection {
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: LeaveResult = leaveLogic(playerId, currentGame);
+    let result = leaveLogic(playerId, currentGame);
 
     switch(result.decision) {
       case "oneLeft":

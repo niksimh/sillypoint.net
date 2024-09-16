@@ -9,14 +9,7 @@ import { State } from "@/states/types"
 import { InputContainer, LeaveOutput, GameStateOutput } from "@/types";
 
 import { joinLogic, kickLogic, leaveLogic, rejoinLogic, startGameLogic } from "@/states/private-waiting-room/logic";
-import { 
-  JoinResult, 
-  KickResult, 
-  LeaveResult, 
-  RejoinResult, 
-  StartGameResult, 
-  WaitingRoom,
- } from "@/states/private-waiting-room/types"
+import { WaitingRoom } from "@/states/private-waiting-room/types"
 
 export default class PrivateWaitingRoom {
   stateMap: Map<string, State>
@@ -77,7 +70,7 @@ export default class PrivateWaitingRoom {
   }
 
   join(playerId: string, input: string) {
-    let result: JoinResult = joinLogic(this.waitingRooms, this.playerToWaitingRoom, playerId, input);
+    let result = joinLogic(this.waitingRooms, this.playerToWaitingRoom, playerId, input);
 
     switch(result.decision) {
       case "present":
@@ -147,7 +140,7 @@ export default class PrivateWaitingRoom {
   }
 
   kick(playerId: string) {
-    let result: KickResult = kickLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+    let result = kickLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
 
     switch(result.decision) {
       case "notPresent":
@@ -189,7 +182,7 @@ export default class PrivateWaitingRoom {
   }
 
   startGame(playerId: string) {
-    let result: StartGameResult = startGameLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+    let result = startGameLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
 
     switch(result.decision) {
       case "notPresent":
@@ -215,7 +208,7 @@ export default class PrivateWaitingRoom {
   }
 
   leave(playerId: string, input: string) {
-    let result: LeaveResult = leaveLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+    let result = leaveLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
 
     //Handle leave output 
     switch(input) {
@@ -304,7 +297,7 @@ export default class PrivateWaitingRoom {
   }
 
   rejoin(playerId: string) {
-    let result: RejoinResult = rejoinLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
+    let result = rejoinLogic(this.waitingRooms, this.playerToWaitingRoom, playerId);
 
     let roomId: number; 
     let currentWaitingRoom: WaitingRoom;

@@ -8,12 +8,8 @@ import { State } from "@/states/types"
 import { Game, ScoreboardContainer } from "@/game-engine/types"
 import { isNoBall } from "@/game-engine/logic"
 
-import { 
-  TransitionIntoResult, 
-  PlayerMoveResult, 
-  ComputerMoveResult, 
-  CompleteStateResult, 
-  LeaveResult } from "@/states/innings-1/types"
+import { GameStateOutput, InputContainer, LeaveOutput } from "@/types"
+
 import { 
   transitionIntoLogic, 
   playerMoveLogic, 
@@ -22,11 +18,6 @@ import {
   leaveLogic,
   rejoinLogic, 
   temporaryLeaveLogic } from "@/states/innings-1/logic"
-import { 
-  GameStateOutput, 
-  InputContainer, 
-  LeaveOutput } from "@/types"
-
 
 export default class Innings1 {
   stateMap: Map<string, State>
@@ -42,7 +33,7 @@ export default class Innings1 {
   }
 
   transitionInto(gameId: string, game: Game) {
-    let result: TransitionIntoResult = transitionIntoLogic(game);
+    let result = transitionIntoLogic(game);
     
     //Transition players
     let p1 = this.playerDB.getPlayer(game.players[0].playerId);
@@ -92,7 +83,7 @@ export default class Innings1 {
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: PlayerMoveResult = playerMoveLogic(playerId, currentGame, input);
+    let result = playerMoveLogic(playerId, currentGame, input);
 
     switch(result.decision) {
       case "badMove":
@@ -119,7 +110,7 @@ export default class Innings1 {
   computerMove(gameId: string) {
     let currGame = this.currentGames.get(gameId)!;
 
-    let result: ComputerMoveResult = computerMoveLogic(currGame);
+    let result = computerMoveLogic(currGame);
 
     let generateMove1 = crypto.randomInt(1, 7).toString();
     let generateMove2 = crypto.randomInt(1, 7).toString();
@@ -149,7 +140,7 @@ export default class Innings1 {
     }
 
     let noBallRes = isNoBall();
-    let result: CompleteStateResult = completeStateLogic(currentGame, noBallRes);
+    let result = completeStateLogic(currentGame, noBallRes);
 
     switch(result.decision) {
       case "innings1Done":
@@ -202,7 +193,7 @@ export default class Innings1 {
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: LeaveResult = leaveLogic(playerId, currentGame);
+    let result = leaveLogic(playerId, currentGame);
 
     switch(result.decision) {
       case "oneLeft":

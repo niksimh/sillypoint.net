@@ -3,7 +3,6 @@ import crypto from "crypto";
 import { IncomingMessage } from "http";
 
 import { connectionLogic, messageLogic } from "@/relay-service/logic";
-import type { ConnectionResult, MessageResult } from "@/relay-service/types";
 
 import { State } from "@/states/types";
 
@@ -25,7 +24,7 @@ export default class RelayService {
   connectionHandler(socket: WebSocket, request: IncomingMessage) {
     let startingSeqNum = crypto.randomInt(1000);
 
-    let result: ConnectionResult = connectionLogic(request.url, process.env.playerIdTokenSecret!);
+    let result = connectionLogic(request.url, process.env.playerIdTokenSecret!);
 
     switch(result.decision) {
       case "badConnectionRequest":
@@ -75,7 +74,7 @@ export default class RelayService {
   messageHandler(socket: WebSocket, message: string) {
     let currSeqNum = (socket as any).seqNum as number; //will be present
 
-    let result: MessageResult = messageLogic(socket.readyState, currSeqNum, message);
+    let result = messageLogic(socket.readyState, currSeqNum, message);
 
     switch(result.decision) {
       case "ignore":

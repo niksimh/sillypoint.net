@@ -10,7 +10,6 @@ import { State } from "@/states/types";
 
 import { Game } from "@/game-engine/types";
 
-import { LeaveResult } from "@/states/lobby/types";
 import { leaveLogic, temporaryLeaveLogic } from "@/states/lobby/logic";
 
 export default class Lobby {
@@ -127,7 +126,7 @@ export default class Lobby {
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: LeaveResult = leaveLogic(playerId, currentGame);
+    let result = leaveLogic(playerId, currentGame);
 
     switch(result.decision) {
       case "oneLeft":

@@ -7,11 +7,6 @@ import { State } from "@/states/types";
 
 import { GameStateOutput, LeaveOutput, InputContainer } from "@/types";
 
-import { 
-  TransitionIntoResult, 
-  LeaveResult, 
-  RejoinResult, 
-  TemporaryLeaveResult } from "@/states/innings-break/types";
 import { transitionIntoLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "@/states/innings-break/logic";
 
 export default class InningsBreak {
@@ -37,7 +32,7 @@ export default class InningsBreak {
     //Set current game
     this.currentGames.set(gameId, game);
 
-    let result: TransitionIntoResult = transitionIntoLogic(game);
+    let result = transitionIntoLogic(game);
 
     //Update scoreboard in game
     game.scoreboard = result.nextScoreboard
@@ -78,7 +73,7 @@ export default class InningsBreak {
     let gameId = currentPlayer.gameId!;
     let currentGame = this.currentGames.get(gameId)!;
 
-    let result: LeaveResult = leaveLogic(playerId, currentGame);
+    let result = leaveLogic(playerId, currentGame);
 
     switch(result.decision) {
       case "oneLeft":
@@ -123,7 +118,7 @@ export default class InningsBreak {
     let player = this.playerDB.getPlayer(playerId)!;
     let game = this.currentGames.get(player.gameId!)!;
       
-    let result: RejoinResult = rejoinLogic(playerId, game);
+    let result = rejoinLogic(playerId, game);
 
     game.players[result.index].goneOrTemporaryDisconnect = null;
 
@@ -146,7 +141,7 @@ export default class InningsBreak {
     let player = this.playerDB.getPlayer(playerId)!;
     let game = this.currentGames.get(player.gameId!)!;
       
-    let result: TemporaryLeaveResult = temporaryLeaveLogic(playerId, game);
+    let result = temporaryLeaveLogic(playerId, game);
 
     game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }

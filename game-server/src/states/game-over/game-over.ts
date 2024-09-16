@@ -9,7 +9,6 @@ import { State } from "@/states//types"
 import { LeaveOutput } from "@/types"
 
 import { transitionIntoLogic } from "@/states/game-over/logic"
-import { TransitionIntoResult } from "@/states/game-over/types"
 
 export default class GameOver {
   stateMap: Map<string, State>
@@ -23,7 +22,7 @@ export default class GameOver {
   }
 
   transitionInto(game: Game) {
-    let result: TransitionIntoResult = transitionIntoLogic(game);
+    let result = transitionIntoLogic(game);
     
     let scoreboard = game.scoreboard!;
     let batterUsername = game.players[result.batterIndex].username;
