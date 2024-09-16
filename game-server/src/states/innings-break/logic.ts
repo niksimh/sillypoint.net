@@ -1,5 +1,10 @@
-import { Game, ScoreboardContainer } from "../../game-engine/types";
-import { TransitionIntoResult, LeaveResult, RejoinResult, TemporaryLeaveResult } from "./types";
+import { Game, ScoreboardContainer } from "@/game-engine/types";
+
+import { 
+  TransitionIntoResult, 
+  LeaveResult, 
+  RejoinResult, 
+  TemporaryLeaveResult } from "@/states/innings-break/types";
 
 export function transitionIntoLogic(game: Game): TransitionIntoResult {
   let players = game.players;

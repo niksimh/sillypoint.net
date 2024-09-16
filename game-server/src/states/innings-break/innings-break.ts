@@ -1,10 +1,18 @@
-import type PlayerDB from "../../player-db/player-db";
-import RelayService from "../../relay-service/relay-service";
-import { Game } from "../../game-engine/types";
-import { State } from "../types";
-import { GameStateOutput, LeaveOutput, InputContainer } from "../../types";
-import { TransitionIntoResult, LeaveResult } from "./types";
-import { transitionIntoLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
+import PlayerDB from "@/player-db/player-db";
+import RelayService from "@/relay-service/relay-service";
+
+import { Game } from "@/game-engine/types";
+
+import { State } from "@/states/types";
+
+import { GameStateOutput, LeaveOutput, InputContainer } from "@/types";
+
+import { 
+  TransitionIntoResult, 
+  LeaveResult, 
+  RejoinResult, 
+  TemporaryLeaveResult } from "@/states/innings-break/types";
+import { transitionIntoLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "@/states/innings-break/logic";
 
 export default class InningsBreak {
   stateMap: Map<string, State>
@@ -115,7 +123,7 @@ export default class InningsBreak {
     let player = this.playerDB.getPlayer(playerId)!;
     let game = this.currentGames.get(player.gameId!)!;
       
-    let result = rejoinLogic(playerId, game);
+    let result: RejoinResult = rejoinLogic(playerId, game);
 
     game.players[result.index].goneOrTemporaryDisconnect = null;
 
@@ -138,7 +146,7 @@ export default class InningsBreak {
     let player = this.playerDB.getPlayer(playerId)!;
     let game = this.currentGames.get(player.gameId!)!;
       
-    let result = temporaryLeaveLogic(playerId, game);
+    let result: TemporaryLeaveResult = temporaryLeaveLogic(playerId, game);
 
     game.players[result.index].goneOrTemporaryDisconnect = "temporaryDisconnect";
   }
