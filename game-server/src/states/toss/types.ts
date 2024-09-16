@@ -1,4 +1,4 @@
-import { GameStateOutput } from "../types";
+import { GameStateOutput } from "@/types";
 
 export interface TossOutput extends GameStateOutput{
   type: "gameState"

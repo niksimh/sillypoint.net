@@ -1,10 +1,10 @@
 import type PlayerDB from "../../player-db/player-db";
-import { GameStateOutput, State } from "../types";
+import { State } from "../types";
 import type { Game } from "../../game-engine/types";
 import type RelayService from "../../relay-service/relay-service";
 import crypto from "crypto";
 import { LeaveResult } from "./types";
-import { InputContainer, LeaveOutput } from "../../types";
+import { InputContainer, LeaveOutput, GameStateOutput } from "../../types";
 import { leaveLogic, temporaryLeaveLogic } from "./logic";
 
 export default class Lobby {

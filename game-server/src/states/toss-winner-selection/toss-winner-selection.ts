@@ -3,8 +3,8 @@ import type PlayerDB from "../../player-db/player-db"
 import RelayService from "../../relay-service/relay-service";
 import { PlayerMoveResult, ComputerMoveResult, LeaveResult } from "./types";
 import { playerMoveLogic, computerMoveLogic, leaveLogic, rejoinLogic, temporaryLeaveLogic } from "./logic";
-import { GameStateOutput, State } from "../types"
-import { InputContainer, LeaveOutput } from "../../types";
+import { State } from "../types"
+import { InputContainer, LeaveOutput, GameStateOutput } from "../../types";
 
 export default class TossWinnerSelection {
   stateMap: Map<string, State>

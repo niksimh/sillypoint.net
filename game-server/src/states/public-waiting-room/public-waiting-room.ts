@@ -2,9 +2,9 @@ import PlayerDB from "@/player-db/player-db"
 
 import RelayService from "@/relay-service/relay-service"
 
-import { InputContainer, LeaveOutput } from "@/types"
+import { InputContainer, LeaveOutput, GameStateOutput } from "@/types"
 
-import { GameStateOutput, State } from "@/states/types"
+import { State } from "@/states/types"
 
 import { LeaveResult, ProcessResult, WaitingNode } from "@/states/public-waiting-room/types"
 import { leaveLogic, processLogic } from "@/states/public-waiting-room/logic"
