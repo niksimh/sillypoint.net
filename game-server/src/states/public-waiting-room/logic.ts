@@ -1,4 +1,4 @@
-import { LeaveResult, ProcessResult, WaitingNode } from "./types";
+import { LeaveResult, ProcessResult, WaitingNode } from "@/states/public-waiting-room/types";
 
 export function leaveLogic(playerId: string, waitingQueue: WaitingNode[]): LeaveResult {
   for(let i = 0; i < waitingQueue.length; i += 1){

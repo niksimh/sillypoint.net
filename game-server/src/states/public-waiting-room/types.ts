@@ -1,4 +1,4 @@
-import { GameStateOutput } from "../types"
+import { GameStateOutput } from "@/types"
 
 export interface WaitingNode {
   playerId: string
@@ -20,5 +20,4 @@ export interface PublicWaitingRoomOutput extends GameStateOutput {
     subType: "publicWaitingRoom"
     data: {}
   }
-
 }

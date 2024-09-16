@@ -1,9 +1,13 @@
-import type PlayerDB from "../../player-db/player-db"
-import RelayService from "../../relay-service/relay-service"
-import { GameStateOutput, State } from "../types"
-import { LeaveResult, ProcessResult, WaitingNode } from "./types"
-import { leaveLogic, processLogic } from "./logic"
-import { InputContainer, LeaveOutput } from "../../types"
+import PlayerDB from "@/player-db/player-db"
+
+import RelayService from "@/relay-service/relay-service"
+
+import { InputContainer, LeaveOutput } from "@/types"
+
+import { GameStateOutput, State } from "@/states/types"
+
+import { LeaveResult, ProcessResult, WaitingNode } from "@/states/public-waiting-room/types"
+import { leaveLogic, processLogic } from "@/states/public-waiting-room/logic"
 
 export default class PublicWaitingRoom {
   stateMap: Map<string, State>
@@ -41,6 +45,7 @@ export default class PublicWaitingRoom {
     this.relayService.sendHandler(playerId, publicWaitingRoomOutput);
   }
   
+  //TODO: Change to a linked list approach. This is just quick and easy for now
   processWaitingQueue() {
     let result: ProcessResult = processLogic(this.waitingQueue, Date.now());
     
