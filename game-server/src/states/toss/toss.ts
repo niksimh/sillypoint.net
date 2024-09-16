@@ -122,8 +122,7 @@ export default class Toss {
       setTimeout(resolve, 2000);
     });
     let currentGame = this.currentGames.get(gameId);
-    if (currentGame === undefined) {
-      console.log("here")
+    if (currentGame === undefined) {      
       return;
     }
 
