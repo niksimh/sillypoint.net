@@ -1,5 +1,5 @@
-import { Game } from "../../game-engine/types"
-import { TransitionIntoResult } from "./types";
+import { Game } from "@/game-engine/types"
+import { TransitionIntoResult } from "@/states/game-over/types";
 
 export function transitionIntoLogic(game: Game): TransitionIntoResult {
   let players = game.players;

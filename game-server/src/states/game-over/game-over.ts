@@ -1,11 +1,15 @@
-import { winningStatement } from "../../game-engine/logic"
-import { Game } from "../../game-engine/types"
-import type PlayerDB from "../../player-db/player-db"
-import RelayService from "../../relay-service/relay-service"
-import { LeaveOutput } from "../../types"
-import { State } from "../types"
-import { transitionIntoLogic } from "./logic"
-import { TransitionIntoResult } from "./types"
+import type PlayerDB from "@/player-db/player-db"
+import RelayService from "@/relay-service/relay-service"
+
+import { Game } from "@/game-engine/types"
+import { winningStatement } from "@/game-engine/logic"
+
+import { State } from "@/states//types"
+
+import { LeaveOutput } from "@/types"
+
+import { transitionIntoLogic } from "@/states/game-over/logic"
+import { TransitionIntoResult } from "@/states/game-over/types"
 
 export default class GameOver {
   stateMap: Map<string, State>
