@@ -1,7 +1,10 @@
-import type PlayerDB from "../../player-db/player-db"
-import RelayService from "../../relay-service/relay-service";
-import { InputContainer, LeaveOutput } from "../../types";
-import { State, GameStateOutput } from "../types"
+import type PlayerDB from "@/player-db/player-db"
+
+import RelayService from "@/relay-service/relay-service";
+
+import { State, GameStateOutput } from "@/states/types"
+
+import { InputContainer, LeaveOutput } from "@/types";
 
 export default class GameSelection {
   stateMap: Map<string, State>
