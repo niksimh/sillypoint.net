@@ -13,9 +13,9 @@ export function TossState(
   
   useEffect(() => {
   
-    let timeLeft = Math.floor((gameStateData.deadline - Date.now())/1000);
+    let rejoinTimeLeft = Math.floor((gameStateData.deadline - Date.now())/1000);
     
-    if (timeLeft < 0) {
+    if (rejoinTimeLeft < 0) {
       setSelection("-1");
     } else {
       setTimeLeft(Math.min(10, timeLeft));
