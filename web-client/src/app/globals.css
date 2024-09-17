@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.loading::after {
+  display: block;
+  animation: loadingDots steps(1,end) 4.5s infinite;
+  content: '\00a0';
+}
+
+@keyframes loadingDots {
+    0%   { content: '\00a0'; }
+    25%  { content: '.'; }
+    50%  { content: '. .'; }
+    75%  { content: '. . .'; }
+    100% { content: '\00a0'; }
+}
+
+body {
+  background-color: #22262f;
+  color: whitesmoke;
+}
+
+.pink {
+  color: #ff314d;
+}
+
+.black { 
+  color: #22262f;
+}
+
+.orange {
+  color: #f5950c;
+}
+
+.button {
+  border-radius: 5px;  
+  background-color: #ff314d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button:hover {
+  background-color: #dc001e;
+  text-decoration: solid underline whitesmoke;
+}
+
