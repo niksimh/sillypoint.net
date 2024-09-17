@@ -24,9 +24,15 @@ export function AmWinner(
   const [intervalId, setIntervalId] = useState<any>();
   
   useEffect(() => {
-    setTimeLeft(Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000)));
+  
+    let timeLeft = Math.floor((gameStateData.deadline - Date.now())/1000);
     
-    let intervalId = setInterval(() => {
+    if (timeLeft < 0) {
+      setSelection("-1");
+    } else {
+      setTimeLeft(Math.min(10, timeLeft));
+    
+      let intervalId = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {  
           let newTimeLeft = prevTimeLeft - 1;
     
@@ -38,17 +44,18 @@ export function AmWinner(
             return newTimeLeft;
           } 
         });
-      }, 1000)
+      }, 1000);
       
       setIntervalId(intervalId);
+    }
 
     return () => { 
-        setIntervalId((intervalId: number) => {
-          clearInterval(intervalId);
-          return null;
-        });
-    } 
-  },[]);
+      setIntervalId((intervalId: number) => {
+        clearInterval(intervalId);
+        return null;
+      });
+    }
+  },[])
 
   function selectionClick(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
@@ -97,8 +104,19 @@ export function AmWinner(
   return (
     <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
       <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
-        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">You have won the toss!</h1>
-        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Would you like to bat or bow first?</h1>
+        {
+          selection === undefined ?
+            <>
+              <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">You have won the toss!</h1>
+              <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Would you like to bat or bow first?</h1>
+            </>
+            :
+            <>
+              <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Processing your selection!</h1>  
+              <h1 className="loading font-bold text-xl sm:text-2xl ls:text-lg"></h1>
+            </>
+        }
+
       </div>
     {
       selection === undefined ? 
