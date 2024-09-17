@@ -249,7 +249,8 @@ export default class Innings1 {
         data: {
           p1: { playerId: game.players[0].playerId, username: game.players[0].username },
           p2: { playerId: game.players[1].playerId, username: game.players[1].username },
-          scoreboard: game.scoreboard
+          scoreboard: game.scoreboard,
+          deadline: game.deadline
         }
       }
     }
