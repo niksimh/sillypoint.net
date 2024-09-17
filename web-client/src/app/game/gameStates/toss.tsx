@@ -12,10 +12,15 @@ export function TossState(
   const [intervalId, setIntervalId] = useState<any>();
   
   useEffect(() => {
+  
+    let timeLeft = Math.floor((gameStateData.deadline - Date.now())/1000);
     
-    setTimeLeft(Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000)));
+    if (timeLeft < 0) {
+      setSelection("-1");
+    } else {
+      setTimeLeft(Math.min(10, timeLeft));
     
-    let intervalId = setInterval(() => {
+      let intervalId = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {  
           let newTimeLeft = prevTimeLeft - 1;
     
@@ -27,15 +32,16 @@ export function TossState(
             return newTimeLeft;
           } 
         });
-      }, 1000)
+      }, 1000);
       
       setIntervalId(intervalId);
+    }
 
-      return () => { 
-        setIntervalId((intervalId: number) => {
-          clearInterval(intervalId);
-          return null;
-        });
+    return () => { 
+      setIntervalId((intervalId: number) => {
+        clearInterval(intervalId);
+        return null;
+      });
     }
   },[])
 
@@ -95,19 +101,22 @@ export function TossState(
       <button id="6" onClick={selectionClick}className="button font-bold h-12 w-16 sm:w-24 ls:w-16 ls:text-sm">6</button>
       </div>
     );
-  } else {
-    selectionOptions = <h1 className="loading font-bold text-xl sm:text-2xl ls:text-lg"></h1>;
   }
 
   return (
     <main className="h-[80dvh] ls:h-[75dvh] flex flex-col justify-center items-center gap-10 ls:gap-5 px-12">
       <div className="flex flex-col justify-center items-center gap-3 ls:gap-2">
         <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">{`You are the ${tossSide} player.`}</h1>       
-        <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Make your toss selection!</h1>  
         {
           selection !== undefined ? 
-          <h1 className="loading font-bold text-xl sm:text-2xl ls:text-lg"></h1>:
-          <></>
+            <>
+              <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Determining the winner!</h1>  
+              <h1 className="loading font-bold text-xl sm:text-2xl ls:text-lg"></h1>
+            </>
+            :
+            <>
+              <h1 className="font-bold text-center text-xl sm:text-2xl ls:text-lg">Make your toss selection!</h1>  
+            </>          
         }             
       </div>
       {
@@ -121,8 +130,3 @@ export function TossState(
     </main>
   );
 }
-
-//You're the even/odd player
-//Please make your toss selection
-//Time left: 
-// 1 2 3 4 5 6
