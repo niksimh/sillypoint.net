@@ -87,7 +87,9 @@ export function TossState(
     } else {
       tossSide = "odd";
     }
-  } catch {  }
+  } catch { 
+    //undefined
+   }
 
   let selectionOptions;
   if(selection === undefined) {
@@ -121,8 +123,9 @@ export function TossState(
       </div>
       {
         selection === undefined ? 
-        <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{timeLeft}</h1> :
-        <></>
+          <h1 className="font-bold text-xl sm:text-2xl ls:text-lg">{timeLeft}</h1> 
+          :
+          <></>
       }
       {
         selectionOptions
