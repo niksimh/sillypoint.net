@@ -19,23 +19,28 @@ export function Selection(
     setSelection(undefined);
 
     //Setup new time
-    setTimeLeft(Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000)));
+    let rejoinTimeLeft = Math.floor((gameStateData.deadline - Date.now())/1000);
+    if (rejoinTimeLeft < 0 ) {
+      setSelection("-1");
+    } else {
+      setTimeLeft(Math.min(10, Math.floor((gameStateData.deadline - Date.now())/1000)));
 
-    let intervalId = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => {  
-        let newTimeLeft = prevTimeLeft - 1;
-    
-        if(newTimeLeft === 0) {
-          clearInterval(intervalId);
-          setSelection("-1");
-          return 0;
-        } else {
-          return newTimeLeft;
-        } 
-      });
-    }, 1000)
+      let intervalId = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => {  
+          let newTimeLeft = prevTimeLeft - 1;
       
-    setIntervalId(intervalId);
+          if(newTimeLeft === 0) {
+            clearInterval(intervalId);
+            setSelection("-1");
+            return 0;
+          } else {
+            return newTimeLeft;
+          } 
+        });
+      }, 1000)
+        
+      setIntervalId(intervalId);
+    }
 
     return () => { 
       setIntervalId((intervalId: number) => {
