@@ -1,8 +1,7 @@
 'use client';
 
-import { GameInput } from "@/types/io-types";
 import { useEffect } from "react";
-
+import { GameInput } from "@/types/io-types";
 
 export function PreJoin(
   { socket, seqNum, gameStateData} : {socket: WebSocket | null, seqNum: number, gameStateData: any }) {
@@ -69,7 +68,7 @@ export function PreJoin(
           htmlFor="roomIdBox"
           className="text-center font-bold text-xl sm:text-2xl ls:text-lg"
         >
-          <span>Enter a room id!</span>
+          <span>Enter a room ID!</span>
         </label>
         <div className="flex justify-center items-center gap-9">
           <input 
